@@ -22,6 +22,8 @@ modifications.
 
 Requirements
 ------------
+* Java
+* Python
 * Subversion
 * [Google Closure](https://developers.google.com/closure/) (see below)
 * A WebGL-supporting platform and browser.
