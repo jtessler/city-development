@@ -4,7 +4,8 @@ LIB_PATH = closure/library
 
 # Closure Compiler variables.
 CC_URL = http://closure-compiler.googlecode.com/files/compiler-latest.zip
-CC_JAR = closure/compiler/compiler.jar
+CC_PATH = closure/compiler
+CC_JAR = $(CC_PATH)/compiler.jar
 
 # Closure calcdeps.py arguments.
 CALCDEPS = $(LIB_PATH)/closure/bin/calcdeps.py \
