@@ -14,7 +14,7 @@ CALCDEPS = $(LIB_PATH)/closure/bin/calcdeps.py \
 		--output_mode compiled
 
 SOURCES = js/hello.js
-OUTPUT = city-development-min.js
+OUTPUT = js/city-development-min.js
 
 all: $(SOURCES)
 	$(CALCDEPS) --input $(SOURCES) > $(OUTPUT)
