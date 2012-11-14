@@ -11,13 +11,13 @@ CC_JAR = $(CC_PATH)/compiler.jar
 CALCDEPS = $(LIB_PATH)/closure/bin/calcdeps.py \
 		--path=$(LIB_PATH) \
 		--compiler_jar $(CC_JAR) \
-		--output_mode compiled
+		--input $(SOURCES)
 
 SOURCES = js/hello.js
 OUTPUT = js/city-development-min.js
 
-all: $(SOURCES)
-	$(CALCDEPS) --input $(SOURCES) > $(OUTPUT)
+js:
+	$(CALCDEPS) --output_mode compiled > $(OUTPUT)
 
 clean:
 	rm -f $(OUTPUT)
