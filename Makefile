@@ -20,8 +20,10 @@ JS_OUTPUT = js/city-development-min.js
 TMPL_SOURCE = index.tmpl
 TMPL_OUTPUT = index.html
 
-IMPORT_COMPILED = $(patsubst %,<script src="%"></script>,$(JS_OUTPUT))
-IMPORT_DEBUG = $(patsubst %,<script src="%"></script>,$(LIB_BASE) $(JS_SOURCES))
+IMPORT_COMPILED = <script type="text/javascript" src="$(JS_OUTPUT)"></script>
+IMPORT_DEBUG = $(patsubst %,\
+		<script type="text/javascript" src="%"></script>,\
+		$(LIB_BASE) $(JS_SOURCES))
 
 all:
 	$(CALCDEPS) --output_mode compiled > $(JS_OUTPUT)
