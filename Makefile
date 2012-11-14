@@ -25,10 +25,10 @@ IMPORT_DEBUG = $(patsubst %,<script src="%"></script>,$(LIB_BASE) $(JS_SOURCES))
 
 all:
 	$(CALCDEPS) --output_mode compiled > $(JS_OUTPUT)
-	sed 's:$${javascript}:${IMPORT_COMPILED}:' $(TMPL_SOURCE) $(TMPL_OUTPUT)
+	sed 's:$${javascript}:${IMPORT_COMPILED}:' $(TMPL_SOURCE) > $(TMPL_OUTPUT)
 
 debug:
-	sed 's:$${javascript}:${IMPORT_DEBUG}:' $(TMPL_SOURCE) $(TMPL_OUTPUT)
+	sed 's:$${javascript}:${IMPORT_DEBUG}:' $(TMPL_SOURCE) > $(TMPL_OUTPUT)
 
 clean:
 	rm -f $(JS_OUTPUT) $(TMPL_OUTPUT)
