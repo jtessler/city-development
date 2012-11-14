@@ -1,3 +1,6 @@
 *.swp
 closure/
+
+# Ignore generated files.
+index.html
 js/city-development-min.js
