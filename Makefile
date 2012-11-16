@@ -14,7 +14,7 @@ CALCDEPS = $(LIB_PATH)/closure/bin/calcdeps.py \
 		--compiler_jar $(CC_JAR) \
 		--input $(JS_SOURCES)
 
-JS_SOURCES = js/hello.js
+JS_SOURCES = js/webgl.js
 JS_OUTPUT = js/city-development-min.js
 
 TMPL_SOURCE = index.tmpl
