@@ -17,20 +17,17 @@ CALCDEPS = $(LIB_PATH)/closure/bin/calcdeps.py \
 JS_SOURCES = js/webgl.js
 JS_OUTPUT = js/city-development-min.js
 
-TMPL_SOURCE = index.tmpl
-TMPL_OUTPUT = index.html
+GLSL_SOURCES = glsl/position.vert glsl/white.frag
 
-IMPORT_COMPILED = <script type="text/javascript" src="$(JS_OUTPUT)"></script>
-IMPORT_DEBUG = $(patsubst %,\
-		<script type="text/javascript" src="%"></script>,\
-		$(LIB_BASE) $(JS_SOURCES))
+# Index templating arguments.
+INDEX_PY = tmpl/index.py --glsl $(GLSL_SOURCES)
 
 all:
 	$(CALCDEPS) --output_mode compiled > $(JS_OUTPUT)
-	sed 's:$${javascript}:${IMPORT_COMPILED}:' $(TMPL_SOURCE) > $(TMPL_OUTPUT)
+	$(INDEX_PY) --js $(JS_OUTPUT)
 
 debug:
-	sed 's:$${javascript}:${IMPORT_DEBUG}:' $(TMPL_SOURCE) > $(TMPL_OUTPUT)
+	$(INDEX_PY) --js $(LIB_BASE) $(JS_SOURCES)
 
 clean:
 	rm -f $(JS_OUTPUT) $(TMPL_OUTPUT)
