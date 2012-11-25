@@ -30,7 +30,7 @@ debug:
 	$(INDEX_PY) --js $(LIB_BASE) $(JS_SOURCES)
 
 clean:
-	rm -f $(JS_OUTPUT) $(TMPL_OUTPUT)
+	rm -f $(JS_OUTPUT) index.html
 
 closure: closure-library closure-compiler
 
