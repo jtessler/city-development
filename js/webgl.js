@@ -1,9 +1,36 @@
+/**
+ * @fileoverview WebGL context initialization.
+ *
+ * @author joseph@cs.utexas.edu (Joe Tessler)
+ */
+
 goog.provide("webgl.start");
 
+goog.require("goog.dom");
 goog.require("goog.vec.Mat4");
 goog.require("goog.webgl");
 
-var gl;
+
+/**
+ * Initializes the WebGL environment.
+ */
+webgl.start = function() {
+  var canvas = goog.dom.getElement("canvas");
+  initGL(canvas);
+  initShaders();
+  initBuffers();
+
+  gl.clearColor(0.0, 0.0, 0.0, 1.0);
+  gl.enable(goog.webgl.DEPTH_TEST);
+
+  /**
+   * @type {!WebGLRenderingContext}
+   */
+  this.gl = gl;
+
+  drawScene();
+}
+
 function initGL(canvas) {
   try {
       gl = canvas.getContext("experimental-webgl");
@@ -150,16 +177,3 @@ function drawScene() {
 
 
 
-webgl.start = function() {
-  var canvas = document.getElementById("canvas");
-  initGL(canvas);
-  initShaders();
-  initBuffers();
-
-  gl.clearColor(0.0, 0.0, 0.0, 1.0);
-  gl.enable(goog.webgl.DEPTH_TEST);
-
-  drawScene();
-}
-
-goog.exportSymbol("webgl.start", webgl.start);
