@@ -10,11 +10,11 @@ CC_JAR = $(CC_PATH)/compiler.jar
 # Closure closurebuilder.py arguments.
 CC = $(LIB_PATH)/closure/bin/build/closurebuilder.py \
 		--root $(LIB_PATH) \
-		--root js/ \
+		--root cidev/ \
 		--compiler_jar $(CC_JAR) \
 		--namespace "webgl.start"
 
-JS_OUTPUT = js/city-development-min.js
+JS_OUTPUT = city-development-min.js
 GLSL_SOURCES = glsl/vertex.vert glsl/fragment.frag
 
 # Index templating arguments.
