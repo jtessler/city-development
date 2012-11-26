@@ -17,7 +17,7 @@ CALCDEPS = $(LIB_PATH)/closure/bin/calcdeps.py \
 JS_SOURCES = js/webgl.js
 JS_OUTPUT = js/city-development-min.js
 
-GLSL_SOURCES = glsl/position.vert glsl/white.frag
+GLSL_SOURCES = glsl/vertex.vert glsl/fragment.frag
 
 # Index templating arguments.
 INDEX_PY = tmpl/index.py --glsl $(GLSL_SOURCES)
