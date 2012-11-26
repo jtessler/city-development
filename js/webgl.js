@@ -1,3 +1,5 @@
+goog.provide("webgl.start");
+
 goog.require("goog.vec.Mat4");
 goog.require("goog.webgl");
 
@@ -148,7 +150,7 @@ function drawScene() {
 
 
 
-function webGLStart() {
+webgl.start = function() {
   var canvas = document.getElementById("canvas");
   initGL(canvas);
   initShaders();
@@ -159,3 +161,5 @@ function webGLStart() {
 
   drawScene();
 }
+
+goog.exportSymbol("webgl.start", webgl.start);
