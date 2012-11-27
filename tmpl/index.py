@@ -12,14 +12,10 @@ def javascript_file(filename):
     return JAVASCRIPT_FORMAT.format(filename)
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--glsl", nargs="+", type=file)
 parser.add_argument("--js", nargs="+", type=javascript_file)
 arguments = parser.parse_args()
 
 template_dict = dict()
-for glsl in arguments.glsl:
-  filename = os.path.basename(glsl.name)
-  template_dict[os.path.splitext(filename)[0]] = glsl.read()
 template_dict['javascript'] = ""
 for js in arguments.js:
   template_dict['javascript'] += js

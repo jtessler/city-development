@@ -4,3 +4,4 @@ closure/
 # Ignore generated files.
 index.html
 city-development-min.js
+cidev/webgl/shaders.js
