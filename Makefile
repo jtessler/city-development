@@ -14,21 +14,22 @@ CC = $(LIB_PATH)/closure/bin/build/closurebuilder.py \
 		--compiler_jar $(CC_JAR) \
 		--namespace "webgl.start"
 
+INDEX_OUTPUT = index.html
 JS_OUTPUT = city-development-min.js
 SHADER_OUTPUT = cidev/webgl/shaders.js
 
 all: shaders
 	$(CC) --output_mode compiled > $(JS_OUTPUT)
-	tmpl/index.py --js $(JS_OUTPUT)
+	build/index.py --js $(JS_OUTPUT) > $(INDEX_OUTPUT)
 
 debug: shaders
-	tmpl/index.py --js `$(CC) --output_mode list`
+	build/index.py --js `$(CC) --output_mode list` > $(INDEX_OUTPUT)
 
 shaders:
-	tmpl/shaders.py > $(SHADER_OUTPUT)
+	build/shaders.py > $(SHADER_OUTPUT)
 
 clean:
-	rm -f $(JS_OUTPUT) $(SHADER_OUTPUT) index.html
+	rm -f $(JS_OUTPUT) $(SHADER_OUTPUT) $(INDEX_OUTPUT)
 
 closure: closure-library closure-compiler
 
