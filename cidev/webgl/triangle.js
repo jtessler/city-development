@@ -26,6 +26,10 @@ cidev.webgl.Triangle = function(context) {
   ];
   gl.bufferData(goog.webgl.ARRAY_BUFFER, new Float32Array(vertices),
       goog.webgl.STATIC_DRAW);
-  this.vertexBuffer.itemSize = 3;
-  this.vertexBuffer.numItems = 3;
+
+  /** @type {number} */
+  this.itemSize = 3;
+
+  /** @type {number} */
+  this.numItems = 3;
 }

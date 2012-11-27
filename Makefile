@@ -12,7 +12,7 @@ CC = $(LIB_PATH)/closure/bin/build/closurebuilder.py \
 		--root $(LIB_PATH) \
 		--root cidev/ \
 		--compiler_jar $(CC_JAR) \
-		--namespace "webgl.start"
+		--namespace "cidev.init"
 
 INDEX_OUTPUT = index.html
 JS_OUTPUT = city-development-min.js

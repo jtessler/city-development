@@ -40,7 +40,7 @@ cidev.webgl.Context = function(canvas) {
   /** @type {number} */
   this.viewportHeight = canvas.height;
 
-  gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+  gl.viewport(0, 0, this.viewportWidth, this.viewportHeight);
 
   /**
    * The field of view along the y (vertical) axis in radians.
@@ -67,10 +67,18 @@ cidev.webgl.Context = function(canvas) {
   this.far = 100.0;
 
   /** @type {goog.vec.Mat4} */
-  this.projectionMatrix = goog.vec.Mat4.createFloat32Identity();
+  this.projectionMatrix = goog.vec.Mat4.createFloat32();
 
   /** @type {goog.vec.Mat4} */
   this.modelViewMatrix = goog.vec.Mat4.createFloat32Identity();
+}
+
+/**
+ * @return {!goog.vec.Mat4}
+ */
+cidev.webgl.Context.prototype.makePerspective = function() {
+  return goog.vec.Mat4.makePerspective(
+      this.projectionMatrix, this.fov, this.aspect, this.near, this.far);
 }
 
 /**
@@ -80,7 +88,7 @@ cidev.webgl.Context = function(canvas) {
  * @return {!WebGLShader} Compiled shader.
  */
 cidev.webgl.Context.prototype.createShader = function(code, type) {
-  var gl = this.context.gl;
+  var gl = this.gl;
   var shader = gl.createShader(type);
 
   gl.shaderSource(shader, code);
