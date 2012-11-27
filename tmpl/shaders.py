@@ -15,5 +15,6 @@ def isShader(filename):
 for filename in filter(isShader, os.listdir("glsl/")):
   shader = open("glsl/" + filename, "r")
   print "\n/** @type {string} */"
-  print "cidev.webgl.shaders[\"%s\"] = \"%s\";" % (filename, shader.read())
+  print "cidev.webgl.shaders[\"%s\"] = \"%s\";" % (filename,
+      reduce(lambda x, y: x.strip() + y.strip(), shader.readlines()))
   shader.close()

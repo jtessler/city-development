@@ -72,3 +72,25 @@ cidev.webgl.Context = function(canvas) {
   /** @type {goog.vec.Mat4} */
   this.modelViewMatrix = goog.vec.Mat4.createFloat32Identity();
 }
+
+/**
+ * Compile given shader code.
+ * @param {string} code GLSL plain text source.
+ * @param {number} type Shader type, e.g. FRAGMENT_SHADER or VERTEX_SHADER.
+ * @return {!WebGLShader} Compiled shader.
+ */
+cidev.webgl.Context.prototype.createShader = function(code, type) {
+  var gl = this.context.gl;
+  var shader = gl.createShader(type);
+
+  gl.shaderSource(shader, code);
+  gl.compileShader(shader);
+
+  if (!gl.getShaderParameter(shader, goog.webgl.COMPILE_STATUS)) {
+    throw Error("shader error: " + gl.getShaderInfoLog(shader));
+  } else if (goog.isNull(shader)) {
+    throw Error("unknown shader error");
+  }
+
+  return shader;
+}
