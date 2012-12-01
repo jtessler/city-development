@@ -1,5 +1,5 @@
 /**
- * @fileoverview The mesh model interface.
+ * @fileoverview The generic mesh model.
  *
  * @author joseph@cs.utexas.edu (Joe Tessler)
  */
