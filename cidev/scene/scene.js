@@ -75,8 +75,7 @@ cidev.scene.Scene.prototype.draw = function() {
 
   gl.clear(goog.webgl.COLOR_BUFFER_BIT | goog.webgl.DEPTH_BUFFER_BIT);
 
-  this.context.makePerspective();
-  goog.vec.Mat4.translate(this.context.modelViewMatrix, -1.5, 0.0, -7.0);
+  goog.vec.Mat4.translate(this.context.modelViewMatrix, 0.0, 0.0, -0.1);
   gl.uniformMatrix4fv(this.uPMatrix_, false, this.context.projectionMatrix);
   gl.uniformMatrix4fv(this.uMVMatrix_, false, this.context.modelViewMatrix);
 

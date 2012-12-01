@@ -40,7 +40,7 @@ cidev.webgl.Context = function(canvas) {
    * The field of view along the y (vertical) axis in radians.
    * @type {number}
    */
-  this.fov = 0.75;
+  this.fov = Math.PI / 4;
 
   /**
    * The x (width) to y (height) aspect ratio.
@@ -52,7 +52,7 @@ cidev.webgl.Context = function(canvas) {
    * The distance to the near clipping plane.
    * @type {number}
    */
-  this.near = 0.1;
+  this.near = 1.0;
 
   /**
    * The distance to the far clipping plane.
@@ -62,6 +62,7 @@ cidev.webgl.Context = function(canvas) {
 
   /** @type {!Float32Array} */
   this.projectionMatrix = goog.vec.Mat4.createFloat32();
+  this.makePerspective();
 
   /** @type {!Float32Array} */
   this.modelViewMatrix = goog.vec.Mat4.createFloat32Identity();
