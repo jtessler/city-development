@@ -77,7 +77,7 @@ cidev.scene.Scene = function(context) {
         1.0, -1.0,  0.0]);
 
   /**
-   * @type {!Float32Array}
+   * @type {!goog.vec.Mat4.Float32}
    * @private
    */
   this.viewMatrix_ = goog.vec.Mat4.createFloat32Identity();

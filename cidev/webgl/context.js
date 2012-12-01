@@ -60,16 +60,9 @@ cidev.webgl.Context = function(canvas) {
    */
   this.far = 100.0;
 
-  /** @type {!Float32Array} */
+  /** @type {!goog.vec.Mat4.Float32} */
   this.projectionMatrix = goog.vec.Mat4.createFloat32();
-  this.makePerspective();
-}
-
-/**
- * @return {(Array.<number> | Float32Array | Float64Array | null)}
- */
-cidev.webgl.Context.prototype.makePerspective = function() {
-  return goog.vec.Mat4.makePerspective(
+  goog.vec.Mat4.makePerspective(
       this.projectionMatrix, this.fov, this.aspect, this.near, this.far);
 }
 

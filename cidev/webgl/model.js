@@ -30,6 +30,6 @@ cidev.webgl.Model = function(context, vertices) {
   /** @type {number} */
   this.vertexCount = vertices.length / VERTEX_DIM;
 
-  /** @type {!Float32Array} */
+  /** @type {!goog.vec.Mat4.Float32} */
   this.modelMatrix = goog.vec.Mat4.createFloat32Identity();
 }
