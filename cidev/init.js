@@ -19,6 +19,7 @@ cidev.init = function() {
     var scene = new cidev.scene.Scene(context);
 
     var render = function() {
+      // Using R.A.F. defined by WebGLUtils.
       window.requestAnimFrame(render, canvas);
       scene.draw();
     };
