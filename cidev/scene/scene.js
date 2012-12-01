@@ -77,6 +77,7 @@ cidev.scene.Scene = function(context, camera) {
       [ 0.0,  1.0,  0.0,
        -1.0, -1.0,  0.0,
         1.0, -1.0,  0.0]);
+  goog.vec.Mat4.translate(this.triangle_.modelMatrix, 0, 0, -5);
 
   /**
    * @type {!cidev.webgl.Camera}
@@ -92,7 +93,6 @@ cidev.scene.Scene.prototype.draw = function() {
 
   gl.clear(goog.webgl.COLOR_BUFFER_BIT | goog.webgl.DEPTH_BUFFER_BIT);
 
-  goog.vec.Mat4.translate(this.triangle_.modelMatrix, 0.0, 0.0, -0.1);
   gl.uniformMatrix4fv(this.uPMatrix_, false, this.context.projectionMatrix);
   gl.uniformMatrix4fv(this.uCMatrix_, false, this.camera_.getMatrix());
   gl.uniformMatrix4fv(this.uMMatrix_, false, this.triangle_.modelMatrix);

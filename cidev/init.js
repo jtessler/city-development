@@ -7,11 +7,11 @@
 goog.provide("cidev.init");
 
 goog.require("cidev.scene.Scene");
+goog.require("cidev.webgl.Camera");
 goog.require("cidev.webgl.Context");
 
 goog.require("goog.dom");
 goog.require("goog.events");
-goog.require("goog.events.KeyHandler");
 
 cidev.init = function() {
   /** @type {Element} */
@@ -19,16 +19,17 @@ cidev.init = function() {
   if (goog.isDefAndNotNull(canvas)) {
     var context = new cidev.webgl.Context(canvas);
     var camera = new cidev.webgl.Camera();
-    goog.events.listen(
-        new goog.events.KeyHandler(goog.dom.getDocument()),
-        goog.events.KeyHandler.EventType.KEY,
-        /** @param {!goog.events.KeyEvent} e The event to handle. */
-        function(e) { camera.keyHandler(e); });
     var scene = new cidev.scene.Scene(context, camera);
+
+    goog.events.listen(
+        goog.dom.getDocument(),
+        cidev.webgl.Camera.EVENT_TYPES,
+        camera);
 
     var render = function() {
       // Using R.A.F. defined by WebGLUtils.
       window.requestAnimFrame(render, canvas);
+      camera.update();
       scene.draw();
     };
     render();
