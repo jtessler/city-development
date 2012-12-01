@@ -8,7 +8,6 @@ goog.provide("cidev.init");
 
 goog.require("cidev.scene.Scene");
 goog.require("cidev.webgl.Context");
-goog.require("cidev.webgl.Triangle");
 
 goog.require("goog.dom");
 

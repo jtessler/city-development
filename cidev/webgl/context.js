@@ -6,6 +6,8 @@
 
 goog.provide("cidev.webgl.Context");
 
+goog.require("cidev.webgl.WebGLUtils");
+
 goog.require("goog.vec.Mat4");
 goog.require("goog.webgl");
 
@@ -15,16 +17,8 @@ goog.require("goog.webgl");
  * @constructor
  */
 cidev.webgl.Context = function(canvas) {
-  /** @type {WebGLRenderingContext} */
-  var gl = null;
-  try {
-    // TODO(joseph): Try "webgl" context type too.
-    gl = canvas.getContext("experimental-webgl");
-  } catch (e) { }
-  if (!goog.isDefAndNotNull(gl)) {
-    throw Error("could not initialize WebGL");
-  }
-
+  /** @type {!WebGLRenderingContext} */
+  var gl = WebGLUtils.setupWebGL(canvas);
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.enable(goog.webgl.DEPTH_TEST);
 
