@@ -4,10 +4,10 @@
  * @author joseph@cs.utexas.edu (Joe Tessler)
  */
 
-goog.provide("cidev.webgl.Model");
+goog.provide('cidev.webgl.Model');
 
-goog.require("goog.vec.Mat4");
-goog.require("goog.webgl");
+goog.require('goog.vec.Mat4');
+goog.require('goog.webgl');
 
 /**
  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
@@ -17,12 +17,12 @@ goog.require("goog.webgl");
 cidev.webgl.Model = function(context, vertices) {
   /** @const */ var VERTEX_DIM = 3;
   if (vertices.length % VERTEX_DIM != 0) {
-    throw Error("invalid vertex array");
+    throw Error('invalid vertex array');
   }
 
   var gl = context.gl;
   /** @type {WebGLBuffer} */
-  this.vertexBuffer = gl.createBuffer()
+  this.vertexBuffer = gl.createBuffer();
   gl.bindBuffer(goog.webgl.ARRAY_BUFFER, this.vertexBuffer);
   gl.bufferData(goog.webgl.ARRAY_BUFFER, new Float32Array(vertices),
       goog.webgl.STATIC_DRAW);
@@ -32,4 +32,4 @@ cidev.webgl.Model = function(context, vertices) {
 
   /** @type {!goog.vec.Mat4.Float32} */
   this.modelMatrix = goog.vec.Mat4.createFloat32Identity();
-}
+};

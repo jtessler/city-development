@@ -4,14 +4,14 @@
  * @author joseph@cs.utexas.edu (Joe Tessler)
  */
 
-goog.provide("cidev.scene.Scene");
+goog.provide('cidev.scene.Scene');
 
-goog.require("cidev.webgl.Camera");
-goog.require("cidev.webgl.Model");
-goog.require("cidev.webgl.shaders");
+goog.require('cidev.webgl.Camera');
+goog.require('cidev.webgl.Model');
+goog.require('cidev.webgl.shaders');
 
-goog.require("goog.vec.Mat4");
-goog.require("goog.webgl");
+goog.require('goog.vec.Mat4');
+goog.require('goog.webgl');
 
 /**
  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
@@ -25,9 +25,9 @@ cidev.scene.Scene = function(context, camera) {
   var gl = context.gl;
 
   var vertexShader = context.createShader(
-      cidev.webgl.shaders["vertex.vert"], goog.webgl.VERTEX_SHADER);
+      cidev.webgl.shaders['vertex.vert'], goog.webgl.VERTEX_SHADER);
   var fragmentShader = context.createShader(
-      cidev.webgl.shaders["fragment.frag"], goog.webgl.FRAGMENT_SHADER);
+      cidev.webgl.shaders['fragment.frag'], goog.webgl.FRAGMENT_SHADER);
 
   /**
    * @type {!WebGLProgram}
@@ -37,11 +37,11 @@ cidev.scene.Scene = function(context, camera) {
 
   gl.attachShader(this.program_, vertexShader);
   gl.attachShader(this.program_, fragmentShader);
-  gl.bindAttribLocation(this.program_, 0, "aVertexPosition");
+  gl.bindAttribLocation(this.program_, 0, 'aVertexPosition');
   gl.linkProgram(this.program_);
 
   if (!gl.getProgramParameter(this.program_, goog.webgl.LINK_STATUS)) {
-    throw Error("shader program error: " + gl.getProgramInfoLog(this.program_));
+    throw Error('shader program error: ' + gl.getProgramInfoLog(this.program_));
   }
 
   /**
@@ -49,34 +49,34 @@ cidev.scene.Scene = function(context, camera) {
    * @private
    */
   this.aVertexPosition_ = gl.getAttribLocation(
-      this.program_, "aVertexPosition");
+      this.program_, 'aVertexPosition');
 
   /**
    * @type {WebGLUniformLocation}
    * @private
    */
-  this.uPMatrix_ = gl.getUniformLocation(this.program_, "uPMatrix");
+  this.uPMatrix_ = gl.getUniformLocation(this.program_, 'uPMatrix');
 
   /**
    * @type {WebGLUniformLocation}
    * @private
    */
-  this.uCMatrix_= gl.getUniformLocation(this.program_, "uCMatrix");
+  this.uCMatrix_ = gl.getUniformLocation(this.program_, 'uCMatrix');
 
   /**
    * @type {WebGLUniformLocation}
    * @private
    */
-  this.uMMatrix_= gl.getUniformLocation(this.program_, "uMMatrix");
+  this.uMMatrix_ = gl.getUniformLocation(this.program_, 'uMMatrix');
 
   /**
    * @type {!cidev.webgl.Model}
    * @private
    */
   this.triangle_ = new cidev.webgl.Model(context,
-      [ 0.0,  1.0,  0.0,
-       -1.0, -1.0,  0.0,
-        1.0, -1.0,  0.0]);
+      [0.0, 1.0, 0.0,
+       -1.0, -1.0, 0.0,
+        1.0, -1.0, 0.0]);
   goog.vec.Mat4.translate(this.triangle_.modelMatrix, 0, 0, -5);
 
   /**
@@ -84,8 +84,11 @@ cidev.scene.Scene = function(context, camera) {
    * @private
    */
   this.camera_ = camera;
-}
+};
 
+/**
+ * Draws the scene.
+ */
 cidev.scene.Scene.prototype.draw = function() {
   var gl = this.context.gl;
 
@@ -102,4 +105,4 @@ cidev.scene.Scene.prototype.draw = function() {
   gl.vertexAttribPointer(
       this.aVertexPosition_, 3, goog.webgl.FLOAT, false, 0, 0);
   gl.drawArrays(goog.webgl.TRIANGLES, 0, this.triangle_.vertexCount);
-}
+};

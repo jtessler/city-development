@@ -4,18 +4,21 @@
  * @author joseph@cs.utexas.edu (Joe Tessler)
  */
 
-goog.provide("cidev.init");
+goog.provide('cidev.init');
 
-goog.require("cidev.scene.Scene");
-goog.require("cidev.webgl.Camera");
-goog.require("cidev.webgl.Context");
+goog.require('cidev.scene.Scene');
+goog.require('cidev.webgl.Camera');
+goog.require('cidev.webgl.Context');
 
-goog.require("goog.dom");
-goog.require("goog.events");
+goog.require('goog.dom');
+goog.require('goog.events');
 
+/**
+ * Initialized the WebGL context, event handlers, and draws the scene.
+ */
 cidev.init = function() {
   /** @type {Element} */
-  var canvas = goog.dom.getElement("canvas");
+  var canvas = goog.dom.getElement('canvas');
   if (goog.isDefAndNotNull(canvas)) {
     var context = new cidev.webgl.Context(canvas);
     var camera = new cidev.webgl.Camera();
@@ -34,6 +37,6 @@ cidev.init = function() {
     };
     render();
   } else {
-    throw Error("canvas does not exist");
+    throw Error('canvas does not exist');
   }
 };

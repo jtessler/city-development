@@ -4,17 +4,17 @@
  * @author joseph@cs.utexas.edu (Joe Tessler)
  */
 
-goog.provide("cidev.webgl.Camera");
+goog.provide('cidev.webgl.Camera');
 
-goog.require("goog.events");
-goog.require("goog.events.KeyCodes");
-goog.require("goog.vec.Vec3");
-goog.require("goog.vec.Mat4");
+goog.require('goog.events');
+goog.require('goog.events.KeyCodes');
+goog.require('goog.vec.Mat4');
+goog.require('goog.vec.Vec3');
 
 /**
  * @constructor
  */
-cidev.webgl.Camera = function () {
+cidev.webgl.Camera = function() {
   /** @type {!goog.vec.Vec3.Float32} */
   this.position = goog.vec.Vec3.createFloat32();
 
@@ -36,12 +36,16 @@ cidev.webgl.Camera.prototype.getMatrix = function() {
   var p = this.position;
   goog.vec.Mat4.makeTranslate(this.matrix_, p[0], p[1], p[2]);
   return this.matrix_;
-}
+};
 
-// TODO(joseph): Add dt.
+/**
+ * Updates the camera's position and rotations based determined by key presses
+ * and mouse movement.
+ */
 cidev.webgl.Camera.prototype.update = function() {
+  // TODO(joseph): Add dt.
   goog.vec.Vec3.add(this.position, this.velocity, this.position);
-}
+};
 
 /**
  * @param {!goog.events.KeyEvent} e The key event to handle.
@@ -59,7 +63,7 @@ cidev.webgl.Camera.prototype.handleEvent = function(e) {
     case kc.D: this.velocity[0] = -v;
                break;
   }
-}
+};
 
 /**
  * All event types handled by the camera.

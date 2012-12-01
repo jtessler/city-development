@@ -57,8 +57,11 @@
  * visible.
  */
 
-goog.provide("cidev.webgl.WebGLUtils");
+goog.provide('cidev.webgl.WebGLUtils');
 
+/**
+ * Provides setupWebGL.
+ */
 cidev.webgl.WebGLUtils = function() {
 
 /**
@@ -90,13 +93,14 @@ var GET_A_WEBGL_BROWSER = '' +
  */
 var OTHER_PROBLEM = '' +
   "It doesn't appear your computer can support WebGL.<br/>" +
-  '<a href="http://get.webgl.org/troubleshooting/">Click here for more information.</a>';
+  '<a href="http://get.webgl.org/troubleshooting/">' +
+  'Click here for more information.</a>';
 
 /**
  * Creates a webgl context. If creation fails it will
  * change the contents of the container of the <canvas>
  * tag to an error message with the correct links for WebGL.
- * @param {Element} canvas. The canvas element to create a
+ * @param {Element} canvas The canvas element to create a
  *     context from.
  * @param {WebGLContextAttributes} opt_attribs Any
  *     creation attributes you want to pass in.
@@ -124,26 +128,27 @@ var setupWebGL = function(canvas, opt_attribs) {
 
 /**
  * Creates a webgl context.
- * @param {!Element} canvas The canvas tag to get context
+ * @param {Element} canvas The canvas tag to get context
  *     from. If one is not passed in one will be created.
+ * @param {WebGLContextAttributes} opt_attribs Any
+ *     creation attributes you want to pass in.
  * @return {!WebGLRenderingContext} The created context.
  */
 var create3DContext = function(canvas, opt_attribs) {
-  var names = ["webgl", "experimental-webgl", "webkit-3d", "moz-webgl"];
+  var names = ['webgl', 'experimental-webgl', 'webkit-3d', 'moz-webgl'];
   var context = null;
   for (var ii = 0; ii < names.length; ++ii) {
     try {
       context = canvas.getContext(names[ii], opt_attribs);
-    } catch(e) {}
+    } catch (e) {}
     if (context) {
       break;
     }
   }
   return context;
-}
+};
 
 return {
-  create3DContext: create3DContext,
   setupWebGL: setupWebGL
 };
 }();
@@ -157,8 +162,10 @@ window.requestAnimFrame = (function() {
          window.mozRequestAnimationFrame ||
          window.oRequestAnimationFrame ||
          window.msRequestAnimationFrame ||
-         function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
-           return window.setTimeout(callback, 1000/60);
+         function(
+             /* function FrameRequestCallback */ callback,
+             /* DOMElement Element */ element) {
+           return window.setTimeout(callback, 1000 / 60);
          };
 })();
 

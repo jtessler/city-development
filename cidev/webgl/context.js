@@ -4,12 +4,12 @@
  * @author joseph@cs.utexas.edu (Joe Tessler)
  */
 
-goog.provide("cidev.webgl.Context");
+goog.provide('cidev.webgl.Context');
 
-goog.require("cidev.webgl.WebGLUtils");
+goog.require('cidev.webgl.WebGLUtils');
 
-goog.require("goog.vec.Mat4");
-goog.require("goog.webgl");
+goog.require('goog.vec.Mat4');
+goog.require('goog.webgl');
 
 /**
  * Constructs a new WebGL context wrapper.
@@ -64,7 +64,7 @@ cidev.webgl.Context = function(canvas) {
   this.projectionMatrix = goog.vec.Mat4.createFloat32();
   goog.vec.Mat4.makePerspective(
       this.projectionMatrix, this.fov, this.aspect, this.near, this.far);
-}
+};
 
 /**
  * Compile given shader code.
@@ -80,10 +80,10 @@ cidev.webgl.Context.prototype.createShader = function(code, type) {
   gl.compileShader(shader);
 
   if (!gl.getShaderParameter(shader, goog.webgl.COMPILE_STATUS)) {
-    throw Error("shader error: " + gl.getShaderInfoLog(shader));
+    throw Error('shader error: ' + gl.getShaderInfoLog(shader));
   } else if (goog.isNull(shader)) {
-    throw Error("unknown shader error");
+    throw Error('unknown shader error');
   }
 
   return shader;
-}
+};
