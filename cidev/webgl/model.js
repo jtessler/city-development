@@ -12,16 +12,15 @@ goog.require("goog.webgl");
 /**
  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
  * @param {!Array.<number>} vertices Model vertices in array form.
- * @param {number} vertexDimension The size of each vertex.
  * @constructor
  */
-cidev.webgl.Model = function(context, vertices, vertexDimension) {
-  if (vertices.length % vertexDimension != 0) {
-    throw Error("invalid vertex dimension " + vertexDimension
-        + " for vertex count " + vertices.length);
+cidev.webgl.Model = function(context, vertices) {
+  /** @const */ var VERTEX_DIM = 3;
+  if (vertices.length % VERTEX_DIM != 0) {
+    throw Error("invalid vertex array");
   }
-  var gl = context.gl;
 
+  var gl = context.gl;
   /** @type {WebGLBuffer} */
   this.vertexBuffer = gl.createBuffer()
   gl.bindBuffer(goog.webgl.ARRAY_BUFFER, this.vertexBuffer);
@@ -29,10 +28,7 @@ cidev.webgl.Model = function(context, vertices, vertexDimension) {
       goog.webgl.STATIC_DRAW);
 
   /** @type {number} */
-  this.vertexDimension = vertexDimension;
-
-  /** @type {number} */
-  this.vertexCount = vertices.length / vertexDimension;
+  this.vertexCount = vertices.length / VERTEX_DIM;
 
   /** @type {!Float32Array} */
   this.modelMatrix = goog.vec.Mat4.createFloat32Identity();

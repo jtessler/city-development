@@ -61,16 +61,14 @@ cidev.scene.Scene = function(context) {
    */
   this.uMMatrix_= gl.getUniformLocation(this.program_, "uMMatrix");
 
-  var vertices = [
-       0.0,  1.0,  0.0,
-      -1.0, -1.0,  0.0,
-       1.0, -1.0,  0.0
-  ];
   /**
    * @type {!cidev.webgl.Model}
    * @private
    */
-  this.triangle_ = new cidev.webgl.Model(context, vertices, 3);
+  this.triangle_ = new cidev.webgl.Model(context,
+      [ 0.0,  1.0,  0.0,
+       -1.0, -1.0,  0.0,
+        1.0, -1.0,  0.0]);
 }
 
 cidev.scene.Scene.prototype.draw = function() {
@@ -87,7 +85,6 @@ cidev.scene.Scene.prototype.draw = function() {
   gl.bindBuffer(goog.webgl.ARRAY_BUFFER, this.triangle_.vertexBuffer);
   gl.enableVertexAttribArray(this.aVertexPosition_);
   gl.vertexAttribPointer(
-      this.aVertexPosition_, this.triangle_.vertexDimension,
-      goog.webgl.FLOAT, false, 0, 0);
+      this.aVertexPosition_, 3, goog.webgl.FLOAT, false, 0, 0);
   gl.drawArrays(goog.webgl.TRIANGLES, 0, this.triangle_.vertexCount);
 }
