@@ -43,7 +43,7 @@ cidev.scene.Scene = function(context) {
   }
 
   /**
-   * @type {GLint}
+   * @type {number}
    * @private
    */
   this.aVertexPosition_ = gl.getAttribLocation(

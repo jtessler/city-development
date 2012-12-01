@@ -12,9 +12,14 @@ goog.require("cidev.webgl.Context");
 goog.require("goog.dom");
 
 cidev.init = function() {
+  /** @type {Element} */
   var canvas = goog.dom.getElement("canvas");
-  var context = new cidev.webgl.Context(canvas);
-  var scene = new cidev.scene.Scene(context);
+  if (goog.isDefAndNotNull(canvas)) {
+    var context = new cidev.webgl.Context(canvas);
+    var scene = new cidev.scene.Scene(context);
 
-  scene.draw();
+    scene.draw();
+  } else {
+    throw Error("canvas does not exist");
+  }
 }

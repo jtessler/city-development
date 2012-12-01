@@ -18,7 +18,7 @@ goog.require("goog.webgl");
  */
 cidev.webgl.Context = function(canvas) {
   /** @type {!WebGLRenderingContext} */
-  var gl = WebGLUtils.setupWebGL(canvas);
+  var gl = cidev.webgl.WebGLUtils.setupWebGL(canvas);
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.enable(goog.webgl.DEPTH_TEST);
 
@@ -60,15 +60,15 @@ cidev.webgl.Context = function(canvas) {
    */
   this.far = 100.0;
 
-  /** @type {goog.vec.Mat4} */
+  /** @type {!Float32Array} */
   this.projectionMatrix = goog.vec.Mat4.createFloat32();
 
-  /** @type {goog.vec.Mat4} */
+  /** @type {!Float32Array} */
   this.modelViewMatrix = goog.vec.Mat4.createFloat32Identity();
 }
 
 /**
- * @return {!goog.vec.Mat4}
+ * @return {(Array.<number> | Float32Array | Float64Array | null)}
  */
 cidev.webgl.Context.prototype.makePerspective = function() {
   return goog.vec.Mat4.makePerspective(

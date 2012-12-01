@@ -12,6 +12,7 @@ CC = $(LIB_PATH)/closure/bin/build/closurebuilder.py \
 		--root $(LIB_PATH) \
 		--root cidev/ \
 		--compiler_jar $(CC_JAR) \
+		--compiler_flags "--warning_level=VERBOSE" \
 		--namespace "cidev.init"
 
 INDEX_OUTPUT = index.html

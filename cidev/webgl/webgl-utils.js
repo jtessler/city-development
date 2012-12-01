@@ -59,12 +59,11 @@
 
 goog.provide("cidev.webgl.WebGLUtils");
 
-WebGLUtils = function() {
+cidev.webgl.WebGLUtils = function() {
 
 /**
  * Creates the HTLM for a failure message
- * @param {string} canvasContainerId id of container of th
- *        canvas.
+ * @param {string} msg The message.
  * @return {string} The html.
  */
 var makeFailHTML = function(msg) {
@@ -99,7 +98,7 @@ var OTHER_PROBLEM = '' +
  * tag to an error message with the correct links for WebGL.
  * @param {Element} canvas. The canvas element to create a
  *     context from.
- * @param {WebGLContextCreationAttirbutes} opt_attribs Any
+ * @param {WebGLContextAttributes} opt_attribs Any
  *     creation attributes you want to pass in.
  * @return {WebGLRenderingContext} The created context.
  */
@@ -125,9 +124,9 @@ var setupWebGL = function(canvas, opt_attribs) {
 
 /**
  * Creates a webgl context.
- * @param {!Canvas} canvas The canvas tag to get context
+ * @param {!Element} canvas The canvas tag to get context
  *     from. If one is not passed in one will be created.
- * @return {!WebGLContext} The created context.
+ * @return {!WebGLRenderingContext} The created context.
  */
 var create3DContext = function(canvas, opt_attribs) {
   var names = ["webgl", "experimental-webgl", "webkit-3d", "moz-webgl"];
