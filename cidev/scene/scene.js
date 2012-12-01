@@ -1,13 +1,13 @@
 /**
- * @fileoverview A triangle mesh.
+ * @fileoverview The scene, including shader setup and drawing.
  *
  * @author joseph@cs.utexas.edu (Joe Tessler)
  */
 
 goog.provide("cidev.scene.Scene");
 
+goog.require("cidev.webgl.Model");
 goog.require("cidev.webgl.shaders");
-goog.require("cidev.webgl.Triangle");
 
 goog.require("goog.vec.Mat4");
 goog.require("goog.webgl");
@@ -59,13 +59,18 @@ cidev.scene.Scene = function(context) {
    * @type {WebGLUniformLocation}
    * @private
    */
-  this.uMVMatrix_= gl.getUniformLocation(this.program_, "uMVMatrix");
+  this.uMMatrix_= gl.getUniformLocation(this.program_, "uMMatrix");
 
+  var vertices = [
+       0.0,  1.0,  0.0,
+      -1.0, -1.0,  0.0,
+       1.0, -1.0,  0.0
+  ];
   /**
-   * @type {!cidev.webgl.Triangle}
+   * @type {!cidev.webgl.Model}
    * @private
    */
-  this.triangle_ = new cidev.webgl.Triangle(context);
+  this.triangle_ = new cidev.webgl.Model(context, vertices, 3);
 }
 
 cidev.scene.Scene.prototype.draw = function() {
@@ -75,14 +80,14 @@ cidev.scene.Scene.prototype.draw = function() {
 
   gl.clear(goog.webgl.COLOR_BUFFER_BIT | goog.webgl.DEPTH_BUFFER_BIT);
 
-  goog.vec.Mat4.translate(this.context.modelViewMatrix, 0.0, 0.0, -0.1);
+  goog.vec.Mat4.translate(this.triangle_.modelMatrix, 0.0, 0.0, -0.1);
   gl.uniformMatrix4fv(this.uPMatrix_, false, this.context.projectionMatrix);
-  gl.uniformMatrix4fv(this.uMVMatrix_, false, this.context.modelViewMatrix);
+  gl.uniformMatrix4fv(this.uMMatrix_, false, this.triangle_.modelMatrix);
 
   gl.bindBuffer(goog.webgl.ARRAY_BUFFER, this.triangle_.vertexBuffer);
   gl.enableVertexAttribArray(this.aVertexPosition_);
   gl.vertexAttribPointer(
-      this.aVertexPosition_, this.triangle_.itemSize,
+      this.aVertexPosition_, this.triangle_.vertexDimension,
       goog.webgl.FLOAT, false, 0, 0);
-  gl.drawArrays(goog.webgl.TRIANGLES, 0, this.triangle_.numItems);
+  gl.drawArrays(goog.webgl.TRIANGLES, 0, this.triangle_.vertexCount);
 }

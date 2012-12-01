@@ -63,9 +63,6 @@ cidev.webgl.Context = function(canvas) {
   /** @type {!Float32Array} */
   this.projectionMatrix = goog.vec.Mat4.createFloat32();
   this.makePerspective();
-
-  /** @type {!Float32Array} */
-  this.modelViewMatrix = goog.vec.Mat4.createFloat32Identity();
 }
 
 /**
