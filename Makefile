@@ -30,6 +30,9 @@ debug: shaders
 shaders:
 	build/shaders.py > $(SHADER_OUTPUT)
 
+lint:
+	gjslint --unix_mode -r cidev/
+
 clean:
 	rm -f $(JS_OUTPUT) $(SHADER_OUTPUT) $(INDEX_OUTPUT)
 
