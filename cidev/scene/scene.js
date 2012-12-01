@@ -59,6 +59,12 @@ cidev.scene.Scene = function(context) {
    * @type {WebGLUniformLocation}
    * @private
    */
+  this.uCMatrix_= gl.getUniformLocation(this.program_, "uCMatrix");
+
+  /**
+   * @type {WebGLUniformLocation}
+   * @private
+   */
   this.uMMatrix_= gl.getUniformLocation(this.program_, "uMMatrix");
 
   /**
@@ -69,6 +75,12 @@ cidev.scene.Scene = function(context) {
       [ 0.0,  1.0,  0.0,
        -1.0, -1.0,  0.0,
         1.0, -1.0,  0.0]);
+
+  /**
+   * @type {!Float32Array}
+   * @private
+   */
+  this.viewMatrix_ = goog.vec.Mat4.createFloat32Identity();
 }
 
 cidev.scene.Scene.prototype.draw = function() {
@@ -78,8 +90,10 @@ cidev.scene.Scene.prototype.draw = function() {
 
   gl.clear(goog.webgl.COLOR_BUFFER_BIT | goog.webgl.DEPTH_BUFFER_BIT);
 
+  goog.vec.Mat4.makeLookAt(this.viewMatrix_, [3,3,3], [0,0,0], [0,1,0]);
   goog.vec.Mat4.translate(this.triangle_.modelMatrix, 0.0, 0.0, -0.1);
   gl.uniformMatrix4fv(this.uPMatrix_, false, this.context.projectionMatrix);
+  gl.uniformMatrix4fv(this.uCMatrix_, false, this.viewMatrix_);
   gl.uniformMatrix4fv(this.uMMatrix_, false, this.triangle_.modelMatrix);
 
   gl.bindBuffer(goog.webgl.ARRAY_BUFFER, this.triangle_.vertexBuffer);
