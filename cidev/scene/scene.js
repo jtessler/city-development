@@ -25,9 +25,9 @@ cidev.scene.Scene = function(context, camera) {
   var gl = context.gl;
 
   var vertexShader = context.createShader(
-      cidev.webgl.shaders['vertex.vert'], goog.webgl.VERTEX_SHADER);
+      cidev.webgl.shaders['simple.vert'], goog.webgl.VERTEX_SHADER);
   var fragmentShader = context.createShader(
-      cidev.webgl.shaders['fragment.frag'], goog.webgl.FRAGMENT_SHADER);
+      cidev.webgl.shaders['white.frag'], goog.webgl.FRAGMENT_SHADER);
 
   /**
    * @type {!WebGLProgram}
