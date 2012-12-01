@@ -18,18 +18,12 @@ cidev.init = function() {
     var context = new cidev.webgl.Context(canvas);
     var scene = new cidev.scene.Scene(context);
 
-    cidev.render_(canvas, scene);
+    var render = function() {
+      window.requestAnimFrame(render, canvas);
+      scene.draw();
+    };
+    render();
   } else {
     throw Error("canvas does not exist");
   }
-}
-
-/**
- * @private
- * @param {!Element} canvas the element to animate.
- * @param {!cidev.scene.Scene} scene the scene to draw.
- */
-cidev.render_ = function(canvas, scene) {
-  window.requestAnimFrame(cidev.render_, canvas);
-  scene.draw();
-}
+};
