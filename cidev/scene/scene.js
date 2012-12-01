@@ -6,6 +6,7 @@
 
 goog.provide("cidev.scene.Scene");
 
+goog.require("cidev.webgl.Camera");
 goog.require("cidev.webgl.Model");
 goog.require("cidev.webgl.shaders");
 
@@ -14,9 +15,10 @@ goog.require("goog.webgl");
 
 /**
  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
+ * @param {!cidev.webgl.Camera} camera The camera used in the scene.
  * @constructor
  */
-cidev.scene.Scene = function(context) {
+cidev.scene.Scene = function(context, camera) {
   /** @type {!cidev.webgl.Context} */
   this.context = context;
 
@@ -77,10 +79,10 @@ cidev.scene.Scene = function(context) {
         1.0, -1.0,  0.0]);
 
   /**
-   * @type {!goog.vec.Mat4.Float32}
+   * @type {!cidev.webgl.Camera}
    * @private
    */
-  this.viewMatrix_ = goog.vec.Mat4.createFloat32Identity();
+  this.camera_ = camera;
 }
 
 cidev.scene.Scene.prototype.draw = function() {
@@ -90,10 +92,9 @@ cidev.scene.Scene.prototype.draw = function() {
 
   gl.clear(goog.webgl.COLOR_BUFFER_BIT | goog.webgl.DEPTH_BUFFER_BIT);
 
-  goog.vec.Mat4.makeLookAt(this.viewMatrix_, [3,3,3], [0,0,0], [0,1,0]);
   goog.vec.Mat4.translate(this.triangle_.modelMatrix, 0.0, 0.0, -0.1);
   gl.uniformMatrix4fv(this.uPMatrix_, false, this.context.projectionMatrix);
-  gl.uniformMatrix4fv(this.uCMatrix_, false, this.viewMatrix_);
+  gl.uniformMatrix4fv(this.uCMatrix_, false, this.camera_.getMatrix());
   gl.uniformMatrix4fv(this.uMMatrix_, false, this.triangle_.modelMatrix);
 
   gl.bindBuffer(goog.webgl.ARRAY_BUFFER, this.triangle_.vertexBuffer);

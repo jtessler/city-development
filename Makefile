@@ -13,6 +13,7 @@ CC = $(LIB_PATH)/closure/bin/build/closurebuilder.py \
 		--root cidev/ \
 		--compiler_jar $(CC_JAR) \
 		--compiler_flags "--warning_level=VERBOSE" \
+		--compiler_flags "--js=$(LIB_PATH)/closure/goog/deps.js" \
 		--namespace "cidev.init"
 
 INDEX_OUTPUT = index.html

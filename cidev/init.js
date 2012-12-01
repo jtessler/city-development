@@ -10,13 +10,21 @@ goog.require("cidev.scene.Scene");
 goog.require("cidev.webgl.Context");
 
 goog.require("goog.dom");
+goog.require("goog.events");
+goog.require("goog.events.KeyHandler");
 
 cidev.init = function() {
   /** @type {Element} */
   var canvas = goog.dom.getElement("canvas");
   if (goog.isDefAndNotNull(canvas)) {
     var context = new cidev.webgl.Context(canvas);
-    var scene = new cidev.scene.Scene(context);
+    var camera = new cidev.webgl.Camera();
+    goog.events.listen(
+        new goog.events.KeyHandler(goog.dom.getDocument()),
+        goog.events.KeyHandler.EventType.KEY,
+        /** @param {!goog.events.KeyEvent} e The event to handle. */
+        function(e) { camera.keyHandler(e); });
+    var scene = new cidev.scene.Scene(context, camera);
 
     var render = function() {
       // Using R.A.F. defined by WebGLUtils.
