@@ -28,11 +28,14 @@ Requirements
 * [Google Closure](https://developers.google.com/closure/) (see below)
 * A WebGL-supporting platform and browser
 
+### Development Requirements ###
+* [Google Closure Linter](https://developers.google.com/closure/utilities/)
+
 Initial Setup
 -------------
 1. Download the [Google Closure](https://developers.google.com/closure/) library
    and compiler: `make closure`
-1. Compile all JavaScript files and HTML templates: `make all`
+1. Compile all JavaScript files and HTML templates: `make release`
 1. Open `index.html` in any web browser
 
 Credits

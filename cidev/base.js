@@ -14,7 +14,7 @@ goog.require('goog.dom');
 goog.require('goog.events');
 
 /**
- * Initialized the WebGL context, event handlers, and draws the scene.
+ * Initializes the WebGL context, event handlers, and draws the scene.
  */
 cidev.base.init = function() {
   /** @type {Element} */
