@@ -29,12 +29,17 @@ cidev.base.init = function() {
         cidev.webgl.Camera.EVENT_TYPES,
         camera);
 
+    var lastTime = 0;
     var render = function() {
       // Using R.A.F. defined by WebGLUtils.
       window.requestAnimFrame(render, canvas);
-      // TODO(joseph): Implement dt.
-      camera.update(1);
-      scene.draw();
+
+      var time = new Date().getTime();
+      if (lastTime > 0) {
+        camera.update(time - lastTime);
+        scene.draw();
+      }
+      lastTime = time;
     };
     render();
   } else {

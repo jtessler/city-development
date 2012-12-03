@@ -178,7 +178,7 @@ cidev.webgl.Camera.prototype.handleEvent = function(e) {
  * @const
  * @type {number}
  */
-cidev.webgl.Camera.KEY_SENSITIVITY = 0.05;
+cidev.webgl.Camera.KEY_SENSITIVITY = 0.01;
 
 /**
  * @param {*} e The key event to handle.
