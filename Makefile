@@ -13,6 +13,8 @@ CC = $(LIB_PATH)/closure/bin/build/closurebuilder.py \
 		--root cidev/ \
 		--namespace "cidev.base" \
 		--compiler_jar $(CC_JAR) \
+		--compiler_flags "--jscomp_error=accessControls" \
+		--compiler_flags "--jscomp_error=const" \
 		--compiler_flags "--warning_level=VERBOSE" \
 		--compiler_flags "--js=$(LIB_PATH)/closure/goog/deps.js"
 
@@ -21,8 +23,6 @@ JS_OUTPUT = city-development-min.js
 SHADER_OUTPUT = cidev/webgl/shaders.js
 
 debug: shaders
-	$(CC) --output_mode compiled \
-		--compiler_flags "--compilation_level=WHITESPACE_ONLY" > /dev/null
 	build/index.py --js `$(CC) --output_mode list` > $(INDEX_OUTPUT)
 
 release: shaders
