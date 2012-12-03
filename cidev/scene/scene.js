@@ -77,7 +77,7 @@ cidev.scene.Scene = function(context, camera) {
       [0.0, 1.0, 0.0,
        -1.0, -1.0, 0.0,
         1.0, -1.0, 0.0]);
-  goog.vec.Mat4.translate(this.triangle_.modelMatrix, 0, 0, -5);
+  goog.vec.Mat4.translate(this.triangle_.modelMatrix, 0, 0, 5);
 
   /**
    * @type {!cidev.webgl.Camera}

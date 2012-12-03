@@ -32,7 +32,8 @@ cidev.base.init = function() {
     var render = function() {
       // Using R.A.F. defined by WebGLUtils.
       window.requestAnimFrame(render, canvas);
-      camera.update();
+      // TODO(joseph): Implement dt.
+      camera.update(1);
       scene.draw();
     };
     render();
