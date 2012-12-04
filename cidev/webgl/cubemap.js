@@ -26,7 +26,7 @@ cidev.webgl.Cubemap = function(context, faces) {
   gl.bindTexture(goog.webgl.TEXTURE_CUBE_MAP, this.texture);
 
   // TODO(joseph): Refactor this.
-  var path = "cubemaps/ForbiddenCity/";
+  var path = "cubemaps/escher/";
   var images = [
       "posx.png",
       "negx.png",
