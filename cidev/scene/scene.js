@@ -7,6 +7,7 @@
 goog.provide('cidev.scene.Scene');
 
 goog.require('cidev.webgl.Camera');
+goog.require('cidev.webgl.Cubemap');
 goog.require('cidev.webgl.Model');
 goog.require('cidev.webgl.shaders');
 
@@ -43,6 +44,13 @@ cidev.scene.Scene = function(context, camera) {
   if (!gl.getProgramParameter(this.program_, goog.webgl.LINK_STATUS)) {
     throw Error('shader program error: ' + gl.getProgramInfoLog(this.program_));
   }
+
+  // TODO(joseph): Refactor this.
+  //this.cubemapSampler_ = gl.getUniformLocation(this.program_, 'uCubeSampler');
+  this.cubemap_ = new cidev.webgl.Cubemap(context, []);
+  gl.activeTexture(goog.webgl.TEXTURE0);
+  gl.bindTexture(goog.webgl.TEXTURE_CUBE_MAP, this.cubemap_.texture)
+  //gl.uniformli(this.cubemapSampler_, 0);
 
   /**
    * @type {number}
