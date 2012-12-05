@@ -30,7 +30,7 @@ cidev.webgl.CubemapTexture = function(context) {
                    goog.webgl.CLAMP_TO_EDGE);
 
   // TODO(joseph): Refactor this.
-  var path = 'cubemaps/escher/';
+  var path = 'cubemaps/terrain/';
   var images = [
       'posx.png',
       'negx.png',
