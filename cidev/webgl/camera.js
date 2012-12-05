@@ -19,9 +19,8 @@ cidev.webgl.Camera = function() {
   /**
    * The camera's XYZ coordinates.
    * @type {!goog.vec.Vec3.Float32}
-   * @private
    */
-  this.pos_ = goog.vec.Vec3.createFloat32FromValues(0, 0, 0);
+  this.pos = goog.vec.Vec3.createFloat32FromValues(0, 0, 0);
 
   /**
    * The camera's viewing direction (always unit length).
@@ -112,8 +111,8 @@ cidev.webgl.Camera.UP_DIR_ = goog.vec.Vec3.createFloat32FromValues(0, 1, 0);
 cidev.webgl.Camera.prototype.getMatrix = function() {
   goog.vec.Mat4.makeLookAt(
       this.matrix_,
-      this.pos_,
-      goog.vec.Vec3.add(this.pos_, this.dir_, this.tmpVec3_),
+      this.pos,
+      goog.vec.Vec3.add(this.pos, this.dir_, this.tmpVec3_),
       cidev.webgl.Camera.UP_DIR_);
   return this.matrix_;
 };
@@ -138,9 +137,9 @@ cidev.webgl.Camera.prototype.update = function(dt) {
 
   // Update the camera's position based on the elapsed time.
   Vec3.add(
-      this.pos_,
+      this.pos,
       Vec3.scale(posDelta, dt, this.tmpVec3_),
-      this.pos_);
+      this.pos);
 
   // Update the camera's viewing direction based on the elapsed time and the
   // current rotations.

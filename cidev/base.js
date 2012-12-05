@@ -6,6 +6,7 @@
 
 goog.provide('cidev.base');
 
+goog.require('cidev.scene.SkyboxScene');
 goog.require('cidev.scene.WorldScene');
 goog.require('cidev.webgl.Camera');
 goog.require('cidev.webgl.Context');
@@ -22,6 +23,7 @@ cidev.base.init = function() {
   if (goog.isDefAndNotNull(canvas)) {
     var context = new cidev.webgl.Context(canvas);
     var camera = new cidev.webgl.Camera();
+    var skybox = new cidev.scene.SkyboxScene(context, camera);
     var scene = new cidev.scene.WorldScene(context, camera);
 
     goog.events.listen(
@@ -42,6 +44,7 @@ cidev.base.init = function() {
       if (lastTime > 0) {
         camera.update(time - lastTime);
         scene.draw();
+        skybox.draw();
       }
       lastTime = time;
     };

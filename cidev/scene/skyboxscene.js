@@ -1,14 +1,14 @@
 /**
- * @fileoverview The world scene, including all models.
+ * @fileoverview The skybox scene, wrapping the environment cube map.
  *
  * @author joseph@cs.utexas.edu (Joe Tessler)
  */
 
-goog.provide('cidev.scene.WorldScene');
+goog.provide('cidev.scene.SkyboxScene');
 
 goog.require('cidev.scene.Scene');
 
-goog.require('cidev.webgl.CubeMesh');
+goog.require('cidev.webgl.CubemapTexture');
 goog.require('cidev.webgl.shaders');
 
 goog.require('goog.vec.Mat4');
@@ -20,21 +20,27 @@ goog.require('goog.webgl');
  * @constructor
  * @extends {cidev.scene.Scene}
  */
-cidev.scene.WorldScene = function(context, camera) {
+cidev.scene.SkyboxScene = function(context, camera) {
   goog.base(this, context);
 
   this.initShaders(
-      cidev.webgl.shaders['simple.vert'], cidev.webgl.shaders['white.frag']);
+      cidev.webgl.shaders['skybox.vert'], cidev.webgl.shaders['skybox.frag']);
 
   var gl = context.gl;
 
-  // TODO(joseph): Refactor all shared shader code.
   /**
    * @type {number}
    * @private
    */
   this.aVertexPosition_ = gl.getAttribLocation(this.program, 'aVertexPosition');
   gl.enableVertexAttribArray(this.aVertexPosition_);
+
+  /**
+   * @type {WebGLUniformLocation}
+   * @private
+   */
+  this.uCameraPosition_ =
+      gl.getUniformLocation(this.program, 'uCameraPosition');
 
   /**
    * @type {WebGLUniformLocation}
@@ -55,34 +61,48 @@ cidev.scene.WorldScene = function(context, camera) {
   this.uMMatrix_ = gl.getUniformLocation(this.program, 'uMMatrix');
 
   /**
-   * @type {!cidev.webgl.Mesh}
+   * @type {WebGLUniformLocation}
    * @private
    */
-  this.cube_ = new cidev.webgl.CubeMesh(context);
-  goog.vec.Mat4.translate(this.cube_.modelViewMatrix, 0, 0, 5);
-  goog.vec.Mat4.rotateY(this.cube_.modelViewMatrix, Math.PI / 4);
+  this.uCubeSampler_ = gl.getUniformLocation(this.program, 'uCubeSampler');
 
   /**
    * @type {!cidev.webgl.Camera}
    * @private
    */
   this.camera_ = camera;
+
+  /**
+   * @type {!cidev.webgl.Texture}
+   * @private
+   */
+  this.cubemap_ = new cidev.webgl.CubemapTexture(context);
+
+  /**
+   * @type {!cidev.webgl.Mesh}
+   * @private
+   */
+  this.skybox_ = new cidev.webgl.CubeMesh(context);
+  goog.vec.Mat4.scale(this.skybox_.modelViewMatrix, 20, 20, 20);
+
 };
-goog.inherits(cidev.scene.WorldScene, cidev.scene.Scene);
+goog.inherits(cidev.scene.SkyboxScene, cidev.scene.Scene);
 
 /**
  * @inheritDoc
  */
-cidev.scene.WorldScene.prototype.drawScene = function() {
-  // TODO(joseph): Refactor uniform setting.
+cidev.scene.SkyboxScene.prototype.drawScene = function() {
   var gl = this.context.gl;
+  gl.activeTexture(goog.webgl.TEXTURE0);
+  gl.uniform1i(this.uCubeSampler_, 0);
+  gl.uniform3fv(this.uCameraPosition_, this.camera_.pos);
   gl.uniformMatrix4fv(this.uPMatrix_, false, this.context.projectionMatrix);
   gl.uniformMatrix4fv(this.uCMatrix_, false, this.camera_.getMatrix());
-  gl.uniformMatrix4fv(this.uMMatrix_, false, this.cube_.modelViewMatrix);
+  gl.uniformMatrix4fv(this.uMMatrix_, false, this.skybox_.modelViewMatrix);
 
-  this.cube_.bindVertexBuffer();
+  this.cubemap_.bindTexture();
+  this.skybox_.bindVertexBuffer();
   gl.vertexAttribPointer(
       this.aVertexPosition_, 3, goog.webgl.FLOAT, false, 0, 0);
-
-  this.cube_.draw();
-};
+  this.skybox_.draw();
+}

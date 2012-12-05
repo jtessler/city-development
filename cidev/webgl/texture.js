@@ -16,6 +16,7 @@ goog.provide('cidev.webgl.Texture');
 cidev.webgl.Texture = function(context) {
   this.context = context;
   this.texture = context.gl.createTexture();
+  this.bindTexture();
 };
 
 /**
@@ -31,14 +32,6 @@ cidev.webgl.Texture.prototype.context;
  * @protected
  */
 cidev.webgl.Texture.prototype.texture;
-
-/**
- * Activates the texture at a given unit.
- * @param {number} unit The texture unit to activate.
- */
-cidev.webgl.Texture.prototype.activate = function(unit) {
-  this.context.gl.activeTexture(unit);
-};
 
 /**
  * Calls the appropriate bind method for the texture.
