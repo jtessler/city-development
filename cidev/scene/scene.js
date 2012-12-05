@@ -8,7 +8,7 @@ goog.provide('cidev.scene.Scene');
 
 goog.require('cidev.webgl.Camera');
 goog.require('cidev.webgl.CubeMesh');
-goog.require('cidev.webgl.Cubemap');
+goog.require('cidev.webgl.CubemapTexture');
 goog.require('cidev.webgl.shaders');
 
 goog.require('goog.vec.Mat4');

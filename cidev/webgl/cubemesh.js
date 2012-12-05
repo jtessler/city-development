@@ -63,7 +63,7 @@ cidev.webgl.CubeMesh = function(context) {
 goog.inherits(cidev.webgl.CubeMesh, cidev.webgl.Mesh);
 
 /**
- * @override
+ * @inheritDoc
  */
 cidev.webgl.CubeMesh.prototype.draw = function() {
   this.bindIndexBuffer();
