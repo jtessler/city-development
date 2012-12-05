@@ -16,7 +16,7 @@ goog.require('goog.webgl');
  * @constructor
  */
 cidev.webgl.Mesh = function(context) {
-  this.context_ = context;
+  this.context = context;
 
   /** @type {!WebGLRenderingContext} */
   var gl = context.gl;
@@ -64,14 +64,14 @@ cidev.webgl.Mesh.prototype.modelViewMatrix;
  * Binds vertex data to the GPU.
  */
 cidev.webgl.Mesh.prototype.bindVertexBuffer = function() {
-  this.context_.gl.bindBuffer(goog.webgl.ARRAY_BUFFER, this.vertexBuffer_);
+  this.context.gl.bindBuffer(goog.webgl.ARRAY_BUFFER, this.vertexBuffer_);
 };
 
 /**
  * Binds index data to the GPU.
  */
 cidev.webgl.Mesh.prototype.bindIndexBuffer = function() {
-  this.context_.gl.bindBuffer(
+  this.context.gl.bindBuffer(
       goog.webgl.ELEMENT_ARRAY_BUFFER, this.indexBuffer_);
 };
 

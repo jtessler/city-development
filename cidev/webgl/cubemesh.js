@@ -67,6 +67,6 @@ goog.inherits(cidev.webgl.CubeMesh, cidev.webgl.Mesh);
  */
 cidev.webgl.CubeMesh.prototype.draw = function() {
   this.bindIndexBuffer();
-  this.context_.gl.drawElements(
+  this.context.gl.drawElements(
       goog.webgl.TRIANGLES, this.indexCount_, goog.webgl.UNSIGNED_BYTE, 0);
 };
