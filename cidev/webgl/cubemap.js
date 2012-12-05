@@ -26,14 +26,14 @@ cidev.webgl.Cubemap = function(context, faces) {
   gl.bindTexture(goog.webgl.TEXTURE_CUBE_MAP, this.texture);
 
   // TODO(joseph): Refactor this.
-  var path = "cubemaps/escher/";
+  var path = 'cubemaps/escher/';
   var images = [
-      "posx.png",
-      "negx.png",
-      "posy.png",
-      "negy.png",
-      "posz.png",
-      "negz.png"
+      'posx.png',
+      'negx.png',
+      'posy.png',
+      'negy.png',
+      'posz.png',
+      'negz.png'
   ];
   for (var i = 0; i < 6; i++) {
     var image = new Image();
@@ -62,4 +62,4 @@ cidev.webgl.Cubemap = function(context, faces) {
                    goog.webgl.CLAMP_TO_EDGE);
   gl.texParameteri(goog.webgl.TEXTURE_CUBE_MAP, goog.webgl.TEXTURE_WRAP_T,
                    goog.webgl.CLAMP_TO_EDGE);
-}
+};

@@ -7,8 +7,8 @@
 goog.provide('cidev.scene.Scene');
 
 goog.require('cidev.webgl.Camera');
+goog.require('cidev.webgl.CubeMesh');
 goog.require('cidev.webgl.Cubemap');
-goog.require('cidev.webgl.Model');
 goog.require('cidev.webgl.shaders');
 
 goog.require('goog.vec.Mat4');
@@ -45,12 +45,14 @@ cidev.scene.Scene = function(context, camera) {
     throw Error('shader program error: ' + gl.getProgramInfoLog(this.program_));
   }
 
+  /*
   // TODO(joseph): Refactor this.
   //this.cubemapSampler_ = gl.getUniformLocation(this.program_, 'uCubeSampler');
   this.cubemap_ = new cidev.webgl.Cubemap(context, []);
   gl.activeTexture(goog.webgl.TEXTURE0);
   gl.bindTexture(goog.webgl.TEXTURE_CUBE_MAP, this.cubemap_.texture)
   //gl.uniformli(this.cubemapSampler_, 0);
+  */
 
   /**
    * @type {number}
@@ -58,6 +60,7 @@ cidev.scene.Scene = function(context, camera) {
    */
   this.aVertexPosition_ = gl.getAttribLocation(
       this.program_, 'aVertexPosition');
+  gl.enableVertexAttribArray(this.aVertexPosition_);
 
   /**
    * @type {WebGLUniformLocation}
@@ -78,14 +81,12 @@ cidev.scene.Scene = function(context, camera) {
   this.uMMatrix_ = gl.getUniformLocation(this.program_, 'uMMatrix');
 
   /**
-   * @type {!cidev.webgl.Model}
+   * @type {!cidev.webgl.Mesh}
    * @private
    */
-  this.triangle_ = new cidev.webgl.Model(context,
-      [0.0, 1.0, 0.0,
-       -1.0, -1.0, 0.0,
-        1.0, -1.0, 0.0]);
-  goog.vec.Mat4.translate(this.triangle_.modelMatrix, 0, 0, 5);
+  this.cube_ = new cidev.webgl.CubeMesh(context);
+  goog.vec.Mat4.translate(this.cube_.modelViewMatrix, 0, 0, 5);
+  goog.vec.Mat4.rotateY(this.cube_.modelViewMatrix, Math.PI / 4);
 
   /**
    * @type {!cidev.webgl.Camera}
@@ -106,11 +107,11 @@ cidev.scene.Scene.prototype.draw = function() {
 
   gl.uniformMatrix4fv(this.uPMatrix_, false, this.context.projectionMatrix);
   gl.uniformMatrix4fv(this.uCMatrix_, false, this.camera_.getMatrix());
-  gl.uniformMatrix4fv(this.uMMatrix_, false, this.triangle_.modelMatrix);
+  gl.uniformMatrix4fv(this.uMMatrix_, false, this.cube_.modelViewMatrix);
 
-  gl.bindBuffer(goog.webgl.ARRAY_BUFFER, this.triangle_.vertexBuffer);
-  gl.enableVertexAttribArray(this.aVertexPosition_);
+  this.cube_.bindVertexBuffer();
   gl.vertexAttribPointer(
       this.aVertexPosition_, 3, goog.webgl.FLOAT, false, 0, 0);
-  gl.drawArrays(goog.webgl.TRIANGLES, 0, this.triangle_.vertexCount);
+
+  this.cube_.draw();
 };
