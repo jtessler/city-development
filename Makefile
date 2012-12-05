@@ -29,6 +29,9 @@ release: shaders
 	$(CC) --output_mode compiled > $(JS_OUTPUT)
 	build/index.py --js $(JS_OUTPUT) > $(INDEX_OUTPUT)
 
+dry-run:
+	$(CC) --output_mode compiled > /dev/null
+
 shaders:
 	build/shaders.py > $(SHADER_OUTPUT)
 
@@ -37,6 +40,9 @@ lint:
 
 clean:
 	rm -f $(JS_OUTPUT) $(SHADER_OUTPUT) $(INDEX_OUTPUT)
+
+server:
+	python -m SimpleHTTPServer
 
 closure: closure-library closure-compiler
 
