@@ -6,7 +6,7 @@
 
 goog.provide('cidev.base');
 
-goog.require('cidev.scene.Scene');
+goog.require('cidev.scene.WorldScene');
 goog.require('cidev.webgl.Camera');
 goog.require('cidev.webgl.Context');
 
@@ -22,17 +22,21 @@ cidev.base.init = function() {
   if (goog.isDefAndNotNull(canvas)) {
     var context = new cidev.webgl.Context(canvas);
     var camera = new cidev.webgl.Camera();
-    var scene = new cidev.scene.Scene(context, camera);
+    var scene = new cidev.scene.WorldScene(context, camera);
 
     goog.events.listen(
         goog.dom.getDocument(),
         cidev.webgl.Camera.EVENT_TYPES,
         camera);
 
+    // TODO(joseph): Refactor this to an animator class.
     var lastTime = 0;
     var render = function() {
       // Using R.A.F. defined by WebGLUtils.
       window.requestAnimFrame(render, canvas);
+
+      context.gl.clear(
+          goog.webgl.COLOR_BUFFER_BIT | goog.webgl.DEPTH_BUFFER_BIT);
 
       var time = new Date().getTime();
       if (lastTime > 0) {
