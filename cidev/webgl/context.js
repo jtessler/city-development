@@ -60,6 +60,7 @@ cidev.webgl.Context = function(canvas) {
    */
   this.far = 100.0;
 
+  // TODO(joseph): Refactor these variables, make private, add provider.
   /** @type {!goog.vec.Mat4.Float32} */
   this.projectionMatrix = goog.vec.Mat4.createFloat32();
   goog.vec.Mat4.makePerspective(
@@ -67,6 +68,7 @@ cidev.webgl.Context = function(canvas) {
 };
 
 /**
+ * TODO(joseph): Move this to scene class.
  * Compile given shader code.
  * @param {string} code GLSL plain text source.
  * @param {number} type Shader type, e.g. FRAGMENT_SHADER or VERTEX_SHADER.
