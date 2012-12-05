@@ -17,6 +17,7 @@ goog.require('goog.vec.Vec3');
  */
 cidev.webgl.Camera = function() {
   /**
+   * TODO(joseph): Add provider and make private.
    * The camera's XYZ coordinates.
    * @type {!goog.vec.Vec3.Float32}
    */
@@ -100,6 +101,7 @@ cidev.webgl.Camera = function() {
 };
 
 /**
+ * TODO(joseph): Remove private and make constant.
  * @type {!goog.vec.Vec3.Float32}
  * @private
  */
