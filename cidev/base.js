@@ -13,6 +13,7 @@ goog.require('cidev.webgl.Context');
 
 goog.require('goog.dom');
 goog.require('goog.events');
+goog.require('goog.webgl');
 
 /**
  * Initializes the WebGL context, event handlers, and draws the scene.
