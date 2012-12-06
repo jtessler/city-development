@@ -6,8 +6,6 @@
 
 goog.provide('cidev.webgl.Context');
 
-goog.require('cidev.webgl.WebGLUtils');
-
 goog.require('goog.vec.Mat4');
 goog.require('goog.webgl');
 
@@ -17,16 +15,15 @@ goog.require('goog.webgl');
  * @constructor
  */
 cidev.webgl.Context = function(canvas) {
-  /** @type {!WebGLRenderingContext} */
-  var gl = cidev.webgl.WebGLUtils.setupWebGL(canvas);
-  gl.clearColor(0.0, 0.0, 0.0, 1.0);
-  gl.enable(goog.webgl.DEPTH_TEST);
-
   /** @type {!Element} */
   this.canvas = canvas;
 
   /** @type {!WebGLRenderingContext} */
-  this.gl = gl;
+  this.gl = cidev.webgl.Context.createWebGLContext(canvas);
+
+  var gl = this.gl;
+  gl.clearColor(0.0, 0.0, 0.0, 1.0);
+  gl.enable(goog.webgl.DEPTH_TEST);
 
   /** @type {number} */
   this.viewportWidth = canvas.width;
@@ -65,4 +62,29 @@ cidev.webgl.Context = function(canvas) {
   this.projectionMatrix = goog.vec.Mat4.createFloat32();
   goog.vec.Mat4.makePerspective(
       this.projectionMatrix, this.fov, this.aspect, this.near, this.far);
+};
+
+/**
+ * Creates a WebGL context in a given canvas.
+ * @param {!Element} canvas The canvas tag from which to get context.
+ * @return {!WebGLRenderingContext} The created context.
+ */
+cidev.webgl.Context.createWebGLContext = function(canvas) {
+  if (!window.WebGLRenderingContext) {
+    throw Error('unsupported browser');
+  }
+
+  var names = ['webgl', 'experimental-webgl', 'webkit-3d', 'moz-webgl'];
+  var context = null;
+  for (var i = 0; goog.isNull(context) && i < names.length; i++) {
+    try {
+      context = canvas.getContext(names[i]);
+    } catch (e) { /* Do nothing. */ }
+  }
+
+  if (goog.isNull(context)) {
+    throw Error('unsupported hardware');
+  }
+
+  return context;
 };
