@@ -6,13 +6,15 @@
 
 goog.provide('cidev.base');
 
-goog.require('cidev.scene.SkyboxScene');
-goog.require('cidev.scene.WorldScene');
 goog.require('cidev.webgl.Camera');
 goog.require('cidev.webgl.Context');
+goog.require('cidev.webgl.mesh.Cube');
+goog.require('cidev.webgl.shader.Simple');
+goog.require('cidev.webgl.shader.Skybox');
 
 goog.require('goog.dom');
 goog.require('goog.events');
+goog.require('goog.vec.Mat4');
 goog.require('goog.webgl');
 
 /**
@@ -24,8 +26,9 @@ cidev.base.init = function() {
   if (goog.isDefAndNotNull(canvas)) {
     var context = new cidev.webgl.Context(canvas);
     var camera = new cidev.webgl.Camera();
-    var skybox = new cidev.scene.SkyboxScene(context, camera);
-    var scene = new cidev.scene.WorldScene(context, camera);
+    var simple = new cidev.webgl.shader.Simple(context);
+    var skybox = new cidev.webgl.shader.Skybox(context);
+    var cube = new cidev.webgl.mesh.Cube(context);
 
     goog.events.listen(
         goog.dom.getDocument(),
@@ -44,8 +47,14 @@ cidev.base.init = function() {
       var time = new Date().getTime();
       if (lastTime > 0) {
         camera.update(time - lastTime);
-        scene.draw();
-        skybox.draw();
+
+        simple.activate();
+        goog.vec.Mat4.makeTranslate(cube.modelViewMatrix, 0, 0, 10);
+        simple.render(cube, camera);
+
+        skybox.activate();
+        goog.vec.Mat4.makeScale(cube.modelViewMatrix, 30, 30, 30);
+        skybox.render(cube, camera);
       }
       lastTime = time;
     };

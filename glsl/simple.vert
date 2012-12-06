@@ -1,9 +1,10 @@
-attribute vec3 aVertexPosition;
+attribute vec3 vertexPosition;
 
-uniform mat4 uMMatrix; // The model's model-view matrix.
-uniform mat4 uCMatrix; // The camera's model-view matrix.
-uniform mat4 uPMatrix; // The projection matrix.
+uniform mat4 modelMatrix; // The model transformation matrix.
+uniform mat4 viewMatrix; // The camera's tranformation matrix.
+uniform mat4 projMatrix; // The projection matrix.
 
 void main(void) {
-  gl_Position = uPMatrix * uCMatrix * uMMatrix * vec4(aVertexPosition, 1.0);
+  gl_Position =
+      projMatrix * viewMatrix * modelMatrix * vec4(vertexPosition, 1.0);
 }
