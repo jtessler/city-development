@@ -46,7 +46,7 @@ cidev.webgl.shader.MVPProgram.prototype.render = function(mesh, camera) {
   gl.uniformMatrix4fv(this.projMatrix, false, this.context.projectionMatrix);
   gl.uniformMatrix4fv(this.viewMatrix, false, camera.getMatrix());
   gl.uniformMatrix4fv(this.modelMatrix, false, mesh.modelViewMatrix);
-}
+};
 
 /**
  * Index of the vertex position attribute.

@@ -39,16 +39,16 @@ cidev.webgl.shader.Program = function(context, vs, fs) {
  */
 cidev.webgl.shader.Program.prototype.activate = function() {
   this.context.gl.useProgram(this.program);
-}
+};
 
 /**
  * Renders the given object with the given camera.
  * @param {!cidev.webgl.mesh.Mesh} mesh The mesh object to draw.
- * @camera {!cidev.webgl.Camera} camera The view-matrix-wrapping camera.
+ * @param {!cidev.webgl.Camera} camera The view-matrix-wrapping camera.
  */
 cidev.webgl.shader.Program.prototype.render = function(mesh, camera) {
   throw Error('unimplemented render method');
-}
+};
 
 /**
  * The current WebGL context wrapper.
