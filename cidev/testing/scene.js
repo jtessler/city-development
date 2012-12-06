@@ -57,6 +57,6 @@ cidev.testing.Scene.prototype.onAnimationFrame = function(now) {
   this.simple.render(this.cube, this.camera);
 
   this.skybox.activate();
-  goog.vec.Mat4.makeScale(this.cube.modelViewMatrix, 30, 30, 30);
+  goog.vec.Mat4.makeScale(this.cube.modelViewMatrix, 50, 50, 50);
   this.skybox.render(this.cube, this.camera);
 };
