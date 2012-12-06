@@ -22,10 +22,8 @@ cidev.webgl.shader.Program = function(context, vs, fs) {
 
   var gl = context.gl;
   this.program = gl.createProgram();
-  gl.attachShader(this.program,
-      this.context.createShader(vs, goog.webgl.VERTEX_SHADER));
-  gl.attachShader(this.program,
-      this.context.createShader(fs, goog.webgl.FRAGMENT_SHADER));
+  this.attachShader_(vs, goog.webgl.VERTEX_SHADER);
+  this.attachShader_(fs, goog.webgl.FRAGMENT_SHADER);
   gl.linkProgram(this.program);
 
   if (!gl.getProgramParameter(this.program, goog.webgl.LINK_STATUS)) {
@@ -48,6 +46,28 @@ cidev.webgl.shader.Program.prototype.activate = function() {
  */
 cidev.webgl.shader.Program.prototype.render = function(mesh, camera) {
   throw Error('unimplemented render method');
+};
+
+/**
+ * Compiles given shader source code into a WebGL shader object, then
+ * attaches it to the current program.
+ * @param {string} code GLSL plain text source.
+ * @param {number} type Shader type, i.e. FRAGMENT_SHADER or VERTEX_SHADER.
+ * @private
+ */
+cidev.webgl.shader.Program.prototype.attachShader_ = function(code, type) {
+  var gl = this.context.gl;
+  var shader = gl.createShader(type);
+  gl.shaderSource(shader, code);
+  gl.compileShader(shader);
+
+  if (!gl.getShaderParameter(shader, goog.webgl.COMPILE_STATUS)) {
+    throw Error('shader error: ' + gl.getShaderInfoLog(shader));
+  } else if (goog.isNull(shader)) {
+    throw Error('unknown shader error');
+  }
+
+  gl.attachShader(this.program, shader);
 };
 
 /**
