@@ -101,13 +101,6 @@ cidev.webgl.Camera = function() {
 };
 
 /**
- * TODO(joseph): Remove private and make constant.
- * @type {!goog.vec.Vec3.Float32}
- * @private
- */
-cidev.webgl.Camera.UP_DIR_ = goog.vec.Vec3.createFloat32FromValues(0, 1, 0);
-
-/**
  * @return {!goog.vec.Mat4.Float32} The camera's model-view matrix.
  */
 cidev.webgl.Camera.prototype.getMatrix = function() {
@@ -115,7 +108,7 @@ cidev.webgl.Camera.prototype.getMatrix = function() {
       this.matrix_,
       this.pos,
       goog.vec.Vec3.add(this.pos, this.dir_, this.tmpVec3_),
-      cidev.webgl.Camera.UP_DIR_);
+      cidev.webgl.Camera.UP_DIR);
   return this.matrix_;
 };
 
@@ -131,7 +124,7 @@ cidev.webgl.Camera.prototype.update = function(dt) {
   var posDelta = Vec3.createFloat32();
   Vec3.scale(this.dir_, this.forwardDelta_, posDelta);
   var strafeDir =
-      Vec3.cross(this.dir_, cidev.webgl.Camera.UP_DIR_, this.tmpVec3_);
+      Vec3.cross(this.dir_, cidev.webgl.Camera.UP_DIR, this.tmpVec3_);
   Vec3.add(
       posDelta,
       Vec3.scale(strafeDir, this.strafeDelta_, this.tmpVec3_),
@@ -176,41 +169,33 @@ cidev.webgl.Camera.prototype.handleEvent = function(e) {
 };
 
 /**
- * @const
- * @type {number}
- */
-cidev.webgl.Camera.KEY_SENSITIVITY = 0.01;
-
-/**
  * @param {*} e The key event to handle.
  * @private
  */
 cidev.webgl.Camera.prototype.handleKeyEvent_ = function(e) {
-  var delta = e.type == goog.events.EventType.KEYDOWN ?
-      cidev.webgl.Camera.KEY_SENSITIVITY : 0;
+  var posDelta = 0;
+  var yawDelta = 0;
+  if (e.type == goog.events.EventType.KEYDOWN) {
+    posDelta = cidev.webgl.Camera.KEY_POS_DELTA;
+    yawDelta = cidev.webgl.Camera.KEY_YAW_DELTA;
+  }
   var KeyCodes = goog.events.KeyCodes;
   switch (e.keyCode) {
-    case KeyCodes.W: this.forwardDelta_ = delta;
+    case KeyCodes.W: this.forwardDelta_ = posDelta;
                      break;
-    case KeyCodes.A: this.strafeDelta_ = -delta;
+    case KeyCodes.A: this.strafeDelta_ = -posDelta;
                      break;
-    case KeyCodes.S: this.forwardDelta_ = -delta;
+    case KeyCodes.S: this.forwardDelta_ = -posDelta;
                      break;
-    case KeyCodes.D: this.strafeDelta_ = delta;
+    case KeyCodes.D: this.strafeDelta_ = posDelta;
                      break;
-    // TODO(joseph): Make these constants.
-    case KeyCodes.Q: this.yawDelta_ = -delta / 5;
+    case KeyCodes.Q: this.yawDelta_ = -yawDelta;
                      break;
-    case KeyCodes.E: this.yawDelta_ = delta / 5;
+    case KeyCodes.E: this.yawDelta_ = yawDelta;
                      break;
   }
 };
 
-/**
- * @const
- * @type {number}
- */
-cidev.webgl.Camera.MOUSE_SENSITIVITY = 0.001;
 
 /**
  * @param {*} e The mouse event to handle.
@@ -229,8 +214,8 @@ cidev.webgl.Camera.prototype.handleMouseMoveEvent_ = function(e) {
 
 /**
  * All event types handled by the camera.
- * @const
  * @type {Array.<goog.events.EventType>}
+ * @const
  */
 cidev.webgl.Camera.EVENT_TYPES = [
     goog.events.EventType.KEYUP,
@@ -239,3 +224,27 @@ cidev.webgl.Camera.EVENT_TYPES = [
     goog.events.EventType.MOUSEMOVE,
     goog.events.EventType.MOUSEUP
 ];
+
+/**
+ * @type {number}
+ * @const
+ */
+cidev.webgl.Camera.KEY_POS_DELTA = 0.01;
+
+/**
+ * @type {number}
+ * @const
+ */
+cidev.webgl.Camera.KEY_YAW_DELTA = 0.002;
+
+/**
+ * @type {number}
+ * @const
+ */
+cidev.webgl.Camera.MOUSE_SENSITIVITY = 0.001;
+
+/**
+ * @type {!goog.vec.Vec3.Float32}
+ * @const
+ */
+cidev.webgl.Camera.UP_DIR = goog.vec.Vec3.createFloat32FromValues(0, 1, 0);
