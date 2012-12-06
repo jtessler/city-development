@@ -46,7 +46,7 @@ cidev.webgl.shader.Skybox = function(context) {
   this.cubeMapTexture_ = gl.getUniformLocation(this.program, 'cubeMapTexture');
 
   /**
-   * TODO(joseph): Consider supplying this in the constructor.
+   * The cube environment map texture.
    * @type {!cidev.webgl.texture.Texture}
    * @private
    */
@@ -65,7 +65,6 @@ cidev.webgl.shader.Skybox.prototype.render = function(mesh, camera) {
   gl.uniform1i(this.cubeMapTexture_, 0);
   gl.uniform3fv(this.viewPosition_, camera.pos);
 
-  // TODO(joseph): Figure out when to call this with multiple textures.
   gl.activeTexture(goog.webgl.TEXTURE0);
   this.cubemap_.bindTexture();
   mesh.bindVertexBuffer();
