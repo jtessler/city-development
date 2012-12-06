@@ -25,25 +25,11 @@ cidev.webgl.Context = function(canvas) {
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.enable(goog.webgl.DEPTH_TEST);
 
-  /** @type {number} */
-  this.viewportWidth = canvas.width;
-
-  /** @type {number} */
-  this.viewportHeight = canvas.height;
-
-  gl.viewport(0, 0, this.viewportWidth, this.viewportHeight);
-
   /**
    * The field of view along the y (vertical) axis in radians.
    * @type {number}
    */
   this.fov = Math.PI / 4;
-
-  /**
-   * The x (width) to y (height) aspect ratio.
-   * @type {number}
-   */
-  this.aspect = this.viewportWidth / this.viewportHeight;
 
   /**
    * The distance to the near clipping plane.
@@ -55,17 +41,30 @@ cidev.webgl.Context = function(canvas) {
    * The distance to the far clipping plane.
    * @type {number}
    */
-  this.far = 100.0;
+  this.far = 200.0;
 
-  // TODO(joseph): Refactor these variables, make private, add provider.
   /** @type {!goog.vec.Mat4.Float32} */
   this.projectionMatrix = goog.vec.Mat4.createFloat32();
-  goog.vec.Mat4.makePerspective(
-      this.projectionMatrix, this.fov, this.aspect, this.near, this.far);
+
+  this.update();
 };
 
 /**
- * Creates a WebGL context in a given canvas.
+ * Updates the viewport and projection matrix based on the canvas's size and
+ * other user-mutable properties.
+ */
+cidev.webgl.Context.prototype.update = function() {
+  this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+  goog.vec.Mat4.makePerspective(
+      this.projectionMatrix,
+      this.fov,
+      this.canvas.width / this.canvas.height,
+      this.near,
+      this.far);
+};
+
+/**
+ * Creates a WebGL context in a given canvas in a browser-independent way.
  * @param {!Element} canvas The canvas tag from which to get context.
  * @return {!WebGLRenderingContext} The created context.
  */
