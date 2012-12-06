@@ -4,18 +4,18 @@
  * @author joseph@cs.utexas.edu (Joe Tessler)
  */
 
-goog.provide('cidev.webgl.CubemapTexture');
+goog.provide('cidev.webgl.texture.Cubemap');
 
-goog.require('cidev.webgl.Texture');
+goog.require('cidev.webgl.texture.Texture');
 
 goog.require('goog.webgl');
 
 /**
  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
  * @constructor
- * @extends {cidev.webgl.Texture}
+ * @extends {cidev.webgl.texture.Texture}
  */
-cidev.webgl.CubemapTexture = function(context) {
+cidev.webgl.texture.Cubemap = function(context) {
   goog.base(this, context);
 
   /** @type {!WebGLRenderingContext} */
@@ -55,11 +55,11 @@ cidev.webgl.CubemapTexture = function(context) {
     }(goog.webgl.TEXTURE_CUBE_MAP_POSITIVE_X + i, image);
   }
 };
-goog.inherits(cidev.webgl.CubemapTexture, cidev.webgl.Texture);
+goog.inherits(cidev.webgl.texture.Cubemap, cidev.webgl.texture.Texture);
 
 /**
  * @inheritDoc
  */
-cidev.webgl.CubemapTexture.prototype.bindTexture = function() {
+cidev.webgl.texture.Cubemap.prototype.bindTexture = function() {
   this.context.gl.bindTexture(goog.webgl.TEXTURE_CUBE_MAP, this.texture);
 };

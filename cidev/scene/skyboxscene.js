@@ -8,8 +8,9 @@ goog.provide('cidev.scene.SkyboxScene');
 
 goog.require('cidev.scene.Scene');
 
-goog.require('cidev.webgl.CubemapTexture');
+goog.require('cidev.webgl.mesh.Cube');
 goog.require('cidev.webgl.shaders');
+goog.require('cidev.webgl.texture.Cubemap');
 
 goog.require('goog.vec.Mat4');
 goog.require('goog.webgl');
@@ -73,16 +74,16 @@ cidev.scene.SkyboxScene = function(context, camera) {
   this.camera_ = camera;
 
   /**
-   * @type {!cidev.webgl.Texture}
+   * @type {!cidev.webgl.texture.Texture}
    * @private
    */
-  this.cubemap_ = new cidev.webgl.CubemapTexture(context);
+  this.cubemap_ = new cidev.webgl.texture.Cubemap(context);
 
   /**
-   * @type {!cidev.webgl.Mesh}
+   * @type {!cidev.webgl.mesh.Mesh}
    * @private
    */
-  this.skybox_ = new cidev.webgl.CubeMesh(context);
+  this.skybox_ = new cidev.webgl.mesh.Cube(context);
   goog.vec.Mat4.scale(this.skybox_.modelViewMatrix, 20, 20, 20);
 
 };

@@ -4,7 +4,7 @@
  * @author joseph@cs.utexas.edu (Joe Tessler)
  */
 
-goog.provide('cidev.webgl.Mesh');
+goog.provide('cidev.webgl.mesh.Mesh');
 
 goog.require('goog.vec.Mat4');
 goog.require('goog.webgl');
@@ -15,7 +15,7 @@ goog.require('goog.webgl');
  * @param {!cidev.webgl.Context} context The current WebGL context.
  * @constructor
  */
-cidev.webgl.Mesh = function(context) {
+cidev.webgl.mesh.Mesh = function(context) {
   this.context = context;
 
   /** @type {!WebGLRenderingContext} */
@@ -31,46 +31,46 @@ cidev.webgl.Mesh = function(context) {
  * @type {!cidev.webgl.Context}
  * @protected
  */
-cidev.webgl.Mesh.prototype.context;
+cidev.webgl.mesh.Mesh.prototype.context;
 
 /**
  * The vertex buffer object.
  * @type {!WebGLBuffer}
  * @private
  */
-cidev.webgl.Mesh.prototype.vertexBuffer_;
+cidev.webgl.mesh.Mesh.prototype.vertexBuffer_;
 
 /**
  * The index buffer object.
  * @type {!WebGLBuffer}
  * @private
  */
-cidev.webgl.Mesh.prototype.indexBuffer_;
+cidev.webgl.mesh.Mesh.prototype.indexBuffer_;
 
 /**
  * The total number of indices.
  * @type {number}
  * @protected
  */
-cidev.webgl.Mesh.prototype.indexCount;
+cidev.webgl.mesh.Mesh.prototype.indexCount;
 
 /**
  * The mesh's model-view matrix.
  * @type {!goog.vec.Mat4.Float32}
  */
-cidev.webgl.Mesh.prototype.modelViewMatrix;
+cidev.webgl.mesh.Mesh.prototype.modelViewMatrix;
 
 /**
  * Binds vertex data to the GPU.
  */
-cidev.webgl.Mesh.prototype.bindVertexBuffer = function() {
+cidev.webgl.mesh.Mesh.prototype.bindVertexBuffer = function() {
   this.context.gl.bindBuffer(goog.webgl.ARRAY_BUFFER, this.vertexBuffer_);
 };
 
 /**
  * Binds index data to the GPU.
  */
-cidev.webgl.Mesh.prototype.bindIndexBuffer = function() {
+cidev.webgl.mesh.Mesh.prototype.bindIndexBuffer = function() {
   this.context.gl.bindBuffer(
       goog.webgl.ELEMENT_ARRAY_BUFFER, this.indexBuffer_);
 };
@@ -78,4 +78,4 @@ cidev.webgl.Mesh.prototype.bindIndexBuffer = function() {
 /**
  * Calls the appropriate draw method for the mesh.
  */
-cidev.webgl.Mesh.prototype.draw = goog.abstractMethod;
+cidev.webgl.mesh.Mesh.prototype.draw = goog.abstractMethod;

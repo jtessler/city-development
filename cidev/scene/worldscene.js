@@ -8,7 +8,7 @@ goog.provide('cidev.scene.WorldScene');
 
 goog.require('cidev.scene.Scene');
 
-goog.require('cidev.webgl.CubeMesh');
+goog.require('cidev.webgl.mesh.Cube');
 goog.require('cidev.webgl.shaders');
 
 goog.require('goog.vec.Mat4');
@@ -55,10 +55,10 @@ cidev.scene.WorldScene = function(context, camera) {
   this.uMMatrix_ = gl.getUniformLocation(this.program, 'uMMatrix');
 
   /**
-   * @type {!cidev.webgl.Mesh}
+   * @type {!cidev.webgl.mesh.Mesh}
    * @private
    */
-  this.cube_ = new cidev.webgl.CubeMesh(context);
+  this.cube_ = new cidev.webgl.mesh.Cube(context);
   goog.vec.Mat4.translate(this.cube_.modelViewMatrix, 0, 0, 5);
   goog.vec.Mat4.rotateY(this.cube_.modelViewMatrix, Math.PI / 4);
 

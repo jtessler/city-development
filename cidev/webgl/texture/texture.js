@@ -5,7 +5,7 @@
  * @author joseph@cs.utexas.edu (Joe Tessler)
  */
 
-goog.provide('cidev.webgl.Texture');
+goog.provide('cidev.webgl.texture.Texture');
 
 /**
  * The superclass representing any texture, exposing binds and texture
@@ -13,7 +13,7 @@ goog.provide('cidev.webgl.Texture');
  * @param {!cidev.webgl.Context} context The current WebGL context.
  * @constructor
  */
-cidev.webgl.Texture = function(context) {
+cidev.webgl.texture.Texture = function(context) {
   this.context = context;
   this.texture = context.gl.createTexture();
   this.bindTexture();
@@ -24,16 +24,16 @@ cidev.webgl.Texture = function(context) {
  * @type {!cidev.webgl.Context}
  * @protected
  */
-cidev.webgl.Texture.prototype.context;
+cidev.webgl.texture.Texture.prototype.context;
 
 /**
  * The actual WebGL texture object.
  * @type {!WebGLTexture}
  * @protected
  */
-cidev.webgl.Texture.prototype.texture;
+cidev.webgl.texture.Texture.prototype.texture;
 
 /**
  * Calls the appropriate bind method for the texture.
  */
-cidev.webgl.Texture.prototype.bindTexture = goog.abstractMethod;
+cidev.webgl.texture.Texture.prototype.bindTexture = goog.abstractMethod;

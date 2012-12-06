@@ -4,9 +4,9 @@
  * @author joseph@cs.utexas.edu (Joe Tessler)
  */
 
-goog.provide('cidev.webgl.CubeMesh');
+goog.provide('cidev.webgl.mesh.Cube');
 
-goog.require('cidev.webgl.Mesh');
+goog.require('cidev.webgl.mesh.Mesh');
 
 goog.require('goog.vec.Mat4');
 goog.require('goog.webgl');
@@ -14,9 +14,9 @@ goog.require('goog.webgl');
 /**
  * @param {!cidev.webgl.Context} context The current WebGL context.
  * @constructor
- * @extends {cidev.webgl.Mesh}
+ * @extends {cidev.webgl.mesh.Mesh}
  */
-cidev.webgl.CubeMesh = function(context) {
+cidev.webgl.mesh.Cube = function(context) {
   goog.base(this, context);
 
   //    v6----- v5
@@ -60,12 +60,12 @@ cidev.webgl.CubeMesh = function(context) {
 
   this.indexCount_ = indices.length;
 };
-goog.inherits(cidev.webgl.CubeMesh, cidev.webgl.Mesh);
+goog.inherits(cidev.webgl.mesh.Cube, cidev.webgl.mesh.Mesh);
 
 /**
  * @inheritDoc
  */
-cidev.webgl.CubeMesh.prototype.draw = function() {
+cidev.webgl.mesh.Cube.prototype.draw = function() {
   this.bindIndexBuffer();
   this.context.gl.drawElements(
       goog.webgl.TRIANGLES, this.indexCount_, goog.webgl.UNSIGNED_BYTE, 0);
