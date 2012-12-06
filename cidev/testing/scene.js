@@ -16,6 +16,7 @@ goog.require('goog.vec.Mat4');
 goog.require('goog.webgl');
 
 /**
+ * @param {!Element} canvas The canvas container for the scene.
  * @constructor
  * @implements {goog.fx.anim.Animated}
  */
@@ -37,7 +38,7 @@ cidev.testing.Scene = function(canvas) {
 
   /** @type {number} */
   this.lastTime = 0;
-}
+};
 
 /**
  * @inheritDoc
@@ -58,4 +59,4 @@ cidev.testing.Scene.prototype.onAnimationFrame = function(now) {
   this.skybox.activate();
   goog.vec.Mat4.makeScale(this.cube.modelViewMatrix, 30, 30, 30);
   this.skybox.render(this.cube, this.camera);
-}
+};
