@@ -10,7 +10,7 @@
 goog.provide('cidev.webgl.shader.Simple');
 
 goog.require('cidev.webgl.shader.MVPProgram');
-goog.require('cidev.webgl.shaders');
+goog.require('cidev.webgl.shader.glsl');
 
 goog.require('goog.webgl');
 
@@ -22,8 +22,8 @@ goog.require('goog.webgl');
 cidev.webgl.shader.Simple = function(context) {
   goog.base(this,
       context,
-      cidev.webgl.shaders['simple.vert'],
-      cidev.webgl.shaders['white.frag']);
+      cidev.webgl.shader.glsl['simple.vert'],
+      cidev.webgl.shader.glsl['white.frag']);
 };
 goog.inherits(cidev.webgl.shader.Simple, cidev.webgl.shader.MVPProgram);
 

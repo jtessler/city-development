@@ -20,7 +20,7 @@ CC = $(LIB_PATH)/closure/bin/build/closurebuilder.py \
 
 INDEX_OUTPUT = index.html
 JS_OUTPUT = city-development-min.js
-SHADER_OUTPUT = cidev/webgl/shaders.js
+SHADER_OUTPUT = cidev/webgl/shader/glsl.js
 
 debug: shaders
 	build/index.py --js `$(CC) --output_mode list` > $(INDEX_OUTPUT)
