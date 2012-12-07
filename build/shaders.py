@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""Produces shaders.js from all shaders in glsl/"""
+"""Produces JavaScript from all shaders in glsl/"""
 
 import re
 import os

@@ -20,28 +20,31 @@ CC = $(LIB_PATH)/closure/bin/build/closurebuilder.py \
 
 INDEX_OUTPUT = index.html
 JS_OUTPUT = city-development-min.js
+OBJ_OUTPUT = cidev/webgl/mesh/obj.js
 SHADER_OUTPUT = cidev/webgl/shader/glsl.js
 
-debug: shaders
+debug: objs shaders
 	build/index.py --js `$(CC) --output_mode list` > $(INDEX_OUTPUT)
 
-release: shaders
+release: objs shaders
 	$(CC) --output_mode compiled > $(JS_OUTPUT)
 	build/index.py --js $(JS_OUTPUT) > $(INDEX_OUTPUT)
 
 dry-run:
 	$(CC) --output_mode compiled > /dev/null
 
+objs:
+	build/obj.py > $(OBJ_OUTPUT)
+
 shaders:
 	build/shaders.py > $(SHADER_OUTPUT)
 
-# TODO(joseph): Fix style in cube.js and remove this exclude.
 lint:
-	gjslint --exclude_files $(SHADER_OUTPUT),cidev/webgl/mesh/cube.js \
+	gjslint --exclude_files $(SHADER_OUTPUT),$(OBJ_OUTPUT) \
 		--unix_mode -r cidev/
 
 clean:
-	rm -f $(JS_OUTPUT) $(SHADER_OUTPUT) $(INDEX_OUTPUT)
+	rm -f $(JS_OUTPUT) $(OBJ_OUTPUT) $(SHADER_OUTPUT) $(INDEX_OUTPUT)
 
 server:
 	python -m SimpleHTTPServer
