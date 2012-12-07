@@ -6,12 +6,15 @@
 
 goog.provide('cidev.webgl.Context');
 
+goog.require('cidev.webgl.provides.UniformMatrix4fv');
+
 goog.require('goog.vec.Mat4');
 goog.require('goog.webgl');
 
 /**
  * Constructs a new WebGL context wrapper.
  * @param {!Element} canvas The Canvas container for WebGL.
+ * @implements {cidev.webgl.provides.UniformMatrix4fv}
  * @constructor
  */
 cidev.webgl.Context = function(canvas) {
@@ -43,8 +46,11 @@ cidev.webgl.Context = function(canvas) {
    */
   this.far = 200.0;
 
-  /** @type {!goog.vec.Mat4.Float32} */
-  this.projectionMatrix = goog.vec.Mat4.createFloat32();
+  /**
+   * The projection matrix.
+   * @type {!goog.vec.Mat4.Float32}
+   */
+  this.projMatrix_ = goog.vec.Mat4.createFloat32();
 
   this.update();
 };
@@ -56,12 +62,20 @@ cidev.webgl.Context = function(canvas) {
 cidev.webgl.Context.prototype.update = function() {
   this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
   goog.vec.Mat4.makePerspective(
-      this.projectionMatrix,
+      this.projMatrix_,
       this.fov,
       this.canvas.width / this.canvas.height,
       this.near,
       this.far);
 };
+
+/**
+ * Provides the shader the projection matrix.
+ * @inheritDoc
+ */
+cidev.webgl.Context.prototype.uniformMatrix4fv = function(loc) {
+  this.gl.uniformMatrix4fv(loc, false, this.projMatrix_);
+}
 
 /**
  * Creates a WebGL context in a given canvas in a browser-independent way.

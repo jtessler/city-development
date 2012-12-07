@@ -1,10 +1,12 @@
 /**
- * @fileoverview The camera model-view matrix wrapper.
+ * @fileoverview The camera view matrix wrapper and key/mouse handler.
  *
  * @author joseph@cs.utexas.edu (Joe Tessler)
  */
 
 goog.provide('cidev.webgl.Camera');
+
+goog.require('cidev.webgl.provides.UniformMatrix4fv');
 
 goog.require('goog.events');
 goog.require('goog.events.KeyCodes');
@@ -13,9 +15,14 @@ goog.require('goog.vec.Vec3');
 
 
 /**
+ * @param {!cidev.webgl.Context} context The WebGL context wrapper.
+ * @implements {cidev.webgl.provides.UniformMatrix4fv}
  * @constructor
  */
-cidev.webgl.Camera = function() {
+cidev.webgl.Camera = function(context) {
+  /** @type {!cidev.webgl.Context} */
+  this.context = context;
+
   /**
    * TODO(joseph): Add provider and make private.
    * The camera's XYZ coordinates.
@@ -86,7 +93,7 @@ cidev.webgl.Camera = function() {
   this.mouseY_ = -1;
 
   /**
-   * The model-view matrix.
+   * The view matrix.
    * @type {!goog.vec.Mat4.Float32}
    * @private
    */
@@ -101,15 +108,16 @@ cidev.webgl.Camera = function() {
 };
 
 /**
- * @return {!goog.vec.Mat4.Float32} The camera's model-view matrix.
+ * Provide the shader the camera's view matrix.
+ * @inheritDoc
  */
-cidev.webgl.Camera.prototype.getMatrix = function() {
+cidev.webgl.Camera.prototype.uniformMatrix4fv = function(loc) {
   goog.vec.Mat4.makeLookAt(
       this.matrix_,
       this.pos,
       goog.vec.Vec3.add(this.pos, this.dir_, this.tmpVec3_),
       cidev.webgl.Camera.UP_DIR);
-  return this.matrix_;
+  this.context.gl.uniformMatrix4fv(loc, false, this.matrix_);
 };
 
 /**

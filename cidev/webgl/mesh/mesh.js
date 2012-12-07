@@ -6,6 +6,8 @@
 
 goog.provide('cidev.webgl.mesh.Mesh');
 
+goog.require('cidev.webgl.provides.UniformMatrix4fv');
+
 goog.require('goog.vec.Mat4');
 goog.require('goog.webgl');
 
@@ -13,6 +15,7 @@ goog.require('goog.webgl');
  * The superclass representing any 3D object, exposing binds and drawing
  * capabilities.
  * @param {!cidev.webgl.Context} context The current WebGL context.
+ * @implements {cidev.webgl.provides.UniformMatrix4fv}
  * @constructor
  */
 cidev.webgl.mesh.Mesh = function(context) {
@@ -23,7 +26,7 @@ cidev.webgl.mesh.Mesh = function(context) {
   this.vertexBuffer_ = gl.createBuffer();
   this.indexBuffer_ = gl.createBuffer();
 
-  this.modelViewMatrix = goog.vec.Mat4.createFloat32Identity();
+  this.modelMatrix_ = goog.vec.Mat4.createFloat32Identity();
 };
 
 /**
@@ -55,10 +58,11 @@ cidev.webgl.mesh.Mesh.prototype.indexBuffer_;
 cidev.webgl.mesh.Mesh.prototype.indexCount;
 
 /**
- * The mesh's model-view matrix.
+ * The mesh's model matrix.
  * @type {!goog.vec.Mat4.Float32}
+ * @private
  */
-cidev.webgl.mesh.Mesh.prototype.modelViewMatrix;
+cidev.webgl.mesh.Mesh.prototype.modelMatrix_;
 
 /**
  * Binds vertex data to the GPU.
@@ -79,3 +83,12 @@ cidev.webgl.mesh.Mesh.prototype.bindIndexBuffer = function() {
  * Calls the appropriate draw method for the mesh.
  */
 cidev.webgl.mesh.Mesh.prototype.draw = goog.abstractMethod;
+
+/**
+ * TODO(joseph): Move this to a generic "model" class.
+ * Provides the shader the model matrix.
+ * @inheritDoc
+ */
+cidev.webgl.mesh.Mesh.prototype.uniformMatrix4fv = function(loc) {
+  this.context.gl.uniformMatrix4fv(loc, false, this.modelMatrix_);
+}

@@ -42,10 +42,9 @@ goog.inherits(cidev.webgl.shader.MVPProgram, cidev.webgl.shader.Program);
  * @inheritDoc
  */
 cidev.webgl.shader.MVPProgram.prototype.render = function(mesh, camera) {
-  var gl = this.context.gl;
-  gl.uniformMatrix4fv(this.projMatrix, false, this.context.projectionMatrix);
-  gl.uniformMatrix4fv(this.viewMatrix, false, camera.getMatrix());
-  gl.uniformMatrix4fv(this.modelMatrix, false, mesh.modelViewMatrix);
+  this.context.uniformMatrix4fv(this.projMatrix);
+  camera.uniformMatrix4fv(this.viewMatrix);
+  mesh.uniformMatrix4fv(this.modelMatrix);
 };
 
 /**
