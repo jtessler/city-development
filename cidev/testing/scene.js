@@ -54,11 +54,14 @@ cidev.testing.Scene.prototype.onAnimationFrame = function(now) {
 
   this.simple.activate();
   // TODO(joseph): Fix this private member access.
-  goog.vec.Mat4.makeTranslate(this.cube.modelMatrix_, 0, 0, 10);
+  goog.vec.Mat4.makeTranslate(this.cube.modelMatrix_, -0.5, -0.5, 10);
+  goog.vec.Mat4.rotateY(this.cube.modelMatrix_, Math.PI / 4);
+  goog.vec.Mat4.rotateX(this.cube.modelMatrix_, Math.PI / 4);
   this.simple.render(this.cube, this.camera);
 
   this.skybox.activate();
   // TODO(joseph): Fix this private member access.
-  goog.vec.Mat4.makeScale(this.cube.modelMatrix_, 50, 50, 50);
+  goog.vec.Mat4.makeScale(this.cube.modelMatrix_, 100, 100, 100);
+  goog.vec.Mat4.translate(this.cube.modelMatrix_, -0.5, -0.5, -0.5);
   this.skybox.render(this.cube, this.camera);
 };
