@@ -49,6 +49,7 @@ cidev.webgl.Context = function(canvas) {
   /**
    * The projection matrix.
    * @type {!goog.vec.Mat4.Float32}
+   * @private
    */
   this.projMatrix_ = goog.vec.Mat4.createFloat32();
 
@@ -75,7 +76,7 @@ cidev.webgl.Context.prototype.update = function() {
  */
 cidev.webgl.Context.prototype.uniformMatrix4fv = function(loc) {
   this.gl.uniformMatrix4fv(loc, false, this.projMatrix_);
-}
+};
 
 /**
  * Creates a WebGL context in a given canvas in a browser-independent way.

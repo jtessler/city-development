@@ -91,4 +91,4 @@ cidev.webgl.mesh.Mesh.prototype.draw = goog.abstractMethod;
  */
 cidev.webgl.mesh.Mesh.prototype.uniformMatrix4fv = function(loc) {
   this.context.gl.uniformMatrix4fv(loc, false, this.modelMatrix_);
-}
+};
