@@ -60,7 +60,7 @@ cidev.webgl.mesh.Mesh.prototype.indexCount;
 /**
  * The mesh's model matrix.
  * @type {!goog.vec.Mat4.Float32}
- * @private
+ * TODO(joseph): Make this private.
  */
 cidev.webgl.mesh.Mesh.prototype.modelMatrix_;
 

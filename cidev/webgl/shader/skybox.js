@@ -63,7 +63,7 @@ cidev.webgl.shader.Skybox.prototype.render = function(mesh, camera) {
 
   var gl = this.context.gl;
   gl.uniform1i(this.cubeMapTexture_, 0);
-  gl.uniform3fv(this.viewPosition_, camera.pos);
+  camera.uniform3fv(this.viewPosition_);
 
   gl.activeTexture(goog.webgl.TEXTURE0);
   this.cubemap_.bindTexture();
