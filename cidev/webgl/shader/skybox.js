@@ -38,19 +38,7 @@ cidev.webgl.shader.Skybox = function(context) {
    */
   this.viewPosition_ = gl.getUniformLocation(this.program, 'viewPosition');
 
-  /**
-   * Location of the cube map texture.
-   * @type {WebGLUniformLocation}
-   * @private
-   */
-  this.cubeMapTexture_ = gl.getUniformLocation(this.program, 'cubeMapTexture');
-
-  /**
-   * The cube environment map texture.
-   * @type {!cidev.webgl.texture.Texture}
-   * @private
-   */
-  this.cubemap_ = new cidev.webgl.texture.Cubemap(context);
+  this.texture = gl.getUniformLocation(this.program, 'cubeMapTexture');
 };
 goog.inherits(cidev.webgl.shader.Skybox, cidev.webgl.shader.MVPProgram);
 
@@ -58,10 +46,10 @@ goog.inherits(cidev.webgl.shader.Skybox, cidev.webgl.shader.MVPProgram);
  * Renders the given object with the given camera.
  * @inheritDoc
  */
-cidev.webgl.shader.Skybox.prototype.render = function(mesh, camera) {
-  goog.base(this, 'render', mesh, camera);
+cidev.webgl.shader.Skybox.prototype.render = function(
+    mesh, camera, opt_texture) {
+  goog.base(this, 'render', mesh, camera, opt_texture);
 
-  this.cubemap_.uniform1i(this.cubeMapTexture_);
   camera.uniform3fv(this.viewPosition_);
 
   mesh.bindVertexBuffer();

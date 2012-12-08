@@ -41,7 +41,10 @@ goog.inherits(cidev.webgl.shader.MVPProgram, cidev.webgl.shader.Program);
  * NOTE: This simply sets up the shader program. Subclasses implement rendering.
  * @inheritDoc
  */
-cidev.webgl.shader.MVPProgram.prototype.render = function(mesh, camera) {
+cidev.webgl.shader.MVPProgram.prototype.render = function(
+    mesh, camera, opt_texture) {
+  goog.base(this, 'render', mesh, camera, opt_texture);
+
   this.context.uniformMatrix4fv(this.projMatrix);
   camera.uniformMatrix4fv(this.viewMatrix);
   mesh.uniformMatrix4fv(this.modelMatrix);

@@ -11,6 +11,7 @@ goog.require('cidev.webgl.Context');
 goog.require('cidev.webgl.mesh.Cube');
 goog.require('cidev.webgl.shader.Simple');
 goog.require('cidev.webgl.shader.Skybox');
+goog.require('cidev.webgl.texture.Cubemap');
 
 goog.require('goog.vec.Mat4');
 goog.require('goog.webgl');
@@ -32,6 +33,9 @@ cidev.testing.Scene = function(canvas) {
 
   /** @type {!cidev.webgl.shader.Program} */
   this.skybox = new cidev.webgl.shader.Skybox(this.context);
+
+  /** @type {!cidev.webgl.texture.Texture} */
+  this.cubemap = new cidev.webgl.texture.Cubemap(this.context);
 
   /** @type {!cidev.webgl.mesh.Mesh} */
   this.cube = new cidev.webgl.mesh.Cube(this.context);
@@ -63,5 +67,5 @@ cidev.testing.Scene.prototype.onAnimationFrame = function(now) {
   // TODO(joseph): Fix this private member access.
   goog.vec.Mat4.makeScale(this.cube.modelMatrix_, 100, 100, 100);
   goog.vec.Mat4.translate(this.cube.modelMatrix_, -0.5, -0.5, -0.5);
-  this.skybox.render(this.cube, this.camera);
+  this.skybox.render(this.cube, this.camera, this.cubemap);
 };
