@@ -35,7 +35,8 @@ cidev.testing.Scene = function(canvas) {
   this.skybox = new cidev.webgl.shader.Skybox(this.context);
 
   /** @type {!cidev.webgl.texture.Texture} */
-  this.cubemap = new cidev.webgl.texture.Cubemap(this.context);
+  this.cubemap = new cidev.webgl.texture.Cubemap(
+      this.context, 'textures/cubemap');
 
   /** @type {!cidev.webgl.mesh.Mesh} */
   this.cube = new cidev.webgl.mesh.Cube(this.context);

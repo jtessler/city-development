@@ -8,16 +8,19 @@ goog.provide('cidev.webgl.texture.Cubemap');
 
 goog.require('cidev.webgl.texture.Texture');
 
+goog.require('goog.uri.utils');
 goog.require('goog.webgl');
 
 /**
  * @param {!cidev.webgl.Context} context The current WebGL context.
+ * @param {string} path URL path to a folder of 6 images named
+ *     "{pos,neg}{x,y,z}.png".
  * @param {number=} opt_unit The optional unit index, where the maximum amount
  *     of texture units is hardware dependent. Defaults to 0.
  * @constructor
  * @extends {cidev.webgl.texture.Texture}
  */
-cidev.webgl.texture.Cubemap = function(context, opt_unit) {
+cidev.webgl.texture.Cubemap = function(context, path, opt_unit) {
   goog.base(this, context, opt_unit);
 
   var gl = context.gl;
@@ -30,19 +33,10 @@ cidev.webgl.texture.Cubemap = function(context, opt_unit) {
   gl.texParameteri(goog.webgl.TEXTURE_CUBE_MAP, goog.webgl.TEXTURE_WRAP_T,
                    goog.webgl.CLAMP_TO_EDGE);
 
-  // TODO(joseph): Refactor this.
-  var path = 'cubemaps/terrain/';
-  var images = [
-      'posx.png',
-      'negx.png',
-      'posy.png',
-      'negy.png',
-      'posz.png',
-      'negz.png'
-  ];
   for (var i = 0; i < 6; i++) {
     var image = new Image();
-    image.src = path + images[i];
+    image.src = goog.uri.utils.appendPath(
+        path, cidev.webgl.texture.Cubemap.IMAGES[i]);
     image.onload = function(target, image) {
       return function() {
         gl.texImage2D(
@@ -64,3 +58,17 @@ goog.inherits(cidev.webgl.texture.Cubemap, cidev.webgl.texture.Texture);
 cidev.webgl.texture.Cubemap.prototype.bindTexture = function() {
   this.context.gl.bindTexture(goog.webgl.TEXTURE_CUBE_MAP, this.texture);
 };
+
+/**
+ * The filenames for each cube map face.
+ * @type {Array.<string>}
+ * @const
+ */
+cidev.webgl.texture.Cubemap.IMAGES = [
+    'posx.png',
+    'negx.png',
+    'posy.png',
+    'negy.png',
+    'posz.png',
+    'negz.png'
+];
