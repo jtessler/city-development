@@ -11,14 +11,15 @@ goog.require('cidev.webgl.texture.Texture');
 goog.require('goog.webgl');
 
 /**
- * @param {!cidev.webgl.Context} context The WebGL context wrapper.
+ * @param {!cidev.webgl.Context} context The current WebGL context.
+ * @param {number=} opt_unit The optional unit index, where the maximum amount
+ *     of texture units is hardware dependent. Defaults to 0.
  * @constructor
  * @extends {cidev.webgl.texture.Texture}
  */
-cidev.webgl.texture.Cubemap = function(context) {
-  goog.base(this, context);
+cidev.webgl.texture.Cubemap = function(context, opt_unit) {
+  goog.base(this, context, opt_unit);
 
-  /** @type {!WebGLRenderingContext} */
   var gl = context.gl;
   gl.texParameteri(goog.webgl.TEXTURE_CUBE_MAP, goog.webgl.TEXTURE_MAG_FILTER,
                    goog.webgl.LINEAR);

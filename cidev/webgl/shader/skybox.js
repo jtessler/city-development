@@ -61,13 +61,11 @@ goog.inherits(cidev.webgl.shader.Skybox, cidev.webgl.shader.MVPProgram);
 cidev.webgl.shader.Skybox.prototype.render = function(mesh, camera) {
   goog.base(this, 'render', mesh, camera);
 
-  var gl = this.context.gl;
-  gl.uniform1i(this.cubeMapTexture_, 0);
+  this.cubemap_.uniform1i(this.cubeMapTexture_);
   camera.uniform3fv(this.viewPosition_);
 
-  gl.activeTexture(goog.webgl.TEXTURE0);
-  this.cubemap_.bindTexture();
   mesh.bindVertexBuffer();
-  gl.vertexAttribPointer(this.vertexPosition, 3, goog.webgl.FLOAT, false, 0, 0);
+  this.context.gl.vertexAttribPointer(
+      this.vertexPosition, 3, goog.webgl.FLOAT, false, 0, 0);
   mesh.draw();
 };
