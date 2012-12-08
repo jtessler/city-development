@@ -56,6 +56,7 @@ cidev.webgl.texture.Texture.prototype.unit_;
 cidev.webgl.texture.Texture.prototype.texture;
 
 /**
+ * TODO(joseph): Make protected and add a unit setter.
  * Calls the appropriate bind method for the texture.
  */
 cidev.webgl.texture.Texture.prototype.bindTexture = goog.abstractMethod;
