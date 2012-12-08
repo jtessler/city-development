@@ -12,6 +12,7 @@ goog.require('cidev.webgl.mesh.Cube');
 goog.require('cidev.webgl.shader.Simple');
 goog.require('cidev.webgl.shader.Skybox');
 goog.require('cidev.webgl.texture.Cubemap');
+goog.require('cidev.webgl.texture.Texture2D');
 
 goog.require('goog.vec.Mat4');
 goog.require('goog.webgl');
@@ -30,6 +31,10 @@ cidev.testing.Scene = function(canvas) {
 
   /** @type {!cidev.webgl.shader.Program} */
   this.simple = new cidev.webgl.shader.Simple(this.context);
+
+  /** @type {!cidev.webgl.texture.Texture} */
+  this.crate = new cidev.webgl.texture.Texture2D(
+      this.context, 'textures/crate.gif');
 
   /** @type {!cidev.webgl.shader.Program} */
   this.skybox = new cidev.webgl.shader.Skybox(this.context);
