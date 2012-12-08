@@ -24,6 +24,7 @@ cidev.webgl.mesh.Mesh = function(context) {
   /** @type {!WebGLRenderingContext} */
   var gl = context.gl;
   this.vertexBuffer_ = gl.createBuffer();
+  this.textureUVBuffer_ = gl.createBuffer();
   this.indexBuffer_ = gl.createBuffer();
 
   this.modelMatrix_ = goog.vec.Mat4.createFloat32Identity();
@@ -42,6 +43,13 @@ cidev.webgl.mesh.Mesh.prototype.context;
  * @private
  */
 cidev.webgl.mesh.Mesh.prototype.vertexBuffer_;
+
+/**
+ * The texture UV buffer object.
+ * @type {!WebGLBuffer}
+ * @private
+ */
+cidev.webgl.mesh.Mesh.prototype.textureUVBuffer_;
 
 /**
  * The index buffer object.
@@ -69,6 +77,13 @@ cidev.webgl.mesh.Mesh.prototype.modelMatrix_;
  */
 cidev.webgl.mesh.Mesh.prototype.bindVertexBuffer = function() {
   this.context.gl.bindBuffer(goog.webgl.ARRAY_BUFFER, this.vertexBuffer_);
+};
+
+/**
+ * Binds texture UV data to the GPU.
+ */
+cidev.webgl.mesh.Mesh.prototype.bindTextureUVBuffer = function() {
+  this.context.gl.bindBuffer(goog.webgl.ARRAY_BUFFER, this.textureUVBuffer_);
 };
 
 /**

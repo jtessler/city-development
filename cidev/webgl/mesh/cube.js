@@ -22,6 +22,7 @@ cidev.webgl.mesh.Cube = function(context) {
 
   // TODO(joseph): Just make a generic class.
   var vertices = cidev.webgl.mesh.obj['cube.obj'].vertices;
+  var textureUVs = cidev.webgl.mesh.obj['cube.obj'].textureUVs;
   var indices = cidev.webgl.mesh.obj['cube.obj'].indices;
 
   /** @type {!WebGLRenderingContext} */
@@ -29,6 +30,9 @@ cidev.webgl.mesh.Cube = function(context) {
 
   this.bindVertexBuffer();
   gl.bufferData(goog.webgl.ARRAY_BUFFER, vertices, goog.webgl.STATIC_DRAW);
+
+  this.bindTextureUVBuffer();
+  gl.bufferData(goog.webgl.ARRAY_BUFFER, textureUVs, goog.webgl.STATIC_DRAW);
 
   this.bindIndexBuffer();
   gl.bufferData(
