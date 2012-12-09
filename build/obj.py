@@ -8,6 +8,7 @@ import os
 def isObj(filename):
   return filename.endswith(".obj")
 
+# Converts the parsed OBJ file into WebGL-friendly arrays.
 def convertObj(V, T, N, F):
   vertices = []
   normals = []

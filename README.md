@@ -43,3 +43,5 @@ Credits
 I borrowed some code snippets from the following sources:
 * [Learning WebGL](https://github.com/gpjt/webgl-lessons)
 * [WebGL Earth](https://github.com/webglearth/webglearth)
+* [OBJ Parser] (http://programminglinuxgames.blogspot.com/2010/09/
+                parsing-wavefront-obj-file-format-using.html)
