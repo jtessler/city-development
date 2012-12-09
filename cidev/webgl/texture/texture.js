@@ -22,15 +22,15 @@ goog.require('goog.webgl');
  */
 cidev.webgl.texture.Texture = function(context, opt_unit) {
   this.context = context;
-  this.unit_ = opt_unit || 0;
+  this.unit_ = goog.isDef(opt_unit) ? opt_unit : 0;
 
   var gl = context.gl;
   var unitSize = gl.getParameter(goog.webgl.MAX_COMBINED_TEXTURE_IMAGE_UNITS);
   if (this.unit_ < 0 || (goog.isNumber(unitSize) && this.unit_ >= unitSize)) {
     throw Error('invalid unit index ' + this.unit_);
   }
-  gl.activeTexture(goog.webgl.TEXTURE0 + this.unit_);
   this.texture = gl.createTexture();
+  this.activate();
   this.bindTexture();
 };
 
@@ -56,8 +56,16 @@ cidev.webgl.texture.Texture.prototype.unit_;
 cidev.webgl.texture.Texture.prototype.texture;
 
 /**
- * TODO(joseph): Make protected and add a unit setter.
+ * Activates the appropriate texture unit.
+ * @protected
+ */
+cidev.webgl.texture.Texture.prototype.activate = function() {
+  this.context.gl.activeTexture(goog.webgl.TEXTURE0 + this.unit_);
+};
+
+/**
  * Calls the appropriate bind method for the texture.
+ * @protected
  */
 cidev.webgl.texture.Texture.prototype.bindTexture = goog.abstractMethod;
 

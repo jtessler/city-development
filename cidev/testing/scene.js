@@ -34,14 +34,14 @@ cidev.testing.Scene = function(canvas) {
 
   /** @type {!cidev.webgl.texture.Texture} */
   this.crate = new cidev.webgl.texture.Texture2D(
-      this.context, 'textures/crate.gif');
+      this.context, 'textures/brick.jpg', 0);
 
   /** @type {!cidev.webgl.shader.Program} */
   this.skybox = new cidev.webgl.shader.Skybox(this.context);
 
   /** @type {!cidev.webgl.texture.Texture} */
   this.cubemap = new cidev.webgl.texture.Cubemap(
-      this.context, 'textures/cubemap');
+      this.context, 'textures/cubemap', 1);
 
   /** @type {!cidev.webgl.mesh.Mesh} */
   this.cube = new cidev.webgl.mesh.Cube(this.context);
@@ -64,10 +64,11 @@ cidev.testing.Scene.prototype.onAnimationFrame = function(now) {
 
   this.simple.activate();
   // TODO(joseph): Fix this private member access.
-  goog.vec.Mat4.makeTranslate(this.cube.modelMatrix_, -0.5, -0.5, 10);
-  goog.vec.Mat4.rotateY(this.cube.modelMatrix_, Math.PI / 4);
-  goog.vec.Mat4.rotateX(this.cube.modelMatrix_, Math.PI / 4);
-  this.simple.render(this.cube, this.camera);
+  goog.vec.Mat4.makeTranslate(this.cube.modelMatrix_, 0, 0, 10);
+  for (var i = 0; i < 3; i++) {
+    this.simple.render(this.cube, this.camera, this.crate);
+    goog.vec.Mat4.translate(this.cube.modelMatrix_, 0, 1, 0);
+  }
 
   this.skybox.activate();
   // TODO(joseph): Fix this private member access.

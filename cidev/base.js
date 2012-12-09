@@ -28,7 +28,8 @@ cidev.base.init = function() {
         cidev.webgl.Camera.EVENT_TYPES,
         scene.camera);
 
-    goog.fx.anim.registerAnimation(scene);
+    // TODO(joseph): Find a better way to wait for everything to load.
+    setTimeout(goog.partial(goog.fx.anim.registerAnimation, scene), 500);
 
   } else {
     throw Error('canvas does not exist');

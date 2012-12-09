@@ -37,17 +37,17 @@ cidev.webgl.texture.Cubemap = function(context, path, opt_unit) {
     var image = new Image();
     image.src = goog.uri.utils.appendPath(
         path, cidev.webgl.texture.Cubemap.IMAGES[i]);
-    image.onload = function(target, image) {
-      return function() {
-        gl.texImage2D(
-            target,
-            0,
-            goog.webgl.RGBA,
-            goog.webgl.RGBA,
-            goog.webgl.UNSIGNED_BYTE,
-            image);
-      };
-    }(goog.webgl.TEXTURE_CUBE_MAP_POSITIVE_X + i, image);
+    image.onload = goog.bind(
+        function(target, img) {
+            this.activate();
+            this.context.gl.texImage2D(
+                target,
+                0,
+                goog.webgl.RGBA,
+                goog.webgl.RGBA,
+                goog.webgl.UNSIGNED_BYTE,
+                img);
+        }, this, goog.webgl.TEXTURE_CUBE_MAP_POSITIVE_X + i, image);
   }
 };
 goog.inherits(cidev.webgl.texture.Cubemap, cidev.webgl.texture.Texture);

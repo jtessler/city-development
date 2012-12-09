@@ -25,20 +25,23 @@ cidev.webgl.texture.Texture2D = function(context, url, opt_unit) {
   gl.texParameteri(goog.webgl.TEXTURE_2D, goog.webgl.TEXTURE_MAG_FILTER,
                    goog.webgl.LINEAR);
   gl.texParameteri(goog.webgl.TEXTURE_2D, goog.webgl.TEXTURE_MIN_FILTER,
-                   goog.webgl.LINEAR);
+                   goog.webgl.LINEAR_MIPMAP_NEAREST);
 
   // TODO(joseph): Refactor this to the super class and share with cubemap.
   var image = new Image();
   image.src = url;
-  image.onload = function() {
-      gl.texImage2D(
-          goog.webgl.TEXTURE_2D,
-          0,
-          goog.webgl.RGBA,
-          goog.webgl.RGBA,
-          goog.webgl.UNSIGNED_BYTE,
-          image);
-  };
+  image.onload = goog.bind(
+      function() {
+          this.activate();
+          this.context.gl.texImage2D(
+              goog.webgl.TEXTURE_2D,
+              0,
+              goog.webgl.RGBA,
+              goog.webgl.RGBA,
+              goog.webgl.UNSIGNED_BYTE,
+              image);
+          this.context.gl.generateMipmap(goog.webgl.TEXTURE_2D);
+      }, this);
 };
 goog.inherits(cidev.webgl.texture.Texture2D, cidev.webgl.texture.Texture);
 
