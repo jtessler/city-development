@@ -21,7 +21,7 @@ def convertObj(V, T, N, F):
       normals.extend(N[vertex[2]])
       indices.append(index)
       index += 1
-  return vertices, normals, textureUVs, indices
+  return vertices, textureUVs, normals, indices
 
 # SOURCE: http://programminglinuxgames.blogspot.com/2010/09/
 #     parsing-wavefront-obj-file-format-using.html

@@ -34,7 +34,7 @@ cidev.testing.Scene = function(canvas) {
 
   /** @type {!cidev.webgl.texture.Texture} */
   this.crate = new cidev.webgl.texture.Texture2D(
-      this.context, 'textures/brick.jpg', 0);
+      this.context, 'textures/crate.gif', 0);
 
   /** @type {!cidev.webgl.shader.Program} */
   this.skybox = new cidev.webgl.shader.Skybox(this.context);
@@ -64,7 +64,7 @@ cidev.testing.Scene.prototype.onAnimationFrame = function(now) {
 
   this.simple.activate();
   // TODO(joseph): Fix this private member access.
-  goog.vec.Mat4.makeTranslate(this.cube.modelMatrix_, 0, 0, 10);
+  goog.vec.Mat4.makeTranslate(this.cube.modelMatrix_, -0.5, 0, 10);
   for (var i = 0; i < 3; i++) {
     this.simple.render(this.cube, this.camera, this.crate);
     goog.vec.Mat4.translate(this.cube.modelMatrix_, 0, 1, 0);
