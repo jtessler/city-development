@@ -36,8 +36,10 @@ cidev.webgl.shader.MVPProgram = function(context, vs, fs, matrix) {
   this.modelMatrix = gl.getUniformLocation(this.program, 'modelMatrix');
 
   /**
-   * The scene's model matrix.
+   * Pointer to the scene's model matrix (the caller will manipulate it before
+   * rendering).
    * @type {!goog.vec.Mat4.Float32}
+   * @private
    */
   this.matrix_ = matrix;
 };
