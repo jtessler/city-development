@@ -8,7 +8,8 @@ goog.provide('cidev.testing.Scene');
 
 goog.require('cidev.webgl.Camera');
 goog.require('cidev.webgl.Context');
-goog.require('cidev.webgl.mesh.Cube');
+goog.require('cidev.webgl.mesh.Mesh');
+goog.require('cidev.webgl.mesh.obj');
 goog.require('cidev.webgl.shader.Simple');
 goog.require('cidev.webgl.shader.Skybox');
 goog.require('cidev.webgl.texture.Cubemap');
@@ -44,7 +45,8 @@ cidev.testing.Scene = function(canvas) {
       this.context, 'textures/cubemap', 1);
 
   /** @type {!cidev.webgl.mesh.Mesh} */
-  this.cube = new cidev.webgl.mesh.Cube(this.context);
+  this.cube = new cidev.webgl.mesh.Mesh(
+      this.context, cidev.webgl.mesh.obj['cube.obj']);
 
   /** @type {number} */
   this.lastTime = 0;
