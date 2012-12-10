@@ -42,8 +42,8 @@ cidev.testing.Scene = function(canvas) {
       goog.vec.Vec3.createFloat32FromValues(-40, 40, 40));
 
   /** @type {!cidev.webgl.texture.Texture} */
-  this.brick = new cidev.webgl.texture.Texture2D(
-      this.context, 'textures/brick.jpg', 0);
+  this.concrete = new cidev.webgl.texture.Texture2D(
+      this.context, 'textures/concrete.jpg', 0);
 
   /** @type {!cidev.webgl.mesh.Mesh} */
   this.plant = new cidev.webgl.mesh.Mesh(this.context, 'power_plant.obj');
@@ -97,7 +97,7 @@ cidev.testing.Scene.prototype.onAnimationFrame = function(now) {
   }
 
   goog.vec.Mat4.makeTranslate(this.matrix, 2, 0, 2);
-  this.simple.render(this.plant, this.camera, this.brick);
+  this.simple.render(this.plant, this.camera, this.concrete);
 
   for (var r = 0; r < 10; r++) {
     for (var c = 0; c < 10; c++) {
