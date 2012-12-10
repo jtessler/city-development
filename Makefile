@@ -20,8 +20,9 @@ CC = $(LIB_PATH)/closure/bin/build/closurebuilder.py \
 
 INDEX_OUTPUT = index.html
 JS_OUTPUT = city-development-min.js
-OBJ_OUTPUT = cidev/webgl/mesh/obj.js
-SHADER_OUTPUT = cidev/webgl/shader/glsl.js
+GENERATED_DIR = cidev/generated
+OBJ_OUTPUT = $(GENERATED_DIR)/obj.js
+SHADER_OUTPUT = $(GENERATED_DIR)/glsl.js
 
 debug: objs shaders
 	build/index.py --js `$(CC) --output_mode list` > $(INDEX_OUTPUT)
@@ -33,18 +34,22 @@ release: objs shaders
 dry-run:
 	$(CC) --output_mode compiled > /dev/null
 
-objs:
+objs: generated-dir
 	build/obj.py > $(OBJ_OUTPUT)
 
-shaders:
+shaders: generated-dir
 	build/shaders.py > $(SHADER_OUTPUT)
+
+generated-dir:
+	mkdir -p $(GENERATED_DIR)
 
 lint:
 	gjslint --exclude_files $(SHADER_OUTPUT),$(OBJ_OUTPUT) \
 		--unix_mode -r cidev/
 
 clean:
-	rm -f $(JS_OUTPUT) $(OBJ_OUTPUT) $(SHADER_OUTPUT) $(INDEX_OUTPUT)
+	rm -f $(JS_OUTPUT) $(INDEX_OUTPUT)
+	rm -rf $(GENERATED_DIR)
 
 server:
 	python -m SimpleHTTPServer
