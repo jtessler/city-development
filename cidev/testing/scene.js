@@ -29,6 +29,8 @@ cidev.testing.Scene = function(canvas) {
 
   /** @type {!cidev.webgl.Camera} */
   this.camera = new cidev.webgl.Camera(this.context);
+  this.camera.pos[0] = 5;
+  this.camera.pos[1] = 1;
 
   /** @type {!goog.vec.Mat4.Float32} */
   this.matrix = goog.vec.Mat4.createFloat32Identity();
@@ -42,6 +44,9 @@ cidev.testing.Scene = function(canvas) {
   /** @type {!cidev.webgl.texture.Texture} */
   this.brick = new cidev.webgl.texture.Texture2D(
       this.context, 'textures/brick.jpg', 0);
+
+  /** @type {!cidev.webgl.mesh.Mesh} */
+  this.plant = new cidev.webgl.mesh.Mesh(this.context, 'power_plant.obj');
 
   /** @type {!cidev.webgl.shader.Program} */
   this.skybox = new cidev.webgl.shader.Skybox(this.context, this.matrix);
@@ -90,6 +95,9 @@ cidev.testing.Scene.prototype.onAnimationFrame = function(now) {
     this.simple.render(this.building, this.camera, this.facade);
     goog.vec.Mat4.translate(this.matrix, 0, 2, 0);
   }
+
+  goog.vec.Mat4.makeTranslate(this.matrix, 2, 0, 2);
+  this.simple.render(this.plant, this.camera, this.brick);
 
   for (var r = 0; r < 10; r++) {
     for (var c = 0; c < 10; c++) {
