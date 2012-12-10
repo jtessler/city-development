@@ -9,6 +9,7 @@ goog.provide('cidev.webgl.mesh.Mesh');
 
 goog.require('cidev.generated.obj');
 
+goog.require('goog.vec.Vec4');
 goog.require('goog.webgl');
 
 /**
@@ -45,6 +46,12 @@ cidev.webgl.mesh.Mesh = function(context, filename) {
   gl.bufferData(
       goog.webgl.ELEMENT_ARRAY_BUFFER, obj.indices, goog.webgl.STATIC_DRAW);
   this.indexCount = obj.indices.length;
+
+  // TODO(joseph): Don't use these test values.
+  this.ma = goog.vec.Vec4.createFloat32FromValues(0.4, 0.4, 0.4, 1.0);
+  this.md = goog.vec.Vec4.createFloat32FromValues(0.5, 0.5, 0.5, 1.0);
+  this.ms = goog.vec.Vec4.createFloat32FromValues(0.5, 0.5, 0.5, 1.0);
+  this.shininess = 80;
 };
 
 /**

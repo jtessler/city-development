@@ -59,12 +59,11 @@ cidev.webgl.shader.DiffuseSpecular.prototype.setupRender = function(
   goog.base(this, 'setupRender', mesh, camera, opt_texture);
 
   var gl = this.context.gl;
-  gl.uniform3fv(this.lightPosition_, false, this.lightPositionVector_);
-  // TODO(joseph): Get these values.
-  gl.uniform4fv(this.ma_, false, null);
-  gl.uniform4fv(this.md_, false, null);
-  gl.uniform4fv(this.ms_, false, null);
-  gl.uniform1f(this.shininess_, false, 0.0);
+  gl.uniform3fv(this.lightPosition_, this.lightPositionVector_);
+  gl.uniform4fv(this.ma_, mesh.ma);
+  gl.uniform4fv(this.md_, mesh.md);
+  gl.uniform4fv(this.ms_, mesh.ms);
+  gl.uniform1f(this.shininess_, mesh.shininess);
 
   mesh.bindNormalBuffer();
   this.context.gl.vertexAttribPointer(

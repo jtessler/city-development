@@ -9,12 +9,13 @@ goog.provide('cidev.testing.Scene');
 goog.require('cidev.webgl.Camera');
 goog.require('cidev.webgl.Context');
 goog.require('cidev.webgl.mesh.Mesh');
-goog.require('cidev.webgl.shader.Simple');
+goog.require('cidev.webgl.shader.DiffuseSpecular');
 goog.require('cidev.webgl.shader.Skybox');
 goog.require('cidev.webgl.texture.Cubemap');
 goog.require('cidev.webgl.texture.Texture2D');
 
 goog.require('goog.vec.Mat4');
+goog.require('goog.vec.Vec3');
 goog.require('goog.webgl');
 
 /**
@@ -33,7 +34,10 @@ cidev.testing.Scene = function(canvas) {
   this.matrix = goog.vec.Mat4.createFloat32Identity();
 
   /** @type {!cidev.webgl.shader.Program} */
-  this.simple = new cidev.webgl.shader.Simple(this.context, this.matrix);
+  this.simple = new cidev.webgl.shader.DiffuseSpecular(
+      this.context,
+      this.matrix,
+      goog.vec.Vec3.createFloat32FromValues(-40, 40, 40));
 
   /** @type {!cidev.webgl.texture.Texture} */
   this.brick = new cidev.webgl.texture.Texture2D(
