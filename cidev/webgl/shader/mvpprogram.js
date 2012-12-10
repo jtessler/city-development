@@ -19,10 +19,11 @@ goog.require('cidev.webgl.shader.Program');
  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
  * @param {string} vs Vertex shader code.
  * @param {string} fs Fragment shader code.
+ * @param {!goog.vec.Mat4.Float32} matrix Pointer to the scene's model matrix.
  * @constructor
  * @extends {cidev.webgl.shader.Program}
  */
-cidev.webgl.shader.MVPProgram = function(context, vs, fs) {
+cidev.webgl.shader.MVPProgram = function(context, vs, fs, matrix) {
   goog.base(this, context, vs, fs);
 
   var gl = context.gl;
@@ -33,6 +34,12 @@ cidev.webgl.shader.MVPProgram = function(context, vs, fs) {
   this.projMatrix = gl.getUniformLocation(this.program, 'projMatrix');
   this.viewMatrix = gl.getUniformLocation(this.program, 'viewMatrix');
   this.modelMatrix = gl.getUniformLocation(this.program, 'modelMatrix');
+
+  /**
+   * The scene's model matrix.
+   * @type {!goog.vec.Mat4.Float32}
+   */
+  this.matrix_ = matrix;
 };
 goog.inherits(cidev.webgl.shader.MVPProgram, cidev.webgl.shader.Program);
 
@@ -47,7 +54,7 @@ cidev.webgl.shader.MVPProgram.prototype.render = function(
 
   this.context.uniformMatrix4fv(this.projMatrix);
   camera.uniformMatrix4fv(this.viewMatrix);
-  mesh.uniformMatrix4fv(this.modelMatrix);
+  this.context.gl.uniformMatrix4fv(this.modelMatrix, false, this.matrix_);
 };
 
 /**

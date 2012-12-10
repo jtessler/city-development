@@ -20,14 +20,16 @@ goog.require('goog.webgl');
 
 /**
  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
+ * @param {!goog.vec.Mat4.Float32} matrix Pointer to the scene's model matrix.
  * @constructor
  * @extends {cidev.webgl.shader.MVPProgram}
  */
-cidev.webgl.shader.Skybox = function(context) {
+cidev.webgl.shader.Skybox = function(context, matrix) {
   goog.base(this,
       context,
       cidev.generated.glsl['skybox.vert'],
-      cidev.generated.glsl['skybox.frag']);
+      cidev.generated.glsl['skybox.frag'],
+      matrix);
 
   var gl = this.context.gl;
 

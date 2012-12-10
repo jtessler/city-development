@@ -30,15 +30,18 @@ cidev.testing.Scene = function(canvas) {
   /** @type {!cidev.webgl.Camera} */
   this.camera = new cidev.webgl.Camera(this.context);
 
+  /** @type {!goog.vec.Mat4.Float32} */
+  this.matrix = goog.vec.Mat4.createFloat32Identity();
+
   /** @type {!cidev.webgl.shader.Program} */
-  this.simple = new cidev.webgl.shader.Simple(this.context);
+  this.simple = new cidev.webgl.shader.Simple(this.context, this.matrix);
 
   /** @type {!cidev.webgl.texture.Texture} */
   this.brick = new cidev.webgl.texture.Texture2D(
       this.context, 'textures/brick.jpg', 0);
 
   /** @type {!cidev.webgl.shader.Program} */
-  this.skybox = new cidev.webgl.shader.Skybox(this.context);
+  this.skybox = new cidev.webgl.shader.Skybox(this.context, this.matrix);
 
   /** @type {!cidev.webgl.texture.Texture} */
   this.cubemap = new cidev.webgl.texture.Cubemap(
@@ -65,16 +68,14 @@ cidev.testing.Scene.prototype.onAnimationFrame = function(now) {
   this.lastTime = now;
 
   this.simple.activate();
-  // TODO(joseph): Fix this private member access.
-  goog.vec.Mat4.makeTranslate(this.cube.modelMatrix_, -0.5, 0, 10);
+  goog.vec.Mat4.makeTranslate(this.matrix, -0.5, 0, 10);
   for (var i = 0; i < 3; i++) {
     this.simple.render(this.cube, this.camera, this.brick);
-    goog.vec.Mat4.translate(this.cube.modelMatrix_, 0, 1, 0);
+    goog.vec.Mat4.translate(this.matrix, 0, 1, 0);
   }
 
   this.skybox.activate();
-  // TODO(joseph): Fix this private member access.
-  goog.vec.Mat4.makeScale(this.cube.modelMatrix_, 100, 100, 100);
-  goog.vec.Mat4.translate(this.cube.modelMatrix_, -0.5, -0.5, -0.5);
+  goog.vec.Mat4.makeScale(this.matrix, 100, 100, 100);
+  goog.vec.Mat4.translate(this.matrix, -0.5, -0.5, -0.5);
   this.skybox.render(this.cube, this.camera, this.cubemap);
 };

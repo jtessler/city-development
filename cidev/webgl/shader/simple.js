@@ -20,14 +20,16 @@ goog.require('goog.webgl');
 
 /**
  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
+ * @param {!goog.vec.Mat4.Float32} matrix Pointer to the scene's model matrix.
  * @constructor
  * @extends {cidev.webgl.shader.MVPProgram}
  */
-cidev.webgl.shader.Simple = function(context) {
+cidev.webgl.shader.Simple = function(context, matrix) {
   goog.base(this,
       context,
       cidev.generated.glsl['simple.vert'],
-      cidev.generated.glsl['simple.frag']);
+      cidev.generated.glsl['simple.frag'],
+      matrix);
 
   var gl = context.gl;
 
