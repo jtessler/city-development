@@ -6,9 +6,6 @@
 
 goog.provide('cidev.webgl.Camera');
 
-goog.require('cidev.webgl.provides.Uniform3fv');
-goog.require('cidev.webgl.provides.UniformMatrix4fv');
-
 goog.require('goog.events');
 goog.require('goog.events.KeyCodes');
 goog.require('goog.vec.Mat4');
@@ -17,8 +14,6 @@ goog.require('goog.vec.Vec3');
 
 /**
  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
- * @implements {cidev.webgl.provides.Uniform3fv}
- * @implements {cidev.webgl.provides.UniformMatrix4fv}
  * @constructor
  */
 cidev.webgl.Camera = function(context) {
@@ -28,9 +23,8 @@ cidev.webgl.Camera = function(context) {
   /**
    * The camera's XYZ coordinates.
    * @type {!goog.vec.Vec3.Float32}
-   * @private
    */
-  this.pos_ = goog.vec.Vec3.createFloat32FromValues(0, 0, 0);
+  this.pos = goog.vec.Vec3.createFloat32FromValues(0, 0, 0);
 
   /**
    * The camera's viewing direction (always unit length).
@@ -97,9 +91,8 @@ cidev.webgl.Camera = function(context) {
   /**
    * The view matrix.
    * @type {!goog.vec.Mat4.Float32}
-   * @private
    */
-  this.matrix_ = goog.vec.Mat4.createFloat32();
+  this.viewMatrix = goog.vec.Mat4.createFloat32();
 
   /**
    * Keep around a constructed vector for various calculations.
@@ -107,27 +100,6 @@ cidev.webgl.Camera = function(context) {
    * @private
    */
   this.tmpVec3_ = goog.vec.Vec3.createFloat32();
-};
-
-/**
- * Provide the shader the camera's position.
- * @inheritDoc
- */
-cidev.webgl.Camera.prototype.uniform3fv = function(loc) {
-  this.context.gl.uniform3fv(loc, this.pos_);
-};
-
-/**
- * Provide the shader the camera's view matrix.
- * @inheritDoc
- */
-cidev.webgl.Camera.prototype.uniformMatrix4fv = function(loc) {
-  goog.vec.Mat4.makeLookAt(
-      this.matrix_,
-      this.pos_,
-      goog.vec.Vec3.add(this.pos_, this.dir_, this.tmpVec3_),
-      cidev.webgl.Camera.UP_DIR);
-  this.context.gl.uniformMatrix4fv(loc, false, this.matrix_);
 };
 
 /**
@@ -150,9 +122,9 @@ cidev.webgl.Camera.prototype.update = function(dt) {
 
   // Update the camera's position based on the elapsed time.
   Vec3.add(
-      this.pos_,
+      this.pos,
       Vec3.scale(posDelta, dt, this.tmpVec3_),
-      this.pos_);
+      this.pos);
 
   // Update the camera's viewing direction based on the elapsed time and the
   // current rotations.
@@ -161,6 +133,12 @@ cidev.webgl.Camera.prototype.update = function(dt) {
       Math.cos(this.yaw_) * Math.sin(this.pitch_),
       Math.cos(this.pitch_),
       Math.sin(this.yaw_) * Math.sin(this.pitch_));
+
+  goog.vec.Mat4.makeLookAt(
+      this.viewMatrix,
+      this.pos,
+      goog.vec.Vec3.add(this.pos, this.dir_, this.tmpVec3_),
+      cidev.webgl.Camera.UP_DIR);
 };
 
 /**

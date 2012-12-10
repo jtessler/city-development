@@ -47,9 +47,9 @@ cidev.webgl.shader.Skybox.prototype.setupRender = function(
     mesh, camera, opt_texture) {
   goog.base(this, 'setupRender', mesh, camera, opt_texture);
 
-  camera.uniform3fv(this.viewPosition_);
+  var gl = this.context.gl;
+  gl.uniform3fv(this.viewPosition_, camera.pos);
 
   mesh.bindVertexBuffer();
-  this.context.gl.vertexAttribPointer(
-      this.vertexPosition, 3, goog.webgl.FLOAT, false, 0, 0);
+  gl.vertexAttribPointer(this.vertexPosition, 3, goog.webgl.FLOAT, false, 0, 0);
 };

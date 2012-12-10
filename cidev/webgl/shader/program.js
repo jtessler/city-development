@@ -57,7 +57,7 @@ cidev.webgl.shader.Program.prototype.activate = function() {
 cidev.webgl.shader.Program.prototype.setupRender = function(
     mesh, camera, opt_texture) {
   if (goog.isDef(opt_texture) && goog.isDef(this.texture)) {
-    opt_texture.uniform1i(this.texture);
+    this.context.gl.uniform1i(this.texture, opt_texture.unit);
   }
 };
 

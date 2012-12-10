@@ -53,9 +53,10 @@ cidev.webgl.shader.MVPProgram.prototype.setupRender = function(
     mesh, camera, opt_texture) {
   goog.base(this, 'setupRender', mesh, camera, opt_texture);
 
-  this.context.uniformMatrix4fv(this.projMatrix);
-  camera.uniformMatrix4fv(this.viewMatrix);
-  this.context.gl.uniformMatrix4fv(this.modelMatrix, false, this.matrix_);
+  var gl = this.context.gl;
+  gl.uniformMatrix4fv(this.projMatrix, false, this.context.projMatrix);
+  gl.uniformMatrix4fv(this.viewMatrix, false, camera.viewMatrix);
+  gl.uniformMatrix4fv(this.modelMatrix, false, this.matrix_);
 };
 
 /**
