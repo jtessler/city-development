@@ -31,5 +31,5 @@ void main(void) {
 
   gl_Position = projMatrix * vertexViewPosition;
   fragmentTextureUV = textureUV;
-  color = ma + md * diffuse;// + ms * shininess;
+  color = ma + md * diffuse + ms * specular;
 }

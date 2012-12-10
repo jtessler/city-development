@@ -50,8 +50,8 @@ cidev.webgl.mesh.Mesh = function(context, filename) {
   // TODO(joseph): Don't use these test values.
   this.ma = goog.vec.Vec4.createFloat32FromValues(0.4, 0.4, 0.4, 1.0);
   this.md = goog.vec.Vec4.createFloat32FromValues(0.5, 0.5, 0.5, 1.0);
-  this.ms = goog.vec.Vec4.createFloat32FromValues(0.5, 0.5, 0.5, 1.0);
-  this.shininess = 80;
+  this.ms = goog.vec.Vec4.createFloat32FromValues(0.7, 0.7, 0.7, 1.0);
+  this.shininess = 100;
 };
 
 /**
