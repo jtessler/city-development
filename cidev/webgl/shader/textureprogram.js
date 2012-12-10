@@ -50,10 +50,6 @@ cidev.webgl.shader.TextureProgram.prototype.setupRender = function(
     mesh, camera, opt_texture) {
   goog.base(this, 'setupRender', mesh, camera, opt_texture);
 
-  mesh.bindVertexBuffer();
-  this.context.gl.vertexAttribPointer(
-      this.vertexPosition, 3, goog.webgl.FLOAT, false, 0, 0);
-
   mesh.bindTextureUVBuffer();
   this.context.gl.vertexAttribPointer(
       this.textureUV_, 2, goog.webgl.FLOAT, false, 0, 0);

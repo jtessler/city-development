@@ -57,6 +57,10 @@ cidev.webgl.shader.MVPProgram.prototype.setupRender = function(
   gl.uniformMatrix4fv(this.projMatrix, false, this.context.projMatrix);
   gl.uniformMatrix4fv(this.viewMatrix, false, camera.viewMatrix);
   gl.uniformMatrix4fv(this.modelMatrix, false, this.matrix_);
+
+  mesh.bindVertexBuffer();
+  this.context.gl.vertexAttribPointer(
+      this.vertexPosition, 3, goog.webgl.FLOAT, false, 0, 0);
 };
 
 /**
