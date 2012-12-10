@@ -27,7 +27,6 @@ cidev.webgl.texture.Texture2D = function(context, url, opt_unit) {
   gl.texParameteri(goog.webgl.TEXTURE_2D, goog.webgl.TEXTURE_MIN_FILTER,
                    goog.webgl.LINEAR_MIPMAP_NEAREST);
 
-  // TODO(joseph): Refactor this to the super class and share with cubemap.
   var image = new Image();
   image.src = url;
   image.onload = goog.bind(
