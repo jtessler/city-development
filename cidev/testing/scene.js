@@ -53,6 +53,13 @@ cidev.testing.Scene = function(canvas) {
   /** @type {!cidev.webgl.mesh.Mesh} */
   this.cube = new cidev.webgl.mesh.Mesh(this.context, 'cube.obj');
 
+  /** @type {!cidev.webgl.texture.Texture} */
+  this.grass = new cidev.webgl.texture.Texture2D(
+      this.context, 'textures/grass.jpg', 3);
+
+  /** @type {!cidev.webgl.mesh.Mesh} */
+  this.ground = new cidev.webgl.mesh.Mesh(this.context, 'ground.obj');
+
   /** @type {number} */
   this.lastTime = 0;
 };
@@ -70,11 +77,14 @@ cidev.testing.Scene.prototype.onAnimationFrame = function(now) {
   this.lastTime = now;
 
   this.simple.activate();
-  goog.vec.Mat4.makeTranslate(this.matrix, -0.5, 0, 10);
+  goog.vec.Mat4.makeTranslate(this.matrix, 5, 0, 5);
   for (var i = 0; i < 3; i++) {
     this.simple.render(this.cube, this.camera, this.brick);
     goog.vec.Mat4.translate(this.matrix, 0, 1, 0);
   }
+
+  goog.vec.Mat4.makeTranslate(this.matrix, 0, 0, 0);
+  this.simple.render(this.ground, this.camera, this.grass);
 
   this.skybox.activate();
   goog.vec.Mat4.makeScale(this.matrix, 100, 100, 100);
