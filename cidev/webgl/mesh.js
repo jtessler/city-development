@@ -109,13 +109,3 @@ cidev.webgl.mesh.Mesh.prototype.bindIndexBuffer = function() {
  * @type {number}
  */
 cidev.webgl.mesh.Mesh.prototype.indexCount;
-
-/**
- * Calls the appropriate draw method for the mesh.
- * TODO(joseph): Remove this.
- */
-cidev.webgl.mesh.Mesh.prototype.draw = function() {
-  this.bindIndexBuffer();
-  this.context.gl.drawElements(
-      goog.webgl.TRIANGLES, this.indexCount, goog.webgl.UNSIGNED_BYTE, 0);
-};

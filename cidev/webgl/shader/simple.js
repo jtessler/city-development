@@ -46,12 +46,12 @@ cidev.webgl.shader.Simple = function(context, matrix) {
 goog.inherits(cidev.webgl.shader.Simple, cidev.webgl.shader.MVPProgram);
 
 /**
- * Renders the given object with the given camera.
+ * Sets up the render call, binding vertex attributes, uniforms, etc.
  * @inheritDoc
  */
-cidev.webgl.shader.Simple.prototype.render = function(
+cidev.webgl.shader.Simple.prototype.setupRender = function(
     mesh, camera, opt_texture) {
-  goog.base(this, 'render', mesh, camera, opt_texture);
+  goog.base(this, 'setupRender', mesh, camera, opt_texture);
 
   mesh.bindVertexBuffer();
   this.context.gl.vertexAttribPointer(
@@ -60,5 +60,4 @@ cidev.webgl.shader.Simple.prototype.render = function(
   mesh.bindTextureUVBuffer();
   this.context.gl.vertexAttribPointer(
       this.textureUV_, 2, goog.webgl.FLOAT, false, 0, 0);
-  mesh.draw();
 };

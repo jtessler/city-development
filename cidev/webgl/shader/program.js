@@ -40,8 +40,22 @@ cidev.webgl.shader.Program.prototype.activate = function() {
 };
 
 /**
- * Renders the given object with the given camera.
- * NOTE: This simply sets up the shader program. Subclasses implement rendering.
+ * Sets up the render call, binding vertex attributes, uniforms, etc.
+ * @param {!cidev.webgl.mesh.Mesh} mesh The mesh object to draw.
+ * @param {!cidev.webgl.Camera} camera The view-matrix-wrapping camera.
+ * @param {!cidev.webgl.texture.Texture=} opt_texture The (optional) texture
+ *     to apply.
+ * @protected
+ */
+cidev.webgl.shader.Program.prototype.setupRender = function(
+    mesh, camera, opt_texture) {
+  if (goog.isDef(opt_texture) && goog.isDef(this.texture)) {
+    opt_texture.uniform1i(this.texture);
+  }
+};
+
+/**
+ * Renders the given object.
  * @param {!cidev.webgl.mesh.Mesh} mesh The mesh object to draw.
  * @param {!cidev.webgl.Camera} camera The view-matrix-wrapping camera.
  * @param {!cidev.webgl.texture.Texture=} opt_texture The (optional) texture
@@ -49,9 +63,10 @@ cidev.webgl.shader.Program.prototype.activate = function() {
  */
 cidev.webgl.shader.Program.prototype.render = function(
     mesh, camera, opt_texture) {
-  if (goog.isDef(opt_texture) && goog.isDef(this.texture)) {
-    opt_texture.uniform1i(this.texture);
-  }
+  this.setupRender(mesh, camera, opt_texture);
+  mesh.bindIndexBuffer();
+  this.context.gl.drawElements(
+      goog.webgl.TRIANGLES, mesh.indexCount, goog.webgl.UNSIGNED_BYTE, 0);
 };
 
 /**
