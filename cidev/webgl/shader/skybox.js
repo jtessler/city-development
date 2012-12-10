@@ -13,7 +13,6 @@
 goog.provide('cidev.webgl.shader.Skybox');
 
 goog.require('cidev.webgl.shader.MVPProgram');
-goog.require('cidev.webgl.texture.Cubemap');
 
 goog.require('goog.webgl');
 
@@ -47,9 +46,5 @@ cidev.webgl.shader.Skybox.prototype.setupRender = function(
     mesh, camera, opt_texture) {
   goog.base(this, 'setupRender', mesh, camera, opt_texture);
 
-  var gl = this.context.gl;
-  gl.uniform3fv(this.viewPosition_, camera.pos);
-
-  mesh.bindVertexBuffer();
-  gl.vertexAttribPointer(this.vertexPosition, 3, goog.webgl.FLOAT, false, 0, 0);
+  this.context.gl.uniform3fv(this.viewPosition_, camera.pos);
 };
