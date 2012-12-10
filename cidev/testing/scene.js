@@ -60,6 +60,14 @@ cidev.testing.Scene = function(canvas) {
   /** @type {!cidev.webgl.mesh.Mesh} */
   this.ground = new cidev.webgl.mesh.Mesh(this.context, 'ground.obj');
 
+  /** @type {!cidev.webgl.texture.Texture} */
+  this.facade = new cidev.webgl.texture.Texture2D(
+      this.context, 'textures/building_flip.jpg', 4);
+
+  /** @type {!cidev.webgl.mesh.Mesh} */
+  this.building = new cidev.webgl.mesh.Mesh(
+      this.context, 'residential_building.obj');
+
   /** @type {number} */
   this.lastTime = 0;
 };
@@ -79,12 +87,16 @@ cidev.testing.Scene.prototype.onAnimationFrame = function(now) {
   this.simple.activate();
   goog.vec.Mat4.makeTranslate(this.matrix, 5, 0, 5);
   for (var i = 0; i < 3; i++) {
-    this.simple.render(this.cube, this.camera, this.brick);
-    goog.vec.Mat4.translate(this.matrix, 0, 1, 0);
+    this.simple.render(this.building, this.camera, this.facade);
+    goog.vec.Mat4.translate(this.matrix, 0, 2, 0);
   }
 
-  goog.vec.Mat4.makeTranslate(this.matrix, 0, 0, 0);
-  this.simple.render(this.ground, this.camera, this.grass);
+  for (var r = 0; r < 10; r++) {
+    for (var c = 0; c < 10; c++) {
+      goog.vec.Mat4.makeTranslate(this.matrix, r, 0, c);
+      this.simple.render(this.ground, this.camera, this.grass);
+    }
+  }
 
   this.skybox.activate();
   goog.vec.Mat4.makeScale(this.matrix, 100, 100, 100);
