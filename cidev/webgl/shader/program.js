@@ -7,23 +7,30 @@
 
 goog.provide('cidev.webgl.shader.Program');
 
+goog.require('cidev.generated.glsl');
+
 goog.require('goog.webgl');
 
 /**
  * The super class containing generic shader handling and other utility
  * functions.
  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
- * @param {string} vs Vertex shader code.
- * @param {string} fs Fragment shader code.
+ * @param {string} vs Vertex shader code filename.
+ * @param {string} fs Fragment shader code filename.
  * @constructor
  */
 cidev.webgl.shader.Program = function(context, vs, fs) {
   this.context = context;
 
+  if (!goog.isDef(cidev.generated.glsl[vs]) ||
+      !goog.isDef(cidev.generated.glsl[fs])) {
+    throw Error('shader does not exist');
+  }
+
   var gl = context.gl;
   this.program = gl.createProgram();
-  this.attachShader_(vs, goog.webgl.VERTEX_SHADER);
-  this.attachShader_(fs, goog.webgl.FRAGMENT_SHADER);
+  this.attachShader_(cidev.generated.glsl[vs], goog.webgl.VERTEX_SHADER);
+  this.attachShader_(cidev.generated.glsl[fs], goog.webgl.FRAGMENT_SHADER);
   gl.linkProgram(this.program);
 
   if (!gl.getProgramParameter(this.program, goog.webgl.LINK_STATUS)) {

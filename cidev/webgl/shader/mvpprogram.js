@@ -17,8 +17,8 @@ goog.require('cidev.webgl.shader.Program');
 
 /**
  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
- * @param {string} vs Vertex shader code.
- * @param {string} fs Fragment shader code.
+ * @param {string} vs Vertex shader code filename.
+ * @param {string} fs Fragment shader code filename.
  * @param {!goog.vec.Mat4.Float32} matrix Pointer to the scene's model matrix.
  * @constructor
  * @extends {cidev.webgl.shader.Program}

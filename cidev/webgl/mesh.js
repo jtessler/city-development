@@ -7,16 +7,17 @@
 
 goog.provide('cidev.webgl.mesh.Mesh');
 
+goog.require('cidev.generated.obj');
+
 goog.require('goog.webgl');
 
 /**
- * TODO(joseph): Pass OBJ filename instead.
  * The representing any 3D object, exposing binds for each vertex attribute.
  * @param {!cidev.webgl.Context} context The current WebGL context.
- * @param {*} obj The OBJ file contents.
+ * @param {string} filename The OBJ filename to import as a wrapped mesh.
  * @constructor
  */
-cidev.webgl.mesh.Mesh = function(context, obj) {
+cidev.webgl.mesh.Mesh = function(context, filename) {
   this.context = context;
 
   var gl = context.gl;
@@ -24,6 +25,11 @@ cidev.webgl.mesh.Mesh = function(context, obj) {
   this.textureUVBuffer_ = gl.createBuffer();
   this.normalBuffer_ = gl.createBuffer();
   this.indexBuffer_ = gl.createBuffer();
+
+  var obj = cidev.generated.obj[filename];
+  if (!goog.isDef(obj)) {
+    throw Error(filename + ' does not exist');
+  }
 
   this.bindVertexBuffer();
   gl.bufferData(goog.webgl.ARRAY_BUFFER, obj.vertices, goog.webgl.STATIC_DRAW);

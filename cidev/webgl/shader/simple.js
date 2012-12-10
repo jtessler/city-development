@@ -13,7 +13,6 @@
 
 goog.provide('cidev.webgl.shader.Simple');
 
-goog.require('cidev.generated.glsl');
 goog.require('cidev.webgl.shader.MVPProgram');
 
 goog.require('goog.webgl');
@@ -25,11 +24,7 @@ goog.require('goog.webgl');
  * @extends {cidev.webgl.shader.MVPProgram}
  */
 cidev.webgl.shader.Simple = function(context, matrix) {
-  goog.base(this,
-      context,
-      cidev.generated.glsl['simple.vert'],
-      cidev.generated.glsl['simple.frag'],
-      matrix);
+  goog.base(this, context, 'simple.vert', 'simple.frag', matrix);
 
   var gl = context.gl;
 

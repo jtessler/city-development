@@ -6,7 +6,6 @@
 
 goog.provide('cidev.testing.Scene');
 
-goog.require('cidev.generated.obj');
 goog.require('cidev.webgl.Camera');
 goog.require('cidev.webgl.Context');
 goog.require('cidev.webgl.mesh.Mesh');
@@ -48,8 +47,7 @@ cidev.testing.Scene = function(canvas) {
       this.context, 'textures/cubemap', 1);
 
   /** @type {!cidev.webgl.mesh.Mesh} */
-  this.cube = new cidev.webgl.mesh.Mesh(
-      this.context, cidev.generated.obj['cube.obj']);
+  this.cube = new cidev.webgl.mesh.Mesh(this.context, 'cube.obj');
 
   /** @type {number} */
   this.lastTime = 0;

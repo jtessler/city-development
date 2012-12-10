@@ -12,7 +12,6 @@
 
 goog.provide('cidev.webgl.shader.Skybox');
 
-goog.require('cidev.generated.glsl');
 goog.require('cidev.webgl.shader.MVPProgram');
 goog.require('cidev.webgl.texture.Cubemap');
 
@@ -25,11 +24,7 @@ goog.require('goog.webgl');
  * @extends {cidev.webgl.shader.MVPProgram}
  */
 cidev.webgl.shader.Skybox = function(context, matrix) {
-  goog.base(this,
-      context,
-      cidev.generated.glsl['skybox.vert'],
-      cidev.generated.glsl['skybox.frag'],
-      matrix);
+  goog.base(this, context, 'skybox.vert', 'skybox.frag', matrix);
 
   var gl = this.context.gl;
 
