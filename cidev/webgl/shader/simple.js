@@ -13,7 +13,7 @@
 
 goog.provide('cidev.webgl.shader.Simple');
 
-goog.require('cidev.webgl.shader.MVPProgram');
+goog.require('cidev.webgl.shader.TextureProgram');
 
 goog.require('goog.webgl');
 
@@ -21,38 +21,9 @@ goog.require('goog.webgl');
  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
  * @param {!goog.vec.Mat4.Float32} matrix Pointer to the scene's model matrix.
  * @constructor
- * @extends {cidev.webgl.shader.MVPProgram}
+ * @extends {cidev.webgl.shader.TextureProgram}
  */
 cidev.webgl.shader.Simple = function(context, matrix) {
   goog.base(this, context, 'simple.vert', 'simple.frag', matrix);
-
-  var gl = context.gl;
-
-  /**
-   * Index of the vertex texture UV attribute.
-   * @type {number}
-   * @private
-   */
-  this.textureUV_ = gl.getAttribLocation(this.program, 'textureUV');
-  gl.enableVertexAttribArray(this.textureUV_);
-
-  this.texture = gl.getUniformLocation(this.program, 'texture');
 };
-goog.inherits(cidev.webgl.shader.Simple, cidev.webgl.shader.MVPProgram);
-
-/**
- * Sets up the render call, binding vertex attributes, uniforms, etc.
- * @inheritDoc
- */
-cidev.webgl.shader.Simple.prototype.setupRender = function(
-    mesh, camera, opt_texture) {
-  goog.base(this, 'setupRender', mesh, camera, opt_texture);
-
-  mesh.bindVertexBuffer();
-  this.context.gl.vertexAttribPointer(
-      this.vertexPosition, 3, goog.webgl.FLOAT, false, 0, 0);
-
-  mesh.bindTextureUVBuffer();
-  this.context.gl.vertexAttribPointer(
-      this.textureUV_, 2, goog.webgl.FLOAT, false, 0, 0);
-};
+goog.inherits(cidev.webgl.shader.Simple, cidev.webgl.shader.TextureProgram);
