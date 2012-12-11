@@ -11,7 +11,7 @@ goog.provide('cidev.view');
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.events');
-
+goog.require('goog.string');
 
 /**
  * The panel container for all property displays and input boxes.
@@ -30,6 +30,21 @@ cidev.view.BuildingInput;
  */
 cidev.view.propertyPanel = function(building) {
   cidev.view.clearPropertyPanel();
+
+  // TODO(joseph): Don't access the database here.
+  var selectElement = goog.dom.createDom('select', null,
+      goog.array.map(cidev.database.getAll(),
+          function(building, i, array) {
+            return goog.dom.createDom('option', {
+                  'value':  building.id,
+                  'innerHTML': goog.string.buildString(
+                      '(', i + 1, ') ', building.getType())
+                })
+          }));
+  goog.events.listen(selectElement, goog.events.EventType.CHANGE,
+      cidev.controller.switchBuilding, false, selectElement);
+  selectElement.value = building.id; // Update the current selection.
+  cidev.view.panel.appendChild(selectElement);
 
   var removeElement = goog.dom.createDom('input',
       {'type': 'button', 'value': 'Remove Building'});

@@ -65,6 +65,17 @@ cidev.controller.addBuilding_ = function(building) {
 };
 
 /**
+ * @this {!Element} The select element.
+ * @param {*} e The handled event.
+ */
+cidev.controller.switchBuilding = function(e) {
+  var building = cidev.database.get(this.value);
+  if (goog.isDef(building)) {
+    cidev.view.propertyPanel(building);
+  }
+};
+
+/**
  * @this {!cidev.model.Building} The building being removed.
  * @param {*} e The handled event.
  */
