@@ -8,7 +8,7 @@ goog.provide('cidev.testing.Scene');
 
 goog.require('cidev.webgl.Camera');
 goog.require('cidev.webgl.Context');
-goog.require('cidev.webgl.mesh.Mesh');
+goog.require('cidev.webgl.Mesh');
 goog.require('cidev.webgl.shader.DiffuseSpecular');
 goog.require('cidev.webgl.shader.Skybox');
 goog.require('cidev.webgl.texture.Cubemap');
@@ -45,8 +45,8 @@ cidev.testing.Scene = function(canvas) {
   this.concrete = new cidev.webgl.texture.Texture2D(
       this.context, 'textures/concrete.jpg', 0);
 
-  /** @type {!cidev.webgl.mesh.Mesh} */
-  this.plant = new cidev.webgl.mesh.Mesh(this.context, 'power_plant.obj');
+  /** @type {!cidev.webgl.Mesh} */
+  this.plant = new cidev.webgl.Mesh(this.context, 'power_plant.obj');
 
   /** @type {!cidev.webgl.shader.Program} */
   this.skybox = new cidev.webgl.shader.Skybox(this.context, this.matrix);
@@ -55,22 +55,22 @@ cidev.testing.Scene = function(canvas) {
   this.cubemap = new cidev.webgl.texture.Cubemap(
       this.context, 'textures/cubemap', 1);
 
-  /** @type {!cidev.webgl.mesh.Mesh} */
-  this.cube = new cidev.webgl.mesh.Mesh(this.context, 'cube.obj');
+  /** @type {!cidev.webgl.Mesh} */
+  this.cube = new cidev.webgl.Mesh(this.context, 'cube.obj');
 
   /** @type {!cidev.webgl.texture.Texture} */
   this.grass = new cidev.webgl.texture.Texture2D(
       this.context, 'textures/grass.jpg', 3);
 
-  /** @type {!cidev.webgl.mesh.Mesh} */
-  this.ground = new cidev.webgl.mesh.Mesh(this.context, 'ground.obj');
+  /** @type {!cidev.webgl.Mesh} */
+  this.ground = new cidev.webgl.Mesh(this.context, 'ground.obj');
 
   /** @type {!cidev.webgl.texture.Texture} */
   this.facade = new cidev.webgl.texture.Texture2D(
       this.context, 'textures/building_flip.jpg', 4);
 
-  /** @type {!cidev.webgl.mesh.Mesh} */
-  this.building = new cidev.webgl.mesh.Mesh(
+  /** @type {!cidev.webgl.Mesh} */
+  this.building = new cidev.webgl.Mesh(
       this.context, 'residential_building.obj');
 
   /** @type {number} */

@@ -48,7 +48,7 @@ cidev.webgl.shader.Program.prototype.activate = function() {
 
 /**
  * Sets up the render call, binding vertex attributes, uniforms, etc.
- * @param {!cidev.webgl.mesh.Mesh} mesh The mesh object to draw.
+ * @param {!cidev.webgl.Mesh} mesh The mesh object to draw.
  * @param {!cidev.webgl.Camera} camera The view-matrix-wrapping camera.
  * @param {!cidev.webgl.texture.Texture=} opt_texture The (optional) texture
  *     to apply.
@@ -63,7 +63,7 @@ cidev.webgl.shader.Program.prototype.setupRender = function(
 
 /**
  * Renders the given object.
- * @param {!cidev.webgl.mesh.Mesh} mesh The mesh object to draw.
+ * @param {!cidev.webgl.Mesh} mesh The mesh object to draw.
  * @param {!cidev.webgl.Camera} camera The view-matrix-wrapping camera.
  * @param {!cidev.webgl.texture.Texture=} opt_texture The (optional) texture
  *     to apply.

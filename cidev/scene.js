@@ -11,7 +11,7 @@ goog.require('cidev.database');
 goog.require('cidev.model.BuildingType');
 goog.require('cidev.webgl.Camera');
 goog.require('cidev.webgl.Context');
-goog.require('cidev.webgl.mesh.Mesh');
+goog.require('cidev.webgl.Mesh');
 goog.require('cidev.webgl.shader.DiffuseSpecular');
 goog.require('cidev.webgl.shader.Skybox');
 goog.require('cidev.webgl.texture.Cubemap');
@@ -52,17 +52,17 @@ cidev.Scene = function(canvas) {
   /** @type {!cidev.webgl.shader.Program} */
   this.skybox = new cidev.webgl.shader.Skybox(this.context, this.modelMatrix);
 
-  /** @type {!cidev.webgl.mesh.Mesh} */
-  this.cube = new cidev.webgl.mesh.Mesh(this.context, 'cube.obj');
+  /** @type {!cidev.webgl.Mesh} */
+  this.cube = new cidev.webgl.Mesh(this.context, 'cube.obj');
 
-  /** @type {!cidev.webgl.mesh.Mesh} */
-  this.terrain = new cidev.webgl.mesh.Mesh(this.context, 'ground.obj');
+  /** @type {!cidev.webgl.Mesh} */
+  this.terrain = new cidev.webgl.Mesh(this.context, 'ground.obj');
 
-  /** @type {!cidev.webgl.mesh.Mesh} */
-  this.powerPlant = new cidev.webgl.mesh.Mesh(this.context, 'power_plant.obj');
+  /** @type {!cidev.webgl.Mesh} */
+  this.powerPlant = new cidev.webgl.Mesh(this.context, 'power_plant.obj');
 
-  /** @type {!cidev.webgl.mesh.Mesh} */
-  this.residential = new cidev.webgl.mesh.Mesh(
+  /** @type {!cidev.webgl.Mesh} */
+  this.residential = new cidev.webgl.Mesh(
       this.context, 'residential_building.obj');
 
   /** @type {!cidev.webgl.texture.Texture} */

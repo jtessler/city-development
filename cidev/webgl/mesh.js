@@ -5,7 +5,7 @@
  * @author joseph@cs.utexas.edu (Joe Tessler)
  */
 
-goog.provide('cidev.webgl.mesh.Mesh');
+goog.provide('cidev.webgl.Mesh');
 
 goog.require('cidev.generated.obj');
 
@@ -18,7 +18,7 @@ goog.require('goog.webgl');
  * @param {string} filename The OBJ filename to import as a wrapped mesh.
  * @constructor
  */
-cidev.webgl.mesh.Mesh = function(context, filename) {
+cidev.webgl.Mesh = function(context, filename) {
   this.context = context;
 
   var gl = context.gl;
@@ -58,19 +58,19 @@ cidev.webgl.mesh.Mesh = function(context, filename) {
  * The current WebGL context wrapper.
  * @type {!cidev.webgl.Context}
  */
-cidev.webgl.mesh.Mesh.prototype.context;
+cidev.webgl.Mesh.prototype.context;
 
 /**
  * The vertex buffer object.
  * @type {!WebGLBuffer}
  * @private
  */
-cidev.webgl.mesh.Mesh.prototype.vertexBuffer_;
+cidev.webgl.Mesh.prototype.vertexBuffer_;
 
 /**
  * Binds vertex data to the GPU.
  */
-cidev.webgl.mesh.Mesh.prototype.bindVertexBuffer = function() {
+cidev.webgl.Mesh.prototype.bindVertexBuffer = function() {
   this.context.gl.bindBuffer(goog.webgl.ARRAY_BUFFER, this.vertexBuffer_);
 };
 
@@ -79,12 +79,12 @@ cidev.webgl.mesh.Mesh.prototype.bindVertexBuffer = function() {
  * @type {!WebGLBuffer}
  * @private
  */
-cidev.webgl.mesh.Mesh.prototype.textureUVBuffer_;
+cidev.webgl.Mesh.prototype.textureUVBuffer_;
 
 /**
  * Binds texture UV data to the GPU.
  */
-cidev.webgl.mesh.Mesh.prototype.bindTextureUVBuffer = function() {
+cidev.webgl.Mesh.prototype.bindTextureUVBuffer = function() {
   this.context.gl.bindBuffer(goog.webgl.ARRAY_BUFFER, this.textureUVBuffer_);
 };
 
@@ -93,12 +93,12 @@ cidev.webgl.mesh.Mesh.prototype.bindTextureUVBuffer = function() {
  * @type {!WebGLBuffer}
  * @private
  */
-cidev.webgl.mesh.Mesh.prototype.normalBuffer_;
+cidev.webgl.Mesh.prototype.normalBuffer_;
 
 /**
  * Binds normal data to the GPU.
  */
-cidev.webgl.mesh.Mesh.prototype.bindNormalBuffer = function() {
+cidev.webgl.Mesh.prototype.bindNormalBuffer = function() {
   this.context.gl.bindBuffer(goog.webgl.ARRAY_BUFFER, this.normalBuffer_);
 };
 
@@ -107,12 +107,12 @@ cidev.webgl.mesh.Mesh.prototype.bindNormalBuffer = function() {
  * @type {!WebGLBuffer}
  * @private
  */
-cidev.webgl.mesh.Mesh.prototype.indexBuffer_;
+cidev.webgl.Mesh.prototype.indexBuffer_;
 
 /**
  * Binds index data to the GPU.
  */
-cidev.webgl.mesh.Mesh.prototype.bindIndexBuffer = function() {
+cidev.webgl.Mesh.prototype.bindIndexBuffer = function() {
   this.context.gl.bindBuffer(
       goog.webgl.ELEMENT_ARRAY_BUFFER, this.indexBuffer_);
 };
@@ -121,4 +121,4 @@ cidev.webgl.mesh.Mesh.prototype.bindIndexBuffer = function() {
  * The total number of indices.
  * @type {number}
  */
-cidev.webgl.mesh.Mesh.prototype.indexCount;
+cidev.webgl.Mesh.prototype.indexCount;
