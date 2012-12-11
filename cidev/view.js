@@ -14,7 +14,7 @@ goog.require('goog.events');
 
 /**
  * Updates the properties DOM for the given model.
- * @param {cidev.model.Building} building The model to build a panel for.
+ * @param {!cidev.model.Building} building The model to build a panel for.
  */
 cidev.view.propertyPanel = function(building) {
   cidev.view.clearPropertyPanel();

@@ -7,27 +7,24 @@
 
 goog.provide('cidev.controller');
 
+goog.require('cidev.database');
 goog.require('cidev.model.ResidentialBuilding');
 goog.require('cidev.view');
-
-// TODO(joseph): Move this to a separate class.
-cidev.controller.database = {};
 
 /**
  * @param {*} e The handled event.
  */
 cidev.controller.addBuilding = function(e) {
   var building = new cidev.model.ResidentialBuilding();
-  building.id = 'in-memory-' + goog.getUid(building);
-  cidev.controller.database[building.id] = building;
+  cidev.database.add(building);
   cidev.view.propertyPanel(building);
 };
 
 /**
- * @this {cidev.model.Building} The building being removed.
+ * @this {!cidev.model.Building} The building being removed.
  * @param {*} e The handled event.
  */
 cidev.controller.removeBuilding = function(e) {
-  delete cidev.controller.database[this.id];
+  cidev.database.remove(this);
   cidev.view.clearPropertyPanel();
 };
