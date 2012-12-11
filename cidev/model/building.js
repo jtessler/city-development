@@ -15,10 +15,10 @@ cidev.model.Building = function() {
   this.id;
 
   /** @type {number} */
-  this.x = -1;
+  this.x = 5;
 
   /** @type {number} */
-  this.y = -1;
+  this.y = 5;
 };
 
 /**
