@@ -6,8 +6,8 @@
 
 goog.provide('cidev.base');
 
+goog.require('cidev.Scene');
 goog.require('cidev.controller');
-goog.require('cidev.testing.Scene');
 goog.require('cidev.webgl.Camera');
 
 goog.require('goog.dom');
@@ -22,7 +22,7 @@ cidev.base.init = function() {
   var canvas = goog.dom.getElement('canvas');
   if (goog.isDefAndNotNull(canvas)) {
 
-    var scene = new cidev.testing.Scene(canvas);
+    var scene = new cidev.Scene(canvas);
 
     goog.events.listen(
         goog.dom.getElement('add'),

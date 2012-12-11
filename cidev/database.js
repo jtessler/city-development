@@ -39,7 +39,7 @@ cidev.database.get = function(id) {
  * Returns all buildings stored in the database.
  * @return {Array.<!cidev.model.Building>} All stored buildings.
  */
-cidev.database.getAll = function(id) {
+cidev.database.getAll = function() {
   return goog.object.getValues(cidev.database.db_);
 };
 
