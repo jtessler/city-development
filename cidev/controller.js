@@ -11,6 +11,8 @@ goog.require('cidev.database');
 goog.require('cidev.model.ResidentialBuilding');
 goog.require('cidev.view');
 
+goog.require('goog.string');
+
 /**
  * @param {*} e The handled event.
  */
@@ -27,4 +29,34 @@ cidev.controller.addBuilding = function(e) {
 cidev.controller.removeBuilding = function(e) {
   cidev.database.remove(this);
   cidev.view.clearPropertyPanel();
+};
+
+/**
+ * @this {!cidev.view.BuildingInput} The model to modify with the input.
+ * @param {*} e The handled event.
+ */
+cidev.controller.updateX = function(e) {
+  if (goog.string.isNumeric(this.input.value)) {
+    this.building.x = goog.string.parseInt(this.input.value);
+  }
+};
+
+/**
+ * @this {!cidev.view.BuildingInput} The model to modify with the input.
+ * @param {*} e The handled event.
+ */
+cidev.controller.updateY = function(e) {
+  if (goog.string.isNumeric(this.input.value)) {
+    this.building.y = goog.string.parseInt(this.input.value);
+  }
+};
+
+/**
+ * @this {!cidev.view.BuildingInput} The model to modify with the input.
+ * @param {*} e The handled event.
+ */
+cidev.controller.updateFloorCount = function(e) {
+  if (goog.string.isNumeric(this.input.value)) {
+    this.building.floorCount = goog.string.parseInt(this.input.value);
+  }
 };
