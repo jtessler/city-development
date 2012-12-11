@@ -13,6 +13,7 @@ goog.require('cidev.model.PowerPlant');
 goog.require('cidev.model.ResidentialBuilding');
 goog.require('cidev.view');
 
+goog.require('goog.array');
 goog.require('goog.string');
 
 
@@ -65,8 +66,13 @@ cidev.controller.switchBuilding = function(e) {
  */
 cidev.controller.removeBuilding = function(e) {
   cidev.database.remove(this);
-  cidev.view.buildingSelector(cidev.database.getAll());
-  cidev.view.clearPropertyPanel();
+  var buildings = cidev.database.getAll();
+  cidev.view.buildingSelector(buildings);
+  if (goog.array.isEmpty(buildings)) {
+    cidev.view.clearPropertyPanel();
+  } else {
+    cidev.view.propertyPanel(buildings[0]);
+  }
 };
 
 /**
