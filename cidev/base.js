@@ -8,26 +8,19 @@ goog.provide('cidev.base');
 
 goog.require('cidev.Scene');
 goog.require('cidev.controller');
-goog.require('cidev.webgl.Camera');
 
 goog.require('goog.dom');
-goog.require('goog.events');
 goog.require('goog.fx.anim');
 
 /**
  * Initializes the WebGL context, event handlers, and draws the scene.
  */
 cidev.base.init = function() {
-  /** @type {Element} */
   var canvas = goog.dom.getElement('canvas');
   if (goog.isDefAndNotNull(canvas)) {
 
     cidev.controller.setupContainer(goog.dom.getElement('container'));
     var scene = new cidev.Scene(canvas);
-    goog.events.listen(
-        goog.dom.getDocument(),
-        cidev.webgl.Camera.EVENT_TYPES,
-        scene.camera);
 
     // TODO(joseph): Find a better way to wait for everything to load.
     setTimeout(goog.partial(goog.fx.anim.registerAnimation, scene), 500);

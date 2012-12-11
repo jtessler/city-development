@@ -6,11 +6,12 @@
 
 goog.provide('cidev.webgl.Camera');
 
+goog.require('goog.dom');
+goog.require('goog.array');
 goog.require('goog.events');
 goog.require('goog.events.KeyCodes');
 goog.require('goog.vec.Mat4');
 goog.require('goog.vec.Vec3');
-
 
 /**
  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
@@ -100,6 +101,11 @@ cidev.webgl.Camera = function(context) {
    * @private
    */
   this.tmpVec3_ = goog.vec.Vec3.createFloat32();
+
+  goog.events.listen(
+      context.canvas, cidev.webgl.Camera.MOUSE_EVENT_TYPES, this);
+  goog.events.listen(
+      goog.dom.getDocument(), cidev.webgl.Camera.KEY_EVENT_TYPES, this);
 };
 
 /**
@@ -209,16 +215,24 @@ cidev.webgl.Camera.prototype.handleMouseMoveEvent_ = function(e) {
 };
 
 /**
- * All event types handled by the camera.
+ * All mouse event types handled by the camera.
  * @type {Array.<goog.events.EventType>}
  * @const
  */
-cidev.webgl.Camera.EVENT_TYPES = [
-    goog.events.EventType.KEYUP,
-    goog.events.EventType.KEYDOWN,
+cidev.webgl.Camera.MOUSE_EVENT_TYPES = [
     goog.events.EventType.MOUSEDOWN,
     goog.events.EventType.MOUSEMOVE,
     goog.events.EventType.MOUSEUP
+];
+
+/**
+ * All key event types handled by the camera.
+ * @type {Array.<goog.events.EventType>}
+ * @const
+ */
+cidev.webgl.Camera.KEY_EVENT_TYPES = [
+    goog.events.EventType.KEYUP,
+    goog.events.EventType.KEYDOWN
 ];
 
 /**

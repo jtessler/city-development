@@ -38,7 +38,7 @@ cidev.webgl.shader.MVPProgram = function(context, vs, fs, matrix) {
   /**
    * Pointer to the scene's model matrix (the caller will manipulate it before
    * rendering).
-   * @type {!goog.vec.Mat4.Float32}
+   * @type {goog.vec.Mat4.Float32}
    * @private
    */
   this.matrix_ = matrix;
