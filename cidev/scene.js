@@ -107,14 +107,15 @@ cidev.Scene.prototype.onAnimationFrame = function(now) {
 
   for (var r = 0; r < 10; r++) {
     for (var c = 0; c < 10; c++) {
-      goog.vec.Mat4.makeTranslate(this.modelMatrix, r, 0, c);
+      goog.vec.Mat4.makeTranslate(this.modelMatrix, 5 * r, 0, 5 * c);
+      goog.vec.Mat4.scale(this.modelMatrix, 5, 5, 5);
       this.shader.render(this.terrain, this.camera, this.grass);
     }
   }
 
   this.skybox.activate();
   goog.vec.Mat4.makeScale(this.modelMatrix, 100, 100, 100);
-  goog.vec.Mat4.translate(this.modelMatrix, -0.5, -0.5, -0.5);
+  goog.vec.Mat4.translate(this.modelMatrix, -0.25, -0.25, -0.25);
   this.skybox.render(this.cube, this.camera, this.cubemap);
 };
 
