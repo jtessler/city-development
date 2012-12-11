@@ -67,16 +67,14 @@ cidev.view.init = function(container) {
 cidev.view.buildingSelector = function(buildings) {
   goog.dom.removeChildren(cidev.view.selector);
   if (goog.array.isEmpty(buildings)) {
-    cidev.view.selector.appendChild(goog.dom.createDom('option',
-        { 'innerHTML': 'Select a building to modify'}));
+    cidev.view.selector.appendChild(
+        goog.dom.createDom('option', null, 'Select a building to modify'));
   } else {
     goog.array.forEach(buildings,
         function(building, i, array) {
-          this.appendChild(goog.dom.createDom('option', {
-                'value': building.id,
-                'innerHTML': goog.string.buildString(
-                    '(', i + 1, ') ', building.getType())
-              }));
+          this.appendChild(goog.dom.createDom('option',
+              { 'value': building.id },
+              goog.string.buildString('(', i + 1, ') ', building.getType())));
         }, cidev.view.selector);
   }
 };
