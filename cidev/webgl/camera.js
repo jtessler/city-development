@@ -160,6 +160,7 @@ cidev.webgl.Camera.prototype.handleEvent = function(e) {
     case EventType.MOUSEDOWN:
         this.mouseDown_ = e.isMouseActionButton();
         break;
+    case EventType.MOUSEOUT:
     case EventType.MOUSEUP:
         this.mouseDown_ = false;
         break;
@@ -222,6 +223,7 @@ cidev.webgl.Camera.prototype.handleMouseMoveEvent_ = function(e) {
 cidev.webgl.Camera.MOUSE_EVENT_TYPES = [
     goog.events.EventType.MOUSEDOWN,
     goog.events.EventType.MOUSEMOVE,
+    goog.events.EventType.MOUSEOUT,
     goog.events.EventType.MOUSEUP
 ];
 
