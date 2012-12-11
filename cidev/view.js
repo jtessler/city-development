@@ -12,6 +12,13 @@ goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.events');
 
+
+/**
+ * The panel container for all property displays and input boxes.
+ * @type {!Element}
+ */
+cidev.view.panel;
+
 /**
  * @typedef {{building: !cidev.model.Building, input: !Element}}
  */
@@ -28,38 +35,47 @@ cidev.view.propertyPanel = function(building) {
       {'type': 'button', 'value': 'Remove Building'});
   goog.events.listen(removeElement, goog.events.EventType.CLICK,
       cidev.controller.removeBuilding, false, building);
+  cidev.view.panel.appendChild(removeElement);
 
   var xElement = goog.dom.createDom('input',
       {'type': 'text', 'value': building.x});
   goog.events.listen(xElement, goog.events.EventType.CHANGE,
       cidev.controller.updateX, false,
       {building: building, input: xElement});
+  cidev.view.panel.appendChild(xElement);
 
   var yElement = goog.dom.createDom('input',
       {'type': 'text', 'value': building.y});
-  goog.events.listen(yElement, goog.events.EventType.BLUR,
+  goog.events.listen(yElement, goog.events.EventType.CHANGE,
       cidev.controller.updateY, false,
       {building: building, input: yElement});
+  cidev.view.panel.appendChild(yElement);
 
-  var panelElement = goog.dom.createDom('div', null,
-      removeElement, xElement, yElement);
-
-  if (building.getType() == cidev.model.BuildingType.RESIDENTIAL) {
-    var floorCountElement = goog.dom.createDom('input',
-        {'type': 'text', 'value': building.floorCount});
-    goog.events.listen(floorCountElement, goog.events.EventType.BLUR,
-        cidev.controller.updateFloorCount, false,
-        {building: building, input: floorCountElement});
-    panelElement.appendChild(floorCountElement);
+  switch (building.getType()) {
+    case cidev.model.BuildingType.RESIDENTIAL:
+      var floorCountElement = goog.dom.createDom('input',
+          {'type': 'text', 'value': building.floorCount});
+      goog.events.listen(floorCountElement, goog.events.EventType.CHANGE,
+          cidev.controller.updateFloorCount, false,
+          {building: building, input: floorCountElement});
+      cidev.view.panel.appendChild(floorCountElement);
+      break;
+    case cidev.model.BuildingType.POWER_PLANT:
+      var radiusElement = goog.dom.createDom('input',
+          {'type': 'text', 'value': building.radius});
+      goog.events.listen(radiusElement, goog.events.EventType.CHANGE,
+          cidev.controller.updateRadius, false,
+          {building: building, input: radiusElement});
+      cidev.view.panel.appendChild(radiusElement);
   }
-
-  goog.dom.getElement('container').appendChild(panelElement);
 };
 
 /**
  * Clears the properties DOM.
  */
 cidev.view.clearPropertyPanel = function() {
-  // TODO(joseph): Remove old listeners.
-  goog.dom.removeChildren(goog.dom.getElement('container'));
+  // Remove all previously attached listeners.
+  goog.array.forEach(goog.dom.getChildren(cidev.view.panel),
+      function(child, i, array) { goog.events.removeAll(child); });
+  goog.dom.removeChildren(cidev.view.panel);
 };

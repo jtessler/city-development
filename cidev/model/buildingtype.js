@@ -11,5 +11,6 @@ goog.provide('cidev.model.BuildingType');
  * @enum {string}
  */
 cidev.model.BuildingType = {
-  RESIDENTIAL: 'Residential'
+  RESIDENTIAL: 'Residential',
+  POWER_PLANT: 'Power Plant'
 };

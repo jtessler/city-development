@@ -130,5 +130,10 @@ cidev.Scene.prototype.renderBuilding_ = function(building) {
         this.shader.render(this.residential, this.camera, this.facade);
         goog.vec.Mat4.translate(this.modelMatrix, 0, 2, 0);
       }
+      break;
+    case cidev.model.BuildingType.POWER_PLANT:
+      var r = building.radius;
+      goog.vec.Mat4.scale(this.modelMatrix, r, r, r);
+      this.shader.render(this.powerPlant, this.camera, this.concrete);
   }
 };

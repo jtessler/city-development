@@ -22,13 +22,8 @@ cidev.base.init = function() {
   var canvas = goog.dom.getElement('canvas');
   if (goog.isDefAndNotNull(canvas)) {
 
+    cidev.controller.setupContainer(goog.dom.getElement('container'));
     var scene = new cidev.Scene(canvas);
-
-    goog.events.listen(
-        goog.dom.getElement('add'),
-        goog.events.EventType.CLICK,
-        cidev.controller.addBuilding);
-
     goog.events.listen(
         goog.dom.getDocument(),
         cidev.webgl.Camera.EVENT_TYPES,
