@@ -13,8 +13,6 @@ goog.require('cidev.model.PowerPlant');
 goog.require('cidev.model.ResidentialBuilding');
 goog.require('cidev.view');
 
-goog.require('goog.dom');
-goog.require('goog.object');
 goog.require('goog.string');
 
 
@@ -23,22 +21,7 @@ goog.require('goog.string');
  * @param {Element} container The DOM element to fill.
  */
 cidev.controller.setupContainer = function(container) {
-  goog.dom.removeChildren(container);
-  var addResidentialElement = goog.dom.createDom('input',
-      {'type': 'button', 'value': 'Add Residential Building'});
-  goog.events.listen(addResidentialElement, goog.events.EventType.CLICK,
-      cidev.controller.addResidentialBuilding, false);
-  container.appendChild(addResidentialElement);
-
-  var addPowerPlantElement = goog.dom.createDom('input',
-      {'type': 'button', 'value': 'Add Power Plant'});
-  goog.events.listen(addPowerPlantElement, goog.events.EventType.CLICK,
-      cidev.controller.addPowerPlant, false);
-  container.appendChild(addPowerPlantElement);
-
-  var propertyPanel = goog.dom.createDom('div');
-  cidev.view.panel = propertyPanel;
-  container.appendChild(propertyPanel);
+  cidev.view.init(container);
 };
 
 /**
@@ -61,6 +44,7 @@ cidev.controller.addPowerPlant = function(e) {
  */
 cidev.controller.addBuilding_ = function(building) {
   cidev.database.add(building);
+  cidev.view.buildingSelector(cidev.database.getAll());
   cidev.view.propertyPanel(building);
 };
 
@@ -81,6 +65,7 @@ cidev.controller.switchBuilding = function(e) {
  */
 cidev.controller.removeBuilding = function(e) {
   cidev.database.remove(this);
+  cidev.view.buildingSelector(cidev.database.getAll());
   cidev.view.clearPropertyPanel();
 };
 

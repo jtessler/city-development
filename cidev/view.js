@@ -7,7 +7,6 @@
 
 goog.provide('cidev.view');
 
-
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.events');
@@ -20,9 +19,67 @@ goog.require('goog.string');
 cidev.view.panel;
 
 /**
+ * The select element containing all stored building models.
+ * @type {!Element}
+ */
+cidev.view.selector;
+
+/**
  * @typedef {{building: !cidev.model.Building, input: !Element}}
  */
 cidev.view.BuildingInput;
+
+/**
+ * Initializes DOM elements and event listeners.
+ * @param {Element} container The DOM element to fill.
+ */
+cidev.view.init = function(container) {
+  goog.dom.removeChildren(container);
+
+  var selectElement = goog.dom.createDom('select');
+  goog.events.listen(selectElement, goog.events.EventType.CHANGE,
+      cidev.controller.switchBuilding, false, selectElement);
+  container.appendChild(selectElement);
+  cidev.view.selector = selectElement;
+  cidev.view.buildingSelector([]); // Starts with no buildings.
+
+  var addResidentialElement = goog.dom.createDom('input',
+      {'type': 'button', 'value': 'Add Residential Building'});
+  goog.events.listen(addResidentialElement, goog.events.EventType.CLICK,
+      cidev.controller.addResidentialBuilding, false);
+  container.appendChild(addResidentialElement);
+
+  var addPowerPlantElement = goog.dom.createDom('input',
+      {'type': 'button', 'value': 'Add Power Plant'});
+  goog.events.listen(addPowerPlantElement, goog.events.EventType.CLICK,
+      cidev.controller.addPowerPlant, false);
+  container.appendChild(addPowerPlantElement);
+
+  var propertyPanel = goog.dom.createDom('div');
+  cidev.view.panel = propertyPanel;
+  container.appendChild(propertyPanel);
+};
+
+/**
+ * Updates the select element given a list of building models.
+ * @param {Array.<!cidev.model.Building>} buildings The stored building models.
+ */
+cidev.view.buildingSelector = function(buildings) {
+  goog.dom.removeChildren(cidev.view.selector);
+  if (goog.array.isEmpty(buildings)) {
+    cidev.view.selector.appendChild(goog.dom.createDom('option',
+        { 'innerHTML': 'Select a building to modify'}));
+  } else {
+    goog.array.forEach(buildings,
+        function(building, i, array) {
+          this.appendChild(goog.dom.createDom('option', {
+                'value': building.id,
+                'innerHTML': goog.string.buildString(
+                    '(', i + 1, ') ', building.getType())
+              }));
+        }, cidev.view.selector);
+  }
+};
 
 /**
  * Updates the properties DOM for the given model.
@@ -30,21 +87,7 @@ cidev.view.BuildingInput;
  */
 cidev.view.propertyPanel = function(building) {
   cidev.view.clearPropertyPanel();
-
-  // TODO(joseph): Don't access the database here.
-  var selectElement = goog.dom.createDom('select', null,
-      goog.array.map(cidev.database.getAll(),
-          function(building, i, array) {
-            return goog.dom.createDom('option', {
-                  'value':  building.id,
-                  'innerHTML': goog.string.buildString(
-                      '(', i + 1, ') ', building.getType())
-                })
-          }));
-  goog.events.listen(selectElement, goog.events.EventType.CHANGE,
-      cidev.controller.switchBuilding, false, selectElement);
-  selectElement.value = building.id; // Update the current selection.
-  cidev.view.panel.appendChild(selectElement);
+  cidev.view.selector.value = building.id; // Update the current selection.
 
   var removeElement = goog.dom.createDom('input',
       {'type': 'button', 'value': 'Remove Building'});
