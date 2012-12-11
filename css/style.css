@@ -1,0 +1,28 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#container {
+  width: 800px;
+  padding: 10px;
+}
+
+#container div {
+  margin: 20px;
+}
+
+#container span {
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+#container input[type=text] {
+  width: 25px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+#container div input[type=button] {
+  margin-top: 20px;
+  display: block;
+}
