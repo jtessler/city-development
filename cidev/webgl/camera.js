@@ -6,8 +6,8 @@
 
 goog.provide('cidev.webgl.Camera');
 
-goog.require('goog.dom');
 goog.require('goog.array');
+goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.KeyCodes');
 goog.require('goog.vec.Mat4');
