@@ -87,17 +87,13 @@ cidev.view.propertyPanel = function(building) {
   cidev.view.clearPropertyPanel();
   cidev.view.selector.value = building.id; // Update the current selection.
 
-  var removeElement = goog.dom.createDom('input',
-      {'type': 'button', 'value': 'Remove Building'});
-  goog.events.listen(removeElement, goog.events.EventType.CLICK,
-      cidev.controller.removeBuilding, false, building);
-  cidev.view.panel.appendChild(removeElement);
-
   var xElement = goog.dom.createDom('input',
       {'type': 'text', 'value': building.x});
   goog.events.listen(xElement, goog.events.EventType.CHANGE,
       cidev.controller.updateX, false,
       {building: building, input: xElement});
+  cidev.view.panel.appendChild(
+      goog.dom.createDom('span', null, 'X-coordinate: '));
   cidev.view.panel.appendChild(xElement);
 
   var yElement = goog.dom.createDom('input',
@@ -105,6 +101,8 @@ cidev.view.propertyPanel = function(building) {
   goog.events.listen(yElement, goog.events.EventType.CHANGE,
       cidev.controller.updateY, false,
       {building: building, input: yElement});
+  cidev.view.panel.appendChild(
+      goog.dom.createDom('span', null, 'Y-coordinate: '));
   cidev.view.panel.appendChild(yElement);
 
   switch (building.getType()) {
@@ -114,6 +112,8 @@ cidev.view.propertyPanel = function(building) {
       goog.events.listen(floorCountElement, goog.events.EventType.CHANGE,
           cidev.controller.updateFloorCount, false,
           {building: building, input: floorCountElement});
+      cidev.view.panel.appendChild(
+          goog.dom.createDom('span', null, 'Number of floors: '));
       cidev.view.panel.appendChild(floorCountElement);
       break;
     case cidev.model.BuildingType.POWER_PLANT:
@@ -122,8 +122,16 @@ cidev.view.propertyPanel = function(building) {
       goog.events.listen(radiusElement, goog.events.EventType.CHANGE,
           cidev.controller.updateRadius, false,
           {building: building, input: radiusElement});
+      cidev.view.panel.appendChild(
+          goog.dom.createDom('span', null, 'Radius: '));
       cidev.view.panel.appendChild(radiusElement);
   }
+
+  var removeElement = goog.dom.createDom('input',
+      {'type': 'button', 'value': 'Remove Building'});
+  goog.events.listen(removeElement, goog.events.EventType.CLICK,
+      cidev.controller.removeBuilding, false, building);
+  cidev.view.panel.appendChild(removeElement);
 };
 
 /**
