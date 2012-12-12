@@ -37,16 +37,14 @@ cidev.webgl.Camera = function(context) {
   /**
    * The camera's rotation about the X axis.
    * @type {number}
-   * @private
    */
-  this.pitch_ = Math.PI / 2;
+  this.pitch = Math.PI / 2;
 
   /**
    * The camera's rotation about the Y axis.
    * @type {number}
-   * @private
    */
-  this.yaw_ = Math.PI / 2;
+  this.yaw = Math.PI / 2;
 
   /**
    * The camera's change in rotation about the Y axis.
@@ -134,11 +132,11 @@ cidev.webgl.Camera.prototype.update = function(dt) {
 
   // Update the camera's viewing direction based on the elapsed time and the
   // current rotations.
-  this.yaw_ += dt * this.yawDelta_;
+  this.yaw += dt * this.yawDelta_;
   Vec3.setFromValues(this.dir_,
-      Math.cos(this.yaw_) * Math.sin(this.pitch_),
-      Math.cos(this.pitch_),
-      Math.sin(this.yaw_) * Math.sin(this.pitch_));
+      Math.cos(this.yaw) * Math.sin(this.pitch),
+      Math.cos(this.pitch),
+      Math.sin(this.yaw) * Math.sin(this.pitch));
 
   goog.vec.Mat4.makeLookAt(
       this.viewMatrix,
@@ -206,9 +204,9 @@ cidev.webgl.Camera.prototype.handleKeyEvent_ = function(e) {
  */
 cidev.webgl.Camera.prototype.handleMouseMoveEvent_ = function(e) {
   if (this.mouseDown_ && this.mouseX_ >= 0 && this.mouseY_ >= 0) {
-    this.yaw_ +=
+    this.yaw +=
         (e.clientX - this.mouseX_) * cidev.webgl.Camera.MOUSE_SENSITIVITY;
-    this.pitch_ +=
+    this.pitch +=
         (this.mouseY_ - e.clientY) * cidev.webgl.Camera.MOUSE_SENSITIVITY;
   }
   this.mouseX_ = e.clientX;

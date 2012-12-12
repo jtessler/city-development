@@ -34,8 +34,8 @@ cidev.Scene = function(canvas) {
   this.camera = new cidev.webgl.Camera(this.context);
 
   // Setup the initial camera position.
-  this.camera.pos[0] = 5;
-  this.camera.pos[1] = 1;
+  goog.vec.Vec3.setFromValues(this.camera.pos, 35, 1, 5);
+  this.camera.yaw = 2 * Math.PI / 3;
 
   /** @type {!goog.vec.Mat4.Float32} */
   this.modelMatrix = goog.vec.Mat4.createFloat32Identity();
