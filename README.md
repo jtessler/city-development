@@ -63,6 +63,9 @@ efficiency, and scalability of the underlying system. This was not my original
 intent, but it resulted in an immense amount of WebGL (and therefore OpenGL)
 research and exploration.
 
+The Library: Background and Motivation
+--------------------------------------
+TODO(joseph): Write the background section.
 I believe that I have built the foundation of a new WebGL JavaScript library
 that is unique in numerous ways. After all, given the prevalence of WebGL
 engines available today, why did I dedicate such effort to an already saturated
@@ -73,8 +76,22 @@ coding rather than abstracting away from it. This provides much more control to
 competent graphics programmers, but eliminates most boilerplate code that
 litters any raw WebGL application.
 
-For example, compare the code two code snippets below. Each produce the same
-textured cube, the first using my library, the second using raw WebGL calls.
+Second, no other product integrates with the Google Closure library. Not only
+does this library provide developers the power of Google's framework, but it
+provides a familiar environment for any current Closure project to import. In
+fact, I hope to polish this project and present it to the Closure team for
+possible adoption in the official library.
+
+Third, I designed both a GLSL and OBJ compiler. These allow the developer to
+design shaders and models externally, e.g. in another IDE or modeling software
+like Blender. Futhermore, the compilers minimize the code and produce JavaScript
+classes that are easily accessible by the rest of the WebGL application.
+
+As an example, compare the code two code snippets below. Each produce the same
+textured cube, where the first clearly hides the redundant setup code. Notice
+the `new cidev.webgl.shader.DiffuseSpecular` call, which initializes the GLSL
+shader that was previously compiled and automatically wrapped in a JavaScript
+class. In later sections, I will explain this and other features in more detail.
 
 ```javascript
 this.context = new cidev.webgl.Context(canvas);
@@ -90,6 +107,7 @@ goog.vec.Mat4.makeTranslate(this.matrix, x, y, z);
 this.simple.render(this.cube, this.texture);
 ```
 
+This snippet produces the same cube with (many) raw WebGL calls.
 ```javascript
 var gl = canvas.getContext("experimental-webgl");
 var shaderScript = document.getElementById("shader-vs");
@@ -125,8 +143,13 @@ Artifacts
 You may see all image artifacts [here](https://github.com/jtessler/city-development/tree/master/artifact).
 You can make your own [here](http://www.cs.utexas.edu/users/joseph/city-development/)!
 
-Credits
--------
+Citations
+---------
+Yoav I. H. Parish and Pascal Müller. 2001. Procedural modeling of cities. In
+Proceedings of the 28th annual conference on Computer graphics and interactive
+techniques (SIGGRAPH '01). ACM, New York, NY, USA, 301-308.
+DOI=10.1145/383259.383292 http://doi.acm.org/10.1145/383259.383292
+
 I designed and texturized objects using the following sources:
 * [Blender](http://www.blender.org/)
 * [CGTexture](http://www.cgtextures.com/)
