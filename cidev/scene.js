@@ -133,7 +133,7 @@ cidev.Scene.prototype.onAnimationFrame = function(now) {
  * @private
  */
 cidev.Scene.prototype.renderBuilding_ = function(building) {
-  goog.vec.Mat4.makeTranslate(this.modelMatrix, building.x, 0, building.y);
+  goog.vec.Mat4.makeTranslate(this.modelMatrix, building.y, 0, building.x);
   switch (building.getType()) {
     case cidev.model.BuildingType.POWER_PLANT:
       var r = building.radius;
