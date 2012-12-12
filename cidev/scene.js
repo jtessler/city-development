@@ -65,6 +65,10 @@ cidev.Scene = function(canvas) {
   this.residential = new cidev.webgl.Mesh(
       this.context, 'residential_building.obj');
 
+  /** @type {!cidev.webgl.Mesh} */
+  this.school = new cidev.webgl.Mesh(
+      this.context, 'school.obj');
+
   /** @type {!cidev.webgl.texture.Texture} */
   this.facade = new cidev.webgl.texture.Texture2D(
       this.context, 'textures/building_flip.jpg', 0);
@@ -80,6 +84,10 @@ cidev.Scene = function(canvas) {
   /** @type {!cidev.webgl.texture.Texture} */
   this.cubemap = new cidev.webgl.texture.Cubemap(
       this.context, 'textures/cubemap', 3);
+
+  /** @type {!cidev.webgl.texture.Texture} */
+  this.brick = new cidev.webgl.texture.Texture2D(
+      this.context, 'textures/brick_flip.jpg', 4);
 
   /**
    * Last time seen (used to determine dt).
