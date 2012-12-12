@@ -135,15 +135,18 @@ cidev.Scene.prototype.onAnimationFrame = function(now) {
 cidev.Scene.prototype.renderBuilding_ = function(building) {
   goog.vec.Mat4.makeTranslate(this.modelMatrix, building.x, 0, building.y);
   switch (building.getType()) {
+    case cidev.model.BuildingType.POWER_PLANT:
+      var r = building.radius;
+      goog.vec.Mat4.scale(this.modelMatrix, r, r, r);
+      this.shader.render(this.powerPlant, this.camera, this.concrete);
+      break;
     case cidev.model.BuildingType.RESIDENTIAL:
       for (var i = 0; i < building.floorCount; i++) {
         this.shader.render(this.residential, this.camera, this.facade);
         goog.vec.Mat4.translate(this.modelMatrix, 0, 2, 0);
       }
       break;
-    case cidev.model.BuildingType.POWER_PLANT:
-      var r = building.radius;
-      goog.vec.Mat4.scale(this.modelMatrix, r, r, r);
-      this.shader.render(this.powerPlant, this.camera, this.concrete);
+    case cidev.model.BuildingType.SCHOOL:
+      this.shader.render(this.school, this.camera, this.brick);
   }
 };

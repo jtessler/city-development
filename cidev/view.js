@@ -43,17 +43,23 @@ cidev.view.init = function(container) {
   cidev.view.selector = selectElement;
   cidev.view.buildingSelector([]); // Starts with no buildings.
 
+  var addPowerPlantElement = goog.dom.createDom('input',
+      {'type': 'button', 'value': 'Add Power Plant'});
+  goog.events.listen(addPowerPlantElement, goog.events.EventType.CLICK,
+      cidev.controller.addPowerPlant, false);
+  container.appendChild(addPowerPlantElement);
+
   var addResidentialElement = goog.dom.createDom('input',
       {'type': 'button', 'value': 'Add Residential Building'});
   goog.events.listen(addResidentialElement, goog.events.EventType.CLICK,
       cidev.controller.addResidentialBuilding, false);
   container.appendChild(addResidentialElement);
 
-  var addPowerPlantElement = goog.dom.createDom('input',
-      {'type': 'button', 'value': 'Add Power Plant'});
-  goog.events.listen(addPowerPlantElement, goog.events.EventType.CLICK,
-      cidev.controller.addPowerPlant, false);
-  container.appendChild(addPowerPlantElement);
+  var addSchoolElement = goog.dom.createDom('input',
+      {'type': 'button', 'value': 'Add School'});
+  goog.events.listen(addSchoolElement, goog.events.EventType.CLICK,
+      cidev.controller.addSchool, false);
+  container.appendChild(addSchoolElement);
 
   var propertyPanel = goog.dom.createDom('div');
   cidev.view.panel = propertyPanel;

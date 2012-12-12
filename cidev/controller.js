@@ -11,6 +11,7 @@ goog.require('cidev.database');
 goog.require('cidev.model.BuildingType');
 goog.require('cidev.model.PowerPlant');
 goog.require('cidev.model.ResidentialBuilding');
+goog.require('cidev.model.School');
 goog.require('cidev.view');
 
 goog.require('goog.array');
@@ -28,8 +29,8 @@ cidev.controller.setupContainer = function(container) {
 /**
  * @param {*} e The handled event.
  */
-cidev.controller.addResidentialBuilding = function(e) {
-  cidev.controller.addBuilding_(new cidev.model.ResidentialBuilding());
+cidev.controller.addSchool = function(e) {
+  cidev.controller.addBuilding_(new cidev.model.School());
 };
 
 /**
@@ -37,6 +38,13 @@ cidev.controller.addResidentialBuilding = function(e) {
  */
 cidev.controller.addPowerPlant = function(e) {
   cidev.controller.addBuilding_(new cidev.model.PowerPlant());
+};
+
+/**
+ * @param {*} e The handled event.
+ */
+cidev.controller.addResidentialBuilding = function(e) {
+  cidev.controller.addBuilding_(new cidev.model.ResidentialBuilding());
 };
 
 /**
