@@ -9,7 +9,7 @@ goog.provide('cidev.webgl.Mesh');
 
 goog.require('cidev.generated.obj');
 
-goog.require('goog.vec.Vec4');
+goog.require('goog.vec.Vec3');
 goog.require('goog.webgl');
 
 /**
@@ -47,10 +47,10 @@ cidev.webgl.Mesh = function(context, filename) {
       goog.webgl.ELEMENT_ARRAY_BUFFER, obj.indices, goog.webgl.STATIC_DRAW);
   this.indexCount = obj.indices.length;
 
-  // TODO(joseph): Don't use these test values.
-  this.ma = goog.vec.Vec4.createFloat32FromValues(0.4, 0.4, 0.4, 1.0);
-  this.md = goog.vec.Vec4.createFloat32FromValues(0.5, 0.5, 0.5, 1.0);
-  this.ms = goog.vec.Vec4.createFloat32FromValues(0.7, 0.7, 0.7, 1.0);
+  // Assign basic material properties for the user to reassign later.
+  this.ma = goog.vec.Vec3.createFloat32FromValues(0.4, 0.4, 0.4);
+  this.md = goog.vec.Vec3.createFloat32FromValues(0.5, 0.5, 0.5);
+  this.ms = goog.vec.Vec3.createFloat32FromValues(0.7, 0.7, 0.7);
   this.shininess = 100;
 };
 
@@ -122,3 +122,27 @@ cidev.webgl.Mesh.prototype.bindIndexBuffer = function() {
  * @type {number}
  */
 cidev.webgl.Mesh.prototype.indexCount;
+
+/**
+ * The ambient term.
+ * @type {!goog.vec.Vec3.Float32}
+ */
+cidev.webgl.Mesh.prototype.ma;
+
+/**
+ * The diffuse term.
+ * @type {!goog.vec.Vec3.Float32}
+ */
+cidev.webgl.Mesh.prototype.md;
+
+/**
+ * The specular term.
+ * @type {!goog.vec.Vec3.Float32}
+ */
+cidev.webgl.Mesh.prototype.ms;
+
+/**
+ * The shininess intensity.
+ * @type {number}
+ */
+cidev.webgl.Mesh.prototype.shininess;

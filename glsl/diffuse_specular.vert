@@ -8,13 +8,13 @@ uniform mat4 modelMatrix; // The model transformation matrix.
 uniform mat4 viewMatrix; // The camera's tranformation matrix.
 uniform mat4 projMatrix; // The projection matrix.
 
-uniform vec4 ma; // The mesh's ambient term.
-uniform vec4 md; // The mesh's diffuse term.
-uniform vec4 ms; // The mesh's specular term.
+uniform vec3 ma; // The mesh's ambient term.
+uniform vec3 md; // The mesh's diffuse term.
+uniform vec3 ms; // The mesh's specular term.
 uniform float shininess;
 
 varying vec2 fragmentTextureUV;
-varying vec4 color;
+varying vec3 color;
 
 void main(void) {
   mat4 modelViewMatrix = viewMatrix * modelMatrix;

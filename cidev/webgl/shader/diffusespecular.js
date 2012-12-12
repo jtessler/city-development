@@ -10,9 +10,9 @@
  *   uniform mat4 viewMatrix; // The camera's tranformation matrix.
  *   uniform mat4 projMatrix; // The projection matrix.
  *
- *   uniform vec4 ma; // The mesh's ambient term.
- *   uniform vec4 md; // The mesh's diffuse term.
- *   uniform vec4 ms; // The mesh's specular term.
+ *   uniform vec3 ma; // The mesh's ambient term.
+ *   uniform vec3 md; // The mesh's diffuse term.
+ *   uniform vec3 ms; // The mesh's specular term.
  *   uniform float shininess;
  *
  * @author joseph@cs.utexas.edu (Joe Tessler)
@@ -60,9 +60,9 @@ cidev.webgl.shader.DiffuseSpecular.prototype.setupRender = function(
 
   var gl = this.context.gl;
   gl.uniform3fv(this.lightPosition_, this.lightPositionVector_);
-  gl.uniform4fv(this.ma_, mesh.ma);
-  gl.uniform4fv(this.md_, mesh.md);
-  gl.uniform4fv(this.ms_, mesh.ms);
+  gl.uniform3fv(this.ma_, mesh.ma);
+  gl.uniform3fv(this.md_, mesh.md);
+  gl.uniform3fv(this.ms_, mesh.ms);
   gl.uniform1f(this.shininess_, mesh.shininess);
 
   mesh.bindNormalBuffer();
