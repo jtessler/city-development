@@ -63,14 +63,13 @@ efficiency, and scalability of the underlying system. This was not my original
 intent, but it resulted in an immense amount of WebGL (and therefore OpenGL)
 research and exploration.
 
-The Library: Background and Motivation
---------------------------------------
-TODO(joseph): Write the background section.
 I believe that I have built the foundation of a new WebGL JavaScript library
 that is unique in numerous ways. After all, given the prevalence of WebGL
 engines available today, why did I dedicate such effort to an already saturated
 area?
 
+The Library: Background and Motivation
+--------------------------------------
 First, unlike the majority of existing projects, I expose and embrace GLSL
 coding rather than abstracting away from it. This provides much more control to
 competent graphics programmers, but eliminates most boilerplate code that
@@ -145,10 +144,10 @@ You can make your own [here](http://www.cs.utexas.edu/users/joseph/city-developm
 
 Citations
 ---------
-Yoav I. H. Parish and Pascal Müller. 2001. Procedural modeling of cities. In
-Proceedings of the 28th annual conference on Computer graphics and interactive
-techniques (SIGGRAPH '01). ACM, New York, NY, USA, 301-308.
-DOI=10.1145/383259.383292 http://doi.acm.org/10.1145/383259.383292
+> Yoav I. H. Parish and Pascal Müller. 2001. Procedural modeling of cities. In
+> Proceedings of the 28th annual conference on Computer graphics and interactive
+> techniques (SIGGRAPH '01). ACM, New York, NY, USA, 301-308.
+> DOI=10.1145/383259.383292 http://doi.acm.org/10.1145/383259.383292
 
 I designed and texturized objects using the following sources:
 * [Blender](http://www.blender.org/)
