@@ -40,7 +40,7 @@ modifications.
 
 Actual Results
 --------------
-![Screenshot](https://raw.github.com/jtessler/city-development/master/artifact/screenshot01.png)
+![Screenshot][screenshot]
 
 Students can easily add, modify, and remove various building types from the
 scene. Each building type exposes unique modifiers to the user, e.g. the number
@@ -73,7 +73,7 @@ The Library: Background and Motivation
 First, unlike the majority of existing projects, I expose and embrace GLSL
 coding rather than abstracting away from it. This provides much more control to
 competent graphics programmers, but eliminates most boilerplate code that
-litters any raw WebGL application.
+litters any raw WebGL application (without hindering any performance).
 
 Second, no other product integrates with the Google Closure library. Not only
 does this library provide developers the power of Google's framework, but it
@@ -81,10 +81,11 @@ provides a familiar environment for any current Closure project to import. In
 fact, I hope to polish this project and present it to the Closure team for
 possible adoption in the official library.
 
-Third, I designed both a GLSL and OBJ compiler. These allow the developer to
-design shaders and models externally, e.g. in another IDE or modeling software
-like Blender. Futhermore, the compilers minimize the code and produce JavaScript
-classes that are easily accessible by the rest of the WebGL application.
+Third, I designed both a [GLSL][glsl] and [OBJ][obj] compiler. These allow the
+developer to design shaders and models externally, e.g. in another IDE or
+modeling software like Blender. Futhermore, the compilers minimize the code and
+produce JavaScript classes that are easily accessible by the rest of the WebGL
+application.
 
 As an example, compare the code two code snippets below. Each produce the same
 textured cube, where the first clearly hides the redundant setup code. Notice
@@ -137,10 +138,15 @@ gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute,
 // ... omit ~20 lines finishing shader setup and drawing ...
 ```
 
+Implementation Details
+----------------------
+ADD IMPLEMENTATION DETAILS.
+
+
 Artifacts
 ---------
-You may see all image artifacts [here](https://github.com/jtessler/city-development/tree/master/artifact).
-You can make your own [here](http://www.cs.utexas.edu/users/joseph/city-development/)!
+You may see all image artifacts [here][artifacts]. You can make your own
+[here][utcs]!
 
 Citations
 ---------
@@ -157,3 +163,9 @@ I borrowed some code snippets from the following sources:
 * [Learning WebGL](https://github.com/gpjt/webgl-lessons)
 * [WebGL Earth](https://github.com/webglearth/webglearth)
 * [OBJ Parser](http://programminglinuxgames.blogspot.com/2010/09/parsing-wavefront-obj-file-format-using.html)
+
+[screenshot]: https://raw.github.com/jtessler/city-development/master/artifact/screenshot01.png
+[glsl]: https://github.com/jtessler/city-development/blob/master/build/shaders.py
+[obj]: https://github.com/jtessler/city-development/blob/master/build/obj.py
+[artifacts]: https://github.com/jtessler/city-development/tree/master/artifact
+[utcs]: http://www.cs.utexas.edu/users/joseph/city-development/
