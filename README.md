@@ -9,7 +9,7 @@ Requirements
 * Java
 * Python
 * Subversion
-* [Google Closure](https://developers.google.com/closure/) (see below)
+* [Google Closure][closure] (see below)
 * A WebGL-supporting platform and browser
 
 Development Requirements
@@ -18,8 +18,7 @@ Development Requirements
 
 Initial Setup
 -------------
-1. Download the [Google Closure](https://developers.google.com/closure/) library
-   and compiler: `make closure`
+1. Download the [Google Closure][closure] library and compiler: `make closure`
 1. Compile all JavaScript files and HTML templates: `make release`
 1. Open `index.html` in any web browser
 
@@ -52,7 +51,7 @@ shading to enhance the final product.
 
 I did not include the bird's-eye view, as I believe the simple UI and 3D view
 are sufficient. Moreover, the grid is initially blank, i.e. I did not implement
-the randomization component. This better-aligns with the objective of our final
+the randomization component. This better-aligns with the objectives of our final
 geometry curriculum.
 
 Unexpected Results
@@ -75,11 +74,11 @@ coding rather than abstracting away from it. This provides much more control to
 competent graphics programmers, but eliminates most boilerplate code that
 litters any raw WebGL application (without hindering any performance).
 
-Second, no other product integrates with the Google Closure library. Not only
-does this library provide developers the power of Google's framework, but it
-provides a familiar environment for any current Closure project to import. In
-fact, I hope to polish this project and present it to the Closure team for
-possible adoption in the official library.
+Second, no other product integrates with the [Google Closure][closure] library.
+Not only does this library provide developers the power of Google's framework,
+but it provides a familiar environment for any current Closure project to
+import. In fact, I hope to polish this project and present it to the Closure
+team for possible adoption in the official library.
 
 Third, I designed both a [GLSL][glsl] and [OBJ][obj] compiler. These allow the
 developer to design shaders and models externally, e.g. in another IDE or
@@ -140,8 +139,34 @@ gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute,
 
 Implementation Details
 ----------------------
-ADD IMPLEMENTATION DETAILS.
 
+#### Root Directory Definitions ####
+* `artifact` Screenshots of example usage and output.
+* `build` The GLSL, OBJ, and index template compilers.
+* `cidev` The JavaScript package and WebGL library (see below).
+* `css` Cascading Style Sheets for the application.
+* `glsl` The raw GLSL vertex and fragment shaders.
+* `obj` The objects' vertex, normal, texture UV, and material definitions in
+        Wavefront OBJ format.
+* `textures` The images used for all textures.
+* `tmpl` The index template file.
+
+#### Javascript Package Directory Definitions ####
+* `base.js` The entry point.
+* `controller.js` The "controller" component of my MVC design.
+* `database.js` A simple in-memory database to store the models.
+* `scene.js` Handles all 3D rendering based on user input.
+* `view.js` The "view" component of my MVC design.
+* `model` The "model" component of my MVC design.
+* `testing` Test files used during development.
+* `webgl` The WebGL library (see below).
+
+#### WebGL Library Directory Definitions ####
+* `camera.js` Handles keyboard/mouse events and wraps the view matrix.
+* `context.js` Wraps the canvas and its corresponding WebGL context.
+* `mesh.js` The OBJ file wrapper.
+* `shader` The GLSL shader wrappers.
+* `texture` The WebGL texture wrappers.
 
 Artifacts
 ---------
@@ -164,6 +189,7 @@ I borrowed some code snippets from the following sources:
 * [WebGL Earth](https://github.com/webglearth/webglearth)
 * [OBJ Parser](http://programminglinuxgames.blogspot.com/2010/09/parsing-wavefront-obj-file-format-using.html)
 
+[closure]: https://developers.google.com/closure/
 [screenshot]: https://raw.github.com/jtessler/city-development/master/artifact/screenshot01.png
 [glsl]: https://github.com/jtessler/city-development/blob/master/build/shaders.py
 [obj]: https://github.com/jtessler/city-development/blob/master/build/obj.py
