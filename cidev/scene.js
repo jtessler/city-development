@@ -57,6 +57,7 @@ cidev.Scene = function(canvas) {
 
   /** @type {!cidev.webgl.Mesh} */
   this.terrain = new cidev.webgl.Mesh(this.context, 'ground.obj');
+  this.terrain.shininess = 10; // Grass isn't very shiny.
 
   /** @type {!cidev.webgl.Mesh} */
   this.powerPlant = new cidev.webgl.Mesh(this.context, 'power_plant.obj');
