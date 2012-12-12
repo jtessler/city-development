@@ -1,0 +1,128 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @fileoverview A diffuse and specular lighting vertex and fragment shader.
+<span class='line'>  3</span>  *
+<span class='line'>  4</span>  * This class assumes the GLSL shader code includes everything specified in the
+<span class='line'>  5</span>  * superclasses, plus the following:
+<span class='line'>  6</span>  *
+<span class='line'>  7</span>  *   uniform vec3 lightPosition; // The light's position in world coordinates.
+<span class='line'>  8</span>  *
+<span class='line'>  9</span>  *   uniform mat4 modelMatrix; // The model transformation matrix.
+<span class='line'> 10</span>  *   uniform mat4 viewMatrix; // The camera's tranformation matrix.
+<span class='line'> 11</span>  *   uniform mat4 projMatrix; // The projection matrix.
+<span class='line'> 12</span>  *
+<span class='line'> 13</span>  *   uniform vec3 ma; // The mesh's ambient term.
+<span class='line'> 14</span>  *   uniform vec3 md; // The mesh's diffuse term.
+<span class='line'> 15</span>  *   uniform vec3 ms; // The mesh's specular term.
+<span class='line'> 16</span>  *   uniform float shininess;
+<span class='line'> 17</span>  *
+<span class='line'> 18</span>  * @author joseph@cs.utexas.edu (Joe Tessler)
+<span class='line'> 19</span>  */</span><span class="WHIT">
+<span class='line'> 20</span> 
+<span class='line'> 21</span> </span><span class="NAME">goog.provide</span><span class="PUNC">(</span><span class="STRN">'cidev.webgl.shader.DiffuseSpecular'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 22</span> 
+<span class='line'> 23</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'cidev.webgl.shader.TextureProgram'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span> 
+<span class='line'> 25</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'goog.webgl'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span> 
+<span class='line'> 27</span> </span><span class="COMM">/**
+<span class='line'> 28</span>  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
+<span class='line'> 29</span>  * @param {!goog.vec.Mat4.Float32} matrix Pointer to the scene's model matrix.
+<span class='line'> 30</span>  * @param {!goog.vec.Vec3.Float32} pos The light's position in world space.
+<span class='line'> 31</span>  * @constructor
+<span class='line'> 32</span>  * @extends {cidev.webgl.shader.TextureProgram}
+<span class='line'> 33</span>  */</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="NAME">cidev.webgl.shader.DiffuseSpecular</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">context</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">matrix</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pos</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">  </span><span class="NAME">goog.base</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">      </span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">context</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'diffuse_specular.vert'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'color_texture.frag'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">matrix</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> 
+<span class='line'> 38</span> </span><span class="WHIT">  </span><span class="NAME">this.lightPositionVector_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">pos</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> 
+<span class='line'> 40</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.context.gl</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">  </span><span class="NAME">this.normal_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getAttribLocation</span><span class="PUNC">(</span><span class="NAME">this.program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'normal'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">  </span><span class="NAME">gl.enableVertexAttribArray</span><span class="PUNC">(</span><span class="NAME">this.normal_</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> 
+<span class='line'> 44</span> </span><span class="WHIT">  </span><span class="NAME">this.lightPosition_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getUniformLocation</span><span class="PUNC">(</span><span class="NAME">this.program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'lightPosition'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">  </span><span class="NAME">this.ma_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getUniformLocation</span><span class="PUNC">(</span><span class="NAME">this.program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'ma'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">  </span><span class="NAME">this.md_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getUniformLocation</span><span class="PUNC">(</span><span class="NAME">this.program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'md'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">  </span><span class="NAME">this.ms_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getUniformLocation</span><span class="PUNC">(</span><span class="NAME">this.program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'ms'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">  </span><span class="NAME">this.shininess_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getUniformLocation</span><span class="PUNC">(</span><span class="NAME">this.program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'shininess'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="NAME">goog.inherits</span><span class="PUNC">(</span><span class="NAME">cidev.webgl.shader.DiffuseSpecular</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">    </span><span class="NAME">cidev.webgl.shader.TextureProgram</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> 
+<span class='line'> 53</span> </span><span class="COMM">/**
+<span class='line'> 54</span>  * Sets up the render call, binding vertex attributes, uniforms, etc.
+<span class='line'> 55</span>  * @inheritDoc
+<span class='line'> 56</span>  */</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="NAME">cidev.webgl.shader.DiffuseSpecular.prototype.setupRender</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">    </span><span class="NAME">mesh</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">camera</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opt_texture</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">  </span><span class="NAME">goog.base</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'setupRender'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">mesh</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">camera</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opt_texture</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> 
+<span class='line'> 61</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.context.gl</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">  </span><span class="NAME">gl.uniform3fv</span><span class="PUNC">(</span><span class="NAME">this.lightPosition_</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.lightPositionVector_</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">  </span><span class="NAME">gl.uniform3fv</span><span class="PUNC">(</span><span class="NAME">this.ma_</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">mesh.ma</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">  </span><span class="NAME">gl.uniform3fv</span><span class="PUNC">(</span><span class="NAME">this.md_</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">mesh.md</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">  </span><span class="NAME">gl.uniform3fv</span><span class="PUNC">(</span><span class="NAME">this.ms_</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">mesh.ms</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">  </span><span class="NAME">gl.uniform1f</span><span class="PUNC">(</span><span class="NAME">this.shininess_</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">mesh.shininess</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> 
+<span class='line'> 68</span> </span><span class="WHIT">  </span><span class="NAME">mesh.bindNormalBuffer</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">  </span><span class="NAME">this.context.gl.vertexAttribPointer</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">      </span><span class="NAME">this.normal_</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">3</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">goog.webgl.FLOAT</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 72</span> 
+<span class='line'> 73</span> </span><span class="COMM">/**
+<span class='line'> 74</span>  * Index of the vertex's normal attribute.
+<span class='line'> 75</span>  * @type {number}
+<span class='line'> 76</span>  * @private
+<span class='line'> 77</span>  */</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="NAME">cidev.webgl.shader.DiffuseSpecular.prototype.normal_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 79</span> 
+<span class='line'> 80</span> </span><span class="COMM">/**
+<span class='line'> 81</span>  * The light's position in world coordinates.
+<span class='line'> 82</span>  * @type {!goog.vec.Vec3.Float32}
+<span class='line'> 83</span>  * @private
+<span class='line'> 84</span>  */</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="NAME">cidev.webgl.shader.DiffuseSpecular.prototype.lightPositionVector_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> 
+<span class='line'> 87</span> </span><span class="COMM">/**
+<span class='line'> 88</span>  * Location of the uniform light position.
+<span class='line'> 89</span>  * @type {WebGLUniformLocation}
+<span class='line'> 90</span>  * @private
+<span class='line'> 91</span>  */</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="NAME">cidev.webgl.shader.DiffuseSpecular.prototype.lightPosition_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> 
+<span class='line'> 94</span> </span><span class="COMM">/**
+<span class='line'> 95</span>  * Location of the uniform ambient term.
+<span class='line'> 96</span>  * @type {WebGLUniformLocation}
+<span class='line'> 97</span>  * @private
+<span class='line'> 98</span>  */</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="NAME">cidev.webgl.shader.DiffuseSpecular.prototype.ma_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> 
+<span class='line'>101</span> </span><span class="COMM">/**
+<span class='line'>102</span>  * Location of the uniform diffuse term.
+<span class='line'>103</span>  * @type {WebGLUniformLocation}
+<span class='line'>104</span>  * @private
+<span class='line'>105</span>  */</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="NAME">cidev.webgl.shader.DiffuseSpecular.prototype.md_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> 
+<span class='line'>108</span> </span><span class="COMM">/**
+<span class='line'>109</span>  * Location of the uniform specular term.
+<span class='line'>110</span>  * @type {WebGLUniformLocation}
+<span class='line'>111</span>  * @private
+<span class='line'>112</span>  */</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="NAME">cidev.webgl.shader.DiffuseSpecular.prototype.sd_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> 
+<span class='line'>115</span> </span><span class="COMM">/**
+<span class='line'>116</span>  * Location of the uniform shininess intensity.
+<span class='line'>117</span>  * @type {WebGLUniformLocation}
+<span class='line'>118</span>  * @private
+<span class='line'>119</span>  */</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="NAME">cidev.webgl.shader.DiffuseSpecular.prototype.shininess_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span></pre></body></html>

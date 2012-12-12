@@ -1,0 +1,129 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @fileoverview The program superclass, wrapping a shader program and basic
+<span class='line'>  3</span>  * drawing functionality.
+<span class='line'>  4</span>  *
+<span class='line'>  5</span>  * @author joseph@cs.utexas.edu (Joe Tessler)
+<span class='line'>  6</span>  */</span><span class="WHIT">
+<span class='line'>  7</span> 
+<span class='line'>  8</span> </span><span class="NAME">goog.provide</span><span class="PUNC">(</span><span class="STRN">'cidev.webgl.shader.Program'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  9</span> 
+<span class='line'> 10</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'cidev.generated.glsl'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 11</span> 
+<span class='line'> 12</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'goog.webgl'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 13</span> 
+<span class='line'> 14</span> </span><span class="COMM">/**
+<span class='line'> 15</span>  * The super class containing generic shader handling and other utility
+<span class='line'> 16</span>  * functions.
+<span class='line'> 17</span>  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
+<span class='line'> 18</span>  * @param {string} vs Vertex shader code filename.
+<span class='line'> 19</span>  * @param {string} fs Fragment shader code filename.
+<span class='line'> 20</span>  * @constructor
+<span class='line'> 21</span>  */</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="NAME">cidev.webgl.shader.Program</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">context</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">vs</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fs</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">  </span><span class="NAME">this.context</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">context</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span> 
+<span class='line'> 25</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">goog.isDef</span><span class="PUNC">(</span><span class="NAME">cidev.generated.glsl</span><span class="PUNC">[</span><span class="NAME">vs</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">      </span><span class="PUNC">!</span><span class="NAME">goog.isDef</span><span class="PUNC">(</span><span class="NAME">cidev.generated.glsl</span><span class="PUNC">[</span><span class="NAME">fs</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">    </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">'shader does not exist'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 29</span> 
+<span class='line'> 30</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">context.gl</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">  </span><span class="NAME">this.program</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.createProgram</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">  </span><span class="NAME">this.attachShader_</span><span class="PUNC">(</span><span class="NAME">cidev.generated.glsl</span><span class="PUNC">[</span><span class="NAME">vs</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">goog.webgl.VERTEX_SHADER</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">  </span><span class="NAME">this.attachShader_</span><span class="PUNC">(</span><span class="NAME">cidev.generated.glsl</span><span class="PUNC">[</span><span class="NAME">fs</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">goog.webgl.FRAGMENT_SHADER</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">  </span><span class="NAME">gl.linkProgram</span><span class="PUNC">(</span><span class="NAME">this.program</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span> 
+<span class='line'> 36</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">gl.getProgramParameter</span><span class="PUNC">(</span><span class="NAME">this.program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">goog.webgl.LINK_STATUS</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">    </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">'shader program error: '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">gl.getProgramInfoLog</span><span class="PUNC">(</span><span class="NAME">this.program</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span> </span><span class="COMM">/**
+<span class='line'> 42</span>  * Activates the current program. This caller MUST call this before rendering
+<span class='line'> 43</span>  * any meshes.
+<span class='line'> 44</span>  */</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="NAME">cidev.webgl.shader.Program.prototype.activate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">  </span><span class="NAME">this.context.gl.useProgram</span><span class="PUNC">(</span><span class="NAME">this.program</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> 
+<span class='line'> 49</span> </span><span class="COMM">/**
+<span class='line'> 50</span>  * Sets up the render call, binding vertex attributes, uniforms, etc.
+<span class='line'> 51</span>  * @param {!cidev.webgl.Mesh} mesh The mesh object to draw.
+<span class='line'> 52</span>  * @param {!cidev.webgl.Camera} camera The view-matrix-wrapping camera.
+<span class='line'> 53</span>  * @param {!cidev.webgl.texture.Texture=} opt_texture The (optional) texture
+<span class='line'> 54</span>  *     to apply.
+<span class='line'> 55</span>  * @protected
+<span class='line'> 56</span>  */</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="NAME">cidev.webgl.shader.Program.prototype.setupRender</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">    </span><span class="NAME">mesh</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">camera</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opt_texture</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">goog.isDef</span><span class="PUNC">(</span><span class="NAME">opt_texture</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">goog.isDef</span><span class="PUNC">(</span><span class="NAME">this.texture</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">    </span><span class="NAME">this.context.gl.uniform1i</span><span class="PUNC">(</span><span class="NAME">this.texture</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opt_texture.unit</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> 
+<span class='line'> 64</span> </span><span class="COMM">/**
+<span class='line'> 65</span>  * Renders the given object.
+<span class='line'> 66</span>  * @param {!cidev.webgl.Mesh} mesh The mesh object to draw.
+<span class='line'> 67</span>  * @param {!cidev.webgl.Camera} camera The view-matrix-wrapping camera.
+<span class='line'> 68</span>  * @param {!cidev.webgl.texture.Texture=} opt_texture The (optional) texture
+<span class='line'> 69</span>  *     to apply.
+<span class='line'> 70</span>  */</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="NAME">cidev.webgl.shader.Program.prototype.render</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">    </span><span class="NAME">mesh</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">camera</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opt_texture</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">  </span><span class="NAME">this.setupRender</span><span class="PUNC">(</span><span class="NAME">mesh</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">camera</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opt_texture</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">  </span><span class="NAME">mesh.bindIndexBuffer</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">  </span><span class="NAME">this.context.gl.drawElements</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">      </span><span class="NAME">goog.webgl.TRIANGLES</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">mesh.indexCount</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">goog.webgl.UNSIGNED_BYTE</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> 
+<span class='line'> 79</span> </span><span class="COMM">/**
+<span class='line'> 80</span>  * Compiles given shader source code into a WebGL shader object, then
+<span class='line'> 81</span>  * attaches it to the current program.
+<span class='line'> 82</span>  * @param {string} code GLSL plain text source.
+<span class='line'> 83</span>  * @param {number} type Shader type, i.e. FRAGMENT_SHADER or VERTEX_SHADER.
+<span class='line'> 84</span>  * @private
+<span class='line'> 85</span>  */</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="NAME">cidev.webgl.shader.Program.prototype.attachShader_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">code</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">type</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.context.gl</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">shader</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.createShader</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">  </span><span class="NAME">gl.shaderSource</span><span class="PUNC">(</span><span class="NAME">shader</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">code</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">  </span><span class="NAME">gl.compileShader</span><span class="PUNC">(</span><span class="NAME">shader</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> 
+<span class='line'> 92</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">gl.getShaderParameter</span><span class="PUNC">(</span><span class="NAME">shader</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">goog.webgl.COMPILE_STATUS</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">    </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">'shader error: '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">gl.getShaderInfoLog</span><span class="PUNC">(</span><span class="NAME">shader</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">goog.isNull</span><span class="PUNC">(</span><span class="NAME">shader</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">    </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">'unknown shader error'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 97</span> 
+<span class='line'> 98</span> </span><span class="WHIT">  </span><span class="NAME">gl.attachShader</span><span class="PUNC">(</span><span class="NAME">this.program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">shader</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> 
+<span class='line'>101</span> </span><span class="COMM">/**
+<span class='line'>102</span>  * The current WebGL context wrapper.
+<span class='line'>103</span>  * @type {!cidev.webgl.Context}
+<span class='line'>104</span>  * @protected
+<span class='line'>105</span>  */</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="NAME">cidev.webgl.shader.Program.prototype.context</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> 
+<span class='line'>108</span> </span><span class="COMM">/**
+<span class='line'>109</span>  * The scene's WebGL shader program.
+<span class='line'>110</span>  * @type {!WebGLProgram}
+<span class='line'>111</span>  * @protected
+<span class='line'>112</span>  */</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="NAME">cidev.webgl.shader.Program.prototype.program</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> 
+<span class='line'>115</span> </span><span class="COMM">/**
+<span class='line'>116</span>  * The shader program's texture location.
+<span class='line'>117</span>  * NOTE: Subclasses will assign this member.
+<span class='line'>118</span>  * @type {WebGLUniformLocation}
+<span class='line'>119</span>  * @protected
+<span class='line'>120</span>  */</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="NAME">cidev.webgl.shader.Program.prototype.texture</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> </span></pre></body></html>

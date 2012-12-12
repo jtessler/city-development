@@ -1,0 +1,58 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @fileoverview A skybox environment mapping vertex and fragment shader.
+<span class='line'>  3</span>  *
+<span class='line'>  4</span>  * This class assumes the GLSL shader code includes everything specified in the
+<span class='line'>  5</span>  * superclasses, plus the following:
+<span class='line'>  6</span>  *
+<span class='line'>  7</span>  *   uniform vec3 viewPosition; // The camera's position in world coordinates.
+<span class='line'>  8</span>  *   uniform samplerCube cubeMapTexture;
+<span class='line'>  9</span>  *
+<span class='line'> 10</span>  * @author joseph@cs.utexas.edu (Joe Tessler)
+<span class='line'> 11</span>  */</span><span class="WHIT">
+<span class='line'> 12</span> 
+<span class='line'> 13</span> </span><span class="NAME">goog.provide</span><span class="PUNC">(</span><span class="STRN">'cidev.webgl.shader.Skybox'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 14</span> 
+<span class='line'> 15</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'cidev.webgl.shader.MVPProgram'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 16</span> 
+<span class='line'> 17</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'goog.webgl'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 18</span> 
+<span class='line'> 19</span> </span><span class="COMM">/**
+<span class='line'> 20</span>  * @param {!cidev.webgl.Context} context The WebGL context wrapper.
+<span class='line'> 21</span>  * @param {!goog.vec.Mat4.Float32} matrix Pointer to the scene's model matrix.
+<span class='line'> 22</span>  * @constructor
+<span class='line'> 23</span>  * @extends {cidev.webgl.shader.MVPProgram}
+<span class='line'> 24</span>  */</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="NAME">cidev.webgl.shader.Skybox</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">context</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">matrix</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">  </span><span class="NAME">goog.base</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">context</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'skybox.vert'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'skybox.frag'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">matrix</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span> 
+<span class='line'> 28</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.context.gl</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> 
+<span class='line'> 30</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 31</span>    * Location of camera's position in world coordinates.
+<span class='line'> 32</span>    * @type {WebGLUniformLocation}
+<span class='line'> 33</span>    * @private
+<span class='line'> 34</span>    */</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">  </span><span class="NAME">this.viewPosition_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getUniformLocation</span><span class="PUNC">(</span><span class="NAME">this.program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'viewPosition'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> 
+<span class='line'> 37</span> </span><span class="WHIT">  </span><span class="NAME">this.texture</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getUniformLocation</span><span class="PUNC">(</span><span class="NAME">this.program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'cubeMapTexture'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="NAME">goog.inherits</span><span class="PUNC">(</span><span class="NAME">cidev.webgl.shader.Skybox</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cidev.webgl.shader.MVPProgram</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span> </span><span class="COMM">/**
+<span class='line'> 42</span>  * Sets up the render call, binding vertex attributes, uniforms, etc.
+<span class='line'> 43</span>  * @inheritDoc
+<span class='line'> 44</span>  */</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="NAME">cidev.webgl.shader.Skybox.prototype.setupRender</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">    </span><span class="NAME">mesh</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">camera</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opt_texture</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">  </span><span class="NAME">goog.base</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'setupRender'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">mesh</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">camera</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opt_texture</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> 
+<span class='line'> 49</span> </span><span class="WHIT">  </span><span class="NAME">this.context.gl.uniform3fv</span><span class="PUNC">(</span><span class="NAME">this.viewPosition_</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">camera.pos</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> </span></pre></body></html>
