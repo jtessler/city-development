@@ -90,7 +90,7 @@ As an example, compare the code two code snippets below. Each produce the same
 textured cube, where the first clearly hides the redundant setup code. Notice
 the `new cidev.webgl.shader.DiffuseSpecular` call, which initializes the GLSL
 shader that was previously compiled and automatically wrapped in a JavaScript
-class. In later sections, I will explain this and other features in more detail.
+class.
 
 ```javascript
 this.context = new cidev.webgl.Context(canvas);
@@ -102,7 +102,7 @@ this.texture = new cidev.webgl.texture.Texture2D(this.context, 'texture.jpg');
 this.cube = new cidev.webgl.Mesh(this.context, 'cube.obj');
 
 this.simple.activate();
-goog.vec.Mat4.makeTranslate(this.matrix, x, y, z);
+goog.vec.Mat4.makeTranslate(this.modelMatrix, x, y, z);
 this.simple.render(this.cube, this.texture);
 ```
 
@@ -137,19 +137,17 @@ gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute,
 // ... omit ~20 lines finishing shader setup and drawing ...
 ```
 
-Implementation Details
-----------------------
-
+Navigating The Source Code
+--------------------------
 #### Root Directory Definitions ####
 * `artifact` Screenshots of example usage and output.
 * `build` The GLSL, OBJ, and index template compilers.
 * `cidev` The JavaScript package and WebGL library (see below).
 * `css` Cascading Style Sheets for the application.
 * `glsl` The raw GLSL vertex and fragment shaders.
-* `obj` The objects' vertex, normal, texture UV, and material definitions in
-        Wavefront OBJ format.
+* `obj` The raw OBJ files.
 * `textures` The images used for all textures.
-* `tmpl` The index template file.
+* `tmpl` Contains the index template file.
 
 #### Javascript Package Directory Definitions ####
 * `base.js` The entry point.
@@ -172,6 +170,17 @@ Artifacts
 ---------
 You may see all image artifacts [here][artifacts]. You can make your own
 [here][utcs]!
+
+Future Work
+-----------
+I plan to implement more building types and improve the UI's style and
+functionality. This requires a deeper study of UV unwrapping and practice in
+Blender's modeling environment. However, it will make the lesson more successful
+when I implement it in the classroom next spring.
+
+I will continue the library development in hopes of presenting it to the Closure
+team for official adoption. Specifically, I want to improve the compilers and
+explore ways to improve the development work flow.
 
 Citations
 ---------
