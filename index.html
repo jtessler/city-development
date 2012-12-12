@@ -31,40 +31,253 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>The Plan and Expected Results</h3>
+        <h2>Requirements</h2>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<ul>
+<li>Java</li>
+<li>Python</li>
+<li>Subversion</li>
+<li>
+<a href="https://developers.google.com/closure/">Google Closure</a> (see below)</li>
+<li>A WebGL-supporting platform and browser</li>
+</ul><h2>Development Requirements</h2>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<ul>
+<li><a href="https://developers.google.com/closure/utilities/">Google Closure Linter</a></li>
+</ul><h2>Initial Setup</h2>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<ol>
+<li>Download the <a href="https://developers.google.com/closure/">Google Closure</a> library and compiler: <code>make closure</code>
+</li>
+<li>Compile all JavaScript files and HTML templates: <code>make release</code>
+</li>
+<li>Open <code>index.html</code> in any web browser</li>
+</ol><h2>The Plan and Expected Results</h2>
 
-<h3>Designer Templates</h3>
+<p>Students are required to explore area calculations for various polygons
+(buildings), tessellation, population density, and other environmental science
+issues. This system provides a web-based platform for students to explore the
+world they create.</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>Using a bird’s-eye view, students place various structures, e.g. schools,
+houses, power plants, represented as polygons about a 2D grid. For each
+building, students may specify the number of floors and, potentially, aesthetic
+qualities. Furthermore, initial geography and structure placements are randomly
+generated, so no two projects are alike. Every change immediately updates a
+3D-rendered version, where students may “fly around” and inspect the
+modifications.</p>
 
-<h3>Rather Drive Manual?</h3>
+<h2>Actual Results</h2>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p><img src="https://raw.github.com/jtessler/city-development/master/artifact/screenshot01.png" alt="Screenshot"></p>
 
-<h3>Authors and Contributors</h3>
+<p>Students can easily add, modify, and remove various building types from the
+scene. Each building type exposes unique modifiers to the user, e.g. the number
+of floors on a residential household. Camera movement is intuitive and smooth,
+responding to both keyboard and mouse events. The rendered scene includes an
+cube-based environment map and original models that I designed and texturized in
+Blender. The various vertex and fragment shaders employ diffuse and specular
+shading to enhance the final product.</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>I did not include the bird's-eye view, as I believe the simple UI and 3D view
+are sufficient. Moreover, the grid is initially blank, i.e. I did not implement
+the randomization component. This better-aligns with the objectives of our final
+geometry curriculum.</p>
 
-<h3>Support or Contact</h3>
+<h2>Unexpected Results</h2>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>Although the final product is not terribly advanced (given the high school
+student audience), I devoted most of my attention to the architecture,
+efficiency, and scalability of the underlying system. This was not my original
+intent, but it resulted in an immense amount of WebGL (and therefore OpenGL)
+research and exploration.</p>
+
+<p>I believe that I have built the foundation of a new WebGL JavaScript library
+that is unique in numerous ways. After all, given the prevalence of WebGL
+engines available today, why did I dedicate such effort to an already saturated
+area?</p>
+
+<h2>The Library: Background and Motivation</h2>
+
+<p>First, unlike the majority of existing projects, I expose and embrace GLSL
+coding rather than abstracting away from it. This provides much more control to
+competent graphics programmers, but eliminates most boilerplate code that
+litters any raw WebGL application (without hindering any performance).</p>
+
+<p>Second, no other product integrates with the <a href="https://developers.google.com/closure/">Google Closure</a> library.
+Not only does this library provide developers the power of Google's framework,
+but it provides a familiar environment for any current Closure project to
+import. In fact, I hope to polish this project and present it to the Closure
+team for possible adoption in the official library.</p>
+
+<p>Third, I designed both a <a href="https://github.com/jtessler/city-development/blob/master/build/shaders.py">GLSL</a> and <a href="https://github.com/jtessler/city-development/blob/master/build/obj.py">OBJ</a> compiler. These allow the
+developer to design shaders and models externally, e.g. in another IDE or
+modeling software like Blender. Futhermore, the compilers minimize the code and
+produce JavaScript classes that are easily accessible by the rest of the WebGL
+application.</p>
+
+<p>As an example, compare the code two code snippets below. Each produce the same
+textured cube, where the first clearly hides the redundant setup code. Notice
+the <code>new cidev.webgl.shader.DiffuseSpecular</code> call, which initializes the GLSL
+shader that was previously compiled and automatically wrapped in a JavaScript
+class.</p>
+
+<div class="highlight"><pre><span class="k">this</span><span class="p">.</span><span class="nx">context</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">cidev</span><span class="p">.</span><span class="nx">webgl</span><span class="p">.</span><span class="nx">Context</span><span class="p">(</span><span class="nx">canvas</span><span class="p">);</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">camera</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">cidev</span><span class="p">.</span><span class="nx">webgl</span><span class="p">.</span><span class="nx">Camera</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">);</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">modelMatrix</span> <span class="o">=</span> <span class="nx">goog</span><span class="p">.</span><span class="nx">vec</span><span class="p">.</span><span class="nx">Mat4</span><span class="p">.</span><span class="nx">createFloat32Identity</span><span class="p">();</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">shader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">cidev</span><span class="p">.</span><span class="nx">webgl</span><span class="p">.</span><span class="nx">shader</span><span class="p">.</span><span class="nx">DiffuseSpecular</span><span class="p">(</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">camera</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">modelMatrix</span><span class="p">);</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">texture</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">cidev</span><span class="p">.</span><span class="nx">webgl</span><span class="p">.</span><span class="nx">texture</span><span class="p">.</span><span class="nx">Texture2D</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">,</span> <span class="s1">'texture.jpg'</span><span class="p">);</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">cube</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">cidev</span><span class="p">.</span><span class="nx">webgl</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">,</span> <span class="s1">'cube.obj'</span><span class="p">);</span>
+
+<span class="k">this</span><span class="p">.</span><span class="nx">simple</span><span class="p">.</span><span class="nx">activate</span><span class="p">();</span>
+<span class="nx">goog</span><span class="p">.</span><span class="nx">vec</span><span class="p">.</span><span class="nx">Mat4</span><span class="p">.</span><span class="nx">makeTranslate</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">modelMatrix</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">z</span><span class="p">);</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">simple</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cube</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">texture</span><span class="p">);</span>
+</pre></div>
+
+<p>This snippet produces the same cube with (many) raw WebGL calls.</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">gl</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s2">"experimental-webgl"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">shaderScript</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"shader-vs"</span><span class="p">);</span>
+<span class="c1">// ... omit ~50 lines compiling shaders ...</span>
+
+<span class="kd">var</span> <span class="nx">cubeVertexPositionBuffer</span> <span class="o">=</span> <span class="nx">gl</span><span class="p">.</span><span class="nx">createBuffer</span><span class="p">();</span>
+<span class="nx">gl</span><span class="p">.</span><span class="nx">bindBuffer</span><span class="p">(</span><span class="nx">gl</span><span class="p">.</span><span class="nx">ARRAY_BUFFER</span><span class="p">,</span> <span class="nx">cubeVertexPositionBuffer</span><span class="p">);</span>
+<span class="nx">vertices</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1">// Front face</span>
+    <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">,</span>
+     <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">,</span>
+<span class="c1">// ... omit ~100 lines defining vertex attributes ...</span>
+
+<span class="kd">var</span> <span class="nx">texture</span> <span class="o">=</span> <span class="nx">gl</span><span class="p">.</span><span class="nx">createTexture</span><span class="p">();</span>
+<span class="nx">gl</span><span class="p">.</span><span class="nx">bindTexture</span><span class="p">(</span><span class="nx">gl</span><span class="p">.</span><span class="nx">TEXTURE_2D</span><span class="p">,</span> <span class="nx">texture</span><span class="p">);</span>
+<span class="nx">gl</span><span class="p">.</span><span class="nx">texImage2D</span><span class="p">(</span><span class="nx">gl</span><span class="p">.</span><span class="nx">TEXTURE_2D</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">gl</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">,</span> <span class="nx">gl</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">,</span> <span class="nx">gl</span><span class="p">.</span><span class="nx">UNSIGNED_BYTE</span><span class="p">,</span> <span class="nx">img</span><span class="p">);</span>
+<span class="nx">gl</span><span class="p">.</span><span class="nx">texParameteri</span><span class="p">(</span><span class="nx">gl</span><span class="p">.</span><span class="nx">TEXTURE_2D</span><span class="p">,</span> <span class="nx">gl</span><span class="p">.</span><span class="nx">TEXTURE_MAG_FILTER</span><span class="p">,</span> <span class="nx">gl</span><span class="p">.</span><span class="nx">NEAREST</span><span class="p">);</span>
+<span class="c1">// ... omit ~50 lines defining properties and importing textures ...</span>
+
+<span class="nx">gl</span><span class="p">.</span><span class="nx">viewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">gl</span><span class="p">.</span><span class="nx">viewportWidth</span><span class="p">,</span> <span class="nx">gl</span><span class="p">.</span><span class="nx">viewportHeight</span><span class="p">);</span>
+<span class="nx">gl</span><span class="p">.</span><span class="nx">clear</span><span class="p">(</span><span class="nx">gl</span><span class="p">.</span><span class="nx">COLOR_BUFFER_BIT</span> <span class="o">|</span> <span class="nx">gl</span><span class="p">.</span><span class="nx">DEPTH_BUFFER_BIT</span><span class="p">);</span>
+<span class="nx">mat4</span><span class="p">.</span><span class="nx">perspective</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="nx">gl</span><span class="p">.</span><span class="nx">viewportWidth</span> <span class="o">/</span> <span class="nx">gl</span><span class="p">.</span><span class="nx">viewportHeight</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="nx">pMatrix</span><span class="p">);</span>
+<span class="nx">mat4</span><span class="p">.</span><span class="nx">identity</span><span class="p">(</span><span class="nx">mvMatrix</span><span class="p">);</span>
+<span class="nx">mat4</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="nx">mvMatrix</span><span class="p">,</span> <span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">z</span><span class="p">]);</span>
+<span class="nx">gl</span><span class="p">.</span><span class="nx">bindBuffer</span><span class="p">(</span><span class="nx">gl</span><span class="p">.</span><span class="nx">ARRAY_BUFFER</span><span class="p">,</span> <span class="nx">cubeVertexPositionBuffer</span><span class="p">);</span>
+<span class="nx">gl</span><span class="p">.</span><span class="nx">vertexAttribPointer</span><span class="p">(</span><span class="nx">shaderProgram</span><span class="p">.</span><span class="nx">vertexPositionAttribute</span><span class="p">,</span>
+    <span class="nx">cubeVertexPositionBuffer</span><span class="p">.</span><span class="nx">itemSize</span><span class="p">,</span> <span class="nx">gl</span><span class="p">.</span><span class="nx">FLOAT</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="c1">// ... omit ~20 lines finishing shader setup and drawing ...</span>
+</pre></div>
+
+<h2>Navigating The Source Code</h2>
+
+<h4>Root Directory Definitions</h4>
+
+<ul>
+<li>
+<code>artifact</code> Screenshots of example usage and output.</li>
+<li>
+<code>build</code> The GLSL, OBJ, and index template compilers.</li>
+<li>
+<code>cidev</code> The JavaScript package and WebGL library (see below).</li>
+<li>
+<code>css</code> Cascading Style Sheets for the application.</li>
+<li>
+<code>glsl</code> The raw GLSL vertex and fragment shaders.</li>
+<li>
+<code>obj</code> The raw OBJ files.</li>
+<li>
+<code>textures</code> The images used for all textures.</li>
+<li>
+<code>tmpl</code> Contains the index template file.</li>
+</ul><h4>Javascript Package Directory Definitions</h4>
+
+<ul>
+<li>
+<code>base.js</code> The entry point.</li>
+<li>
+<code>controller.js</code> The "controller" component of my MVC design.</li>
+<li>
+<code>database.js</code> A simple in-memory database to store the models.</li>
+<li>
+<code>scene.js</code> Handles all 3D rendering based on user input.</li>
+<li>
+<code>view.js</code> The "view" component of my MVC design.</li>
+<li>
+<code>model</code> The "model" component of my MVC design.</li>
+<li>
+<code>testing</code> Test files used during development.</li>
+<li>
+<code>webgl</code> The WebGL library (see below).</li>
+</ul><h4>WebGL Library Directory Definitions</h4>
+
+<ul>
+<li>
+<code>camera.js</code> Handles keyboard/mouse events and wraps the view matrix.</li>
+<li>
+<code>context.js</code> Wraps the canvas and its corresponding WebGL context.</li>
+<li>
+<code>mesh.js</code> The OBJ file wrapper.</li>
+<li>
+<code>shader</code> The GLSL shader wrappers.</li>
+<li>
+<code>texture</code> The WebGL texture wrappers.</li>
+</ul><h2>Artifacts</h2>
+
+<p>You may see all image artifacts <a href="https://github.com/jtessler/city-development/tree/master/artifact">here</a>. You can make your own
+<a href="http://www.cs.utexas.edu/users/joseph/city-development/">here</a>!</p>
+
+<h2>Future Work</h2>
+
+<p>I plan to implement more building types and improve the UI's style and
+functionality. This requires a deeper study of UV unwrapping and practice in
+Blender's modeling environment. However, it will make the lesson more successful
+when I implement it in the classroom next spring.</p>
+
+<p>I will continue the library development in hopes of presenting it to the Closure
+team for official adoption. Specifically, I want to improve the compilers and
+explore ways to improve the development work flow.</p>
+
+<h2>Citations</h2>
+
+<blockquote>
+<p>Yoav I. H. Parish and Pascal Müller. 2001. Procedural modeling of cities. In
+Proceedings of the 28th annual conference on Computer graphics and interactive
+techniques (SIGGRAPH '01). ACM, New York, NY, USA, 301-308.
+DOI=10.1145/383259.383292 <a href="http://doi.acm.org/10.1145/383259.383292">http://doi.acm.org/10.1145/383259.383292</a></p>
+</blockquote>
+
+<p>I designed and texturized objects using the following sources:</p>
+
+<ul>
+<li><a href="http://www.blender.org/">Blender</a></li>
+<li><a href="http://www.cgtextures.com/">CGTexture</a></li>
+</ul><p>I borrowed some code snippets from the following sources:</p>
+
+<ul>
+<li><a href="https://github.com/gpjt/webgl-lessons">Learning WebGL</a></li>
+<li><a href="https://github.com/webglearth/webglearth">WebGL Earth</a></li>
+<li><a href="http://programminglinuxgames.blogspot.com/2010/09/parsing-wavefront-obj-file-format-using.html">OBJ Parser</a></li>
+</ul>
       </section>
     </div>
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">City Development maintained by <a href="https://github.com/jtessler">Joe Tessler</a></p>
+        <p class="copyright">City Development maintained by <a href="https://github.com/jtessler">jtessler</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-36983820-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
   </body>
 </html>
