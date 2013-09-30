@@ -8,7 +8,6 @@ Requirements
 ------------
 * Java
 * Python
-* Subversion
 * [Google Closure][closure] (see below)
 * A WebGL-supporting platform and browser
 

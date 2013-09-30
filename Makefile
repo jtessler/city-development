@@ -1,5 +1,5 @@
 # Closure Library variables.
-LIB_URL = http://closure-library.googlecode.com/svn/trunk/
+LIB_URL = https://code.google.com/p/closure-library/
 LIB_PATH = closure/library
 
 # Closure Compiler variables.
@@ -8,7 +8,7 @@ CC_PATH = closure/compiler
 CC_JAR = $(CC_PATH)/compiler.jar
 
 # Closure closurebuilder.py arguments.
-CC = $(LIB_PATH)/closure/bin/build/closurebuilder.py \
+CC = python $(LIB_PATH)/closure/bin/build/closurebuilder.py \
 		--root $(LIB_PATH) \
 		--root cidev/ \
 		--namespace "cidev.base" \
@@ -57,7 +57,9 @@ server:
 closure: closure-library closure-compiler
 
 closure-library:
-	svn checkout $(LIB_URL) $(LIB_PATH)
+	@test -d $(LIB_PATH)/.git || rm -rf $(LIB_PATH) # Delete any non-git version.
+	@test -d $(LIB_PATH) || git clone $(LIB_URL) $(LIB_PATH)
+	@cd $(LIB_PATH) && git pull
 
 closure-compiler:
 	wget $(CC_URL) -O /tmp/cc.zip
